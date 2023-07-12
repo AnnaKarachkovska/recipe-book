@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Recipe } from '../../recipe.model';
 
@@ -9,4 +10,13 @@ import { Recipe } from '../../recipe.model';
 })
 export class RecipeItemComponent {
   @Input() recipe: Recipe;
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute
+  ) {};
+
+  toRecipe() {
+    this.router.navigate([this.recipe.id], {relativeTo: this.route});
+  }
 }

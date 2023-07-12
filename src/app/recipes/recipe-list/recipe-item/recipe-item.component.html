@@ -1,4 +1,19 @@
-<a 
+<mat-card 
+  style="border-radius: 0; margin-bottom: 20px; padding-bottom: 10px; cursor: pointer;" 
+  (click)="toRecipe()" 
+  >
+  <mat-card-header>
+    <mat-card-title>{{ recipe.name }}</mat-card-title>
+    <mat-card-subtitle>{{ recipe.description }}</mat-card-subtitle>
+    <img mat-card-image src="{{ recipe.imagePath }}"
+    alt="{{ recipe.name }}"
+    class="img-responsive"
+    style="max-height: 50px; margin-left: auto;"
+    >
+  </mat-card-header>
+</mat-card>
+
+<!-- <a 
   [routerLink]="[recipe.id]"
   routerLinkActive="active"
   style="cursor: pointer;"
@@ -15,4 +30,4 @@
       style="max-height: 50px"
     />
   </span>
-</a>
+</a> -->

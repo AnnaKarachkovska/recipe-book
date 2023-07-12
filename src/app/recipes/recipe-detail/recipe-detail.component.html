@@ -15,7 +15,7 @@
 </div>
 <div class="row">
   <div class="col-xs-12">
-    <div class="btn-group" appDropdown>
+    <!-- <div class="btn-group" appDropdown>
       <button type="button" class="btn btn-primary dropdown-toggle">
         Manage recipe <span class="caret"></span>
       </button>
@@ -24,14 +24,28 @@
         <li><a routerLink="edit" style="cursor: pointer;">Edit recipe</a></li>
         <li><a (click)="onDeleteRecipe()" style="cursor: pointer;">Delete recipe</a></li>
       </ul>
-    </div>
+    </div> -->
   </div>
 </div>
-<div class="row">
+<div class="row" style="margin-bottom: 20px;">
   <div class="col-xs-12">
     {{recipe.description}}
   </div>
 </div>
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Manage recipe
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <ul style="list-style: none; padding-left: 0;">
+      <li><a (click)="onAddToShoppingList()" class="link">To shopping list</a></li>
+      <li><a routerLink="edit" class="link">Edit recipe</a></li>
+      <li><a (click)="onDeleteRecipe()" class="link">Delete recipe</a></li>
+    </ul> 
+  </mat-expansion-panel>
+</mat-accordion>
 <div class="row" style="margin-top: 10px;">
   <div class="col-xs-12">
     <ul class="list-group">
