@@ -1,0 +1,15 @@
+.header {
+  margin-bottom: 20px;
+
+  position: fixed;
+  z-index: 3;
+}
+
+.link {
+  color: #ffffff;
+  font-size: large;
+}
+
+:not(:last-child) {
+  margin-right: 30px;
+}

@@ -20,6 +20,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { MatTableModule } from '@angular/material/table';
     MatCardModule,
     MatExpansionModule,
     MatTableModule,
+    MatToolbarModule,
     BrowserAnimationsModule
   ],
   providers: [],
