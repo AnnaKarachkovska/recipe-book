@@ -19,6 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatIconModule,
     MatCardModule,
     MatExpansionModule,
+    MatTableModule,
     BrowserAnimationsModule
   ],
   providers: [],

@@ -2,7 +2,40 @@
   <div class="col-xs-10">
     <app-shopping-edit></app-shopping-edit>
     <hr>
-    <ul class="list-group" style="list-style: none;">
+    <table *ngIf="ingredients.length > 0" mat-table [dataSource]="ingredients">
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let element"> {{ingredients.indexOf(element) + 1}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Ingredient </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef> Amount </th>
+        <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+      </ng-container> 
+
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element"> 
+          <button 
+            mat-button
+            color="warn"
+            type="button" 
+            (click)="onEditItem(ingredients.indexOf(element))"
+          >Edit
+          </button> 
+        </td>
+      </ng-container> 
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <!-- <ul class="list-group" style="list-style: none;">
       <li>
         <a 
         class="list-group-item" 
@@ -13,6 +46,6 @@
           {{ingredient.name}} ({{ingredient.amount}})
         </a>
       </li>
-    </ul>
+    </ul> -->
   </div>
 </div>
