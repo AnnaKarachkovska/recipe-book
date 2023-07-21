@@ -1,0 +1,15 @@
+.card {
+  border-radius: 0; 
+  padding-bottom: 12px; 
+  margin: 1px; 
+  cursor: pointer;
+}
+
+.card:hover {
+  background-color: #eeeeee;
+}
+
+.card-img {
+  max-height: 50px; 
+  margin-left: auto;
+}

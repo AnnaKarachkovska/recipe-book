@@ -1,19 +1,19 @@
+<button mat-fab color="primary" 
+  (click)="onNewRecipe()"
+  class="add-btn"
+  matTooltip="Add a new recipe">
+    <mat-icon>add</mat-icon>
+</button>
+<!-- <button class="btn btn-success" (click)="onNewRecipe()">New recipe</button> -->
+
 <div class="row">
   <div class="col-xs-12">
-    <button mat-fab color="primary" 
-      (click)="onNewRecipe()"
-      class="add-btn"
-      matTooltip="Add a new recipe">
-        <mat-icon>add</mat-icon>
-    </button>
-    <!-- <button class="btn btn-success" (click)="onNewRecipe()">New recipe</button> -->
-  </div>
-</div>
-<div class="row">
-  <div class="col-xs-12">
-    <app-recipe-item 
-      *ngFor="let recipeEl of recipes" 
-      [recipe]="recipeEl"
-    ></app-recipe-item>
+    <mat-list role="list" class="list" >
+      <mat-list-item role="listitem" 
+      class="item" 
+      *ngFor="let recipeEl of recipes">
+        <app-recipe-item [recipe]="recipeEl"></app-recipe-item>
+      </mat-list-item>
+    </mat-list>
   </div>
 </div>

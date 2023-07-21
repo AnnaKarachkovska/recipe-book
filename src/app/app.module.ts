@@ -22,6 +22,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTableModule,
     MatToolbarModule,
     MatTooltipModule,
+    MatListModule,
     BrowserAnimationsModule
   ],
   providers: [],

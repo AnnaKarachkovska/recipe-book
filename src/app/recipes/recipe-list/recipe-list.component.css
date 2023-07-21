@@ -4,3 +4,16 @@
   right: 30px;
   z-index: 3;
 }
+
+.list {
+  margin-bottom: 20px;
+}
+
+.list .item {
+  height: auto;
+  padding: 0;
+}
+
+.list .item:not(:last-child) {
+  margin-bottom: 15px;
+}
