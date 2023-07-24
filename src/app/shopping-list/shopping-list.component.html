@@ -1,10 +1,9 @@
 <app-shopping-edit></app-shopping-edit>
 <hr />
 <div>
-  <!-- matSortActive="created" matSortDisableClear matSortDirection="desc" -->
   <table
     mat-table
-    matSort matSortActive="created" matSortDisableClear matSortDirection="desc"
+    matSort
     *ngIf="dataSource.data.length > 0"
     [dataSource]="dataSource"
     class="table"
