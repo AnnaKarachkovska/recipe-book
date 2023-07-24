@@ -19,12 +19,26 @@ export class ShoppingListService {
   }
 
   addIngredient (ingredient: Ingredient) {
-    this.ingredients.push(ingredient);
+    let ingredientRepeat = this.ingredients.find(el => el.name === ingredient.name);
+    if (ingredientRepeat) {
+      ingredientRepeat.amount += ingredient.amount;
+    } else {
+      this.ingredients.push(ingredient);
+    }
     this.ingredientsChanged.next(this.ingredients.slice());
   }
 
   addIngredients(ingredients: Ingredient[]) {
-    this.ingredients.push(...ingredients);
+    let ingredientRepeat = this.ingredients.filter(oldEl => 
+      ingredients.find(newEl => oldEl.name === newEl.name));
+
+    if (ingredientRepeat.length > 0) {
+      for (let i=0; i<ingredientRepeat.length; i++) {
+        ingredientRepeat[i].amount += ingredients.find(el => el.name === ingredientRepeat[i].name).amount;
+      }
+    } else {
+      this.ingredients.push(...ingredients);
+    }
     this.ingredientsChanged.next(this.ingredients.slice());
   }
 
