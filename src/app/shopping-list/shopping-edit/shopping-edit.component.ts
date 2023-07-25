@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, NgForm, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -29,7 +29,8 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   editedItemIndex: number;
   editedItem: Ingredient;
 
-  // emailFormControl = new FormControl('', [Validators.required, Validators.email]);
+  @Output() isOnEditMode = new EventEmitter<boolean>();
+
   nameFormControl = new FormControl('', Validators.required);
   amountFormControl = new FormControl('', [Validators.min(1), Validators.required]);
 
@@ -39,6 +40,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     this.subscription = this.shoppingListService.startedEditing
       .subscribe(
         (index: number) => {
+          this.isOnEditMode.emit(true);
           this.editMode = true;
           this.editedItemIndex = index;
           this.editedItem = this.shoppingListService.getIngredient(index);
@@ -55,6 +57,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
 
     if (this.editMode) {
       this.shoppingListService.updateIngredient(this.editedItemIndex, newIngredient);
+      this.isOnEditMode.emit(false);
       this.editMode = false;
     } else {
       this.shoppingListService.addIngredient(newIngredient);
@@ -66,6 +69,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   onDeleteItem() {
     this.shoppingListService.deleteIngredient(this.editedItemIndex);
     this.onClear();
+    this.isOnEditMode.emit(false);
     this.editMode = false;
   }
 

@@ -1,4 +1,4 @@
-<app-shopping-edit></app-shopping-edit>
+<app-shopping-edit (isOnEditMode)="toggleEditMode($event)"></app-shopping-edit>
 <hr />
 <div>
   <table
@@ -45,7 +45,10 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr mat-row 
+      *matRowDef="let row; columns: displayedColumns" 
+      [ngClass]="{active: this.editMode===true && this.ingName === row.name }"
+    ></tr>
   </table>
   <mat-paginator
     *ngIf="dataSource.data.length > 0"

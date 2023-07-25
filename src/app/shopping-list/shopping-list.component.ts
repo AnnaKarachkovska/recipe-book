@@ -27,6 +27,9 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
 export class ShoppingListComponent implements OnInit, OnDestroy, AfterViewInit {
   dataSource: MatTableDataSource<Ingredient>;
   displayedColumns: string[] = ['position', 'name', 'amount', 'edit'];
+
+  editMode: boolean = false;
+  ingName: string = "";
  
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -53,6 +56,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onEditItem(index: number) {
     this.shoppingListService.startedEditing.next(index);
+    this.ingName = this.shoppingListService.getIngredient(index).name;
   }
 
   onDeleteItem(index: number) {
@@ -61,5 +65,9 @@ export class ShoppingListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  toggleEditMode(event) {
+    this.editMode = event;
   }
 }

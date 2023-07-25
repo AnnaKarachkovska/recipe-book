@@ -13,3 +13,7 @@ tr:nth-child(2n) {
 tr:nth-child(n):hover {
   background-color: #d7d7d7;
 }
+
+.active > td {
+  background-color: #d1d9ff;
+}
