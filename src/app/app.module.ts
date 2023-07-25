@@ -26,6 +26,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatInputModule,
     MatSortModule,
     MatPaginatorModule,
+    MatMenuModule,
     BrowserAnimationsModule
   ],
   providers: [],

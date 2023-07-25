@@ -7,9 +7,21 @@ import { Subscription } from 'rxjs';
 import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingListService } from './shopping-list.service';
 
+import {
+  MAT_TOOLTIP_DEFAULT_OPTIONS,
+  MatTooltipDefaultOptions
+} from '@angular/material/tooltip';
+
+export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
+  showDelay: 500,
+  hideDelay: 100,
+  touchendHideDelay: 0,
+};
+
 @Component({
   selector: 'app-shopping-list',
   templateUrl: './shopping-list.component.html',
+  providers: [{provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: myCustomTooltipDefaults}],
   styleUrls: ['./shopping-list.component.css']
 })
 export class ShoppingListComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -41,6 +53,10 @@ export class ShoppingListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onEditItem(index: number) {
     this.shoppingListService.startedEditing.next(index);
+  }
+
+  onDeleteItem(index: number) {
+    this.shoppingListService.deleteIngredient(index);
   }
 
   ngOnDestroy(): void {
