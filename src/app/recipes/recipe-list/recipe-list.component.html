@@ -11,8 +11,9 @@
     <mat-list role="list" class="list" >
       <mat-list-item role="listitem" 
       class="item" 
-      *ngFor="let recipeEl of recipes">
-        <app-recipe-item [recipe]="recipeEl"></app-recipe-item>
+      *ngFor="let recipeEl of recipes"
+      [ngClass]="{active: recipeEl.id === recipeId}">
+        <app-recipe-item [recipe]="recipeEl" (recipeId)="getRecipeId($event)"></app-recipe-item>
       </mat-list-item>
     </mat-list>
   </div>

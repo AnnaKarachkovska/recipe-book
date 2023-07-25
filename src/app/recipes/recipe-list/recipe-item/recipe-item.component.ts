@@ -1,4 +1,4 @@
-import { Component, Input, } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Recipe } from '../../recipe.model';
@@ -10,6 +10,7 @@ import { Recipe } from '../../recipe.model';
 })
 export class RecipeItemComponent {
   @Input() recipe: Recipe;
+  @Output() recipeId = new EventEmitter<string>();
 
   constructor(
     private router: Router,
@@ -18,5 +19,6 @@ export class RecipeItemComponent {
 
   toRecipe() {
     this.router.navigate([this.recipe.id], {relativeTo: this.route});
+    this.recipeId.emit(this.recipe.id);
   }
 }
