@@ -19,7 +19,7 @@ export class ShoppingListService {
   }
 
   addIngredient (ingredient: Ingredient) {
-    let ingredientRepeat = this.ingredients.find(el => el.name === ingredient.name);
+    let ingredientRepeat = this.ingredients.find(el => el.name.toLowerCase() === ingredient.name.toLowerCase());
     if (ingredientRepeat) {
       ingredientRepeat.amount += ingredient.amount;
     } else {
@@ -30,11 +30,13 @@ export class ShoppingListService {
 
   addIngredients(ingredients: Ingredient[]) {
     let ingredientRepeat = this.ingredients.filter(oldEl => 
-      ingredients.find(newEl => oldEl.name === newEl.name));
+      ingredients.find(newEl => oldEl.name.toLowerCase() === newEl.name.toLowerCase()));
 
     if (ingredientRepeat.length > 0) {
       for (let i=0; i<ingredientRepeat.length; i++) {
-        ingredientRepeat[i].amount += ingredients.find(el => el.name === ingredientRepeat[i].name).amount;
+        ingredientRepeat[i].amount += ingredients.find(el =>
+          el.name.toLowerCase() === ingredientRepeat[i].name.toLowerCase()
+        ).amount;
       }
     } else {
       this.ingredients.push(...ingredients);

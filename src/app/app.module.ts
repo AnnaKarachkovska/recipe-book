@@ -24,6 +24,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatMenuModule } from '@angular/material/menu';
@@ -56,6 +57,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatTooltipModule,
     MatListModule,
     MatInputModule,
+    MatFormFieldModule,
     MatSortModule,
     MatPaginatorModule,
     MatMenuModule,

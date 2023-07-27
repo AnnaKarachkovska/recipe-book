@@ -1,41 +1,38 @@
-<form (ngSubmit)="onSubmit(form)" #form="ngForm" class="form">
+<!-- <form (ngSubmit)="onSubmit(form)" #form="ngForm" class="form"> -->
+<form [formGroup]="ingredientForm" (ngSubmit)="onSubmit()" class="form">
   <mat-form-field class="input-field">
     <mat-label>Name</mat-label>
     <input 
       matInput 
-      name="name" 
-      ngModel
-      required 
-      />
-      <mat-error *ngIf="nameFormControl.hasError('required')">
-        Name is required.
-      </mat-error>
+      type="text"
+      formControlName='name'
+    />
+    <mat-error *ngIf="ingredientForm.get('name').touched && ingredientForm.get('name').hasError('required')">
+      Name is required.
+    </mat-error>
   </mat-form-field>
   <mat-form-field class="input-field">
     <mat-label>Amount</mat-label>
     <input
       matInput
       type="number"
-      name="amount"
-      ngModel
-      required
-      pattern='^[1-9]+[0-9]*$'
+      formControlName='amount'
     />
-    <mat-error *ngIf="amountFormControl.hasError('min') && !amountFormControl.hasError('required')">
+    <mat-error *ngIf="ingredientForm.get('amount').touched && ingredientForm.get('amount').hasError('pattern') && !ingredientForm.get('amount').hasError('required')">
       Please enter a valid amount.
     </mat-error>
-    <mat-error *ngIf="amountFormControl.hasError('required')">
+    <mat-error *ngIf="ingredientForm.get('amount').touched && ingredientForm.get('amount').hasError('required')">
       Amount is required.
     </mat-error>
   </mat-form-field>
   <div class="btn-box">
   <button
     mat-icon-button
-    color="accent"
-    [disabled]="!form.valid"
+    color="primary"
+    [disabled]="!ingredientForm.valid"
     matTooltip="Add recipe"
   >
-    <mat-icon>{{ editMode ? "update" : "add" }}</mat-icon>
+    <mat-icon>{{ editMode ? "done" : "add" }}</mat-icon>
   </button>
   <button
     mat-icon-button
@@ -50,8 +47,7 @@
   <button
     mat-icon-button
     type="button"
-    color="primary"
-    [disabled]="!form.dirty && !editMode"
+    [disabled]="!ingredientForm.dirty && !editMode"
     matTooltip="Clear form"
     (click)="onClear()"
   >
