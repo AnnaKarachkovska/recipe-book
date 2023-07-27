@@ -28,6 +28,18 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatMenuModule } from '@angular/material/menu';
+import { AngularMaterialModule } from './angular-material.module';
+
+import {
+  MAT_TOOLTIP_DEFAULT_OPTIONS,
+  MatTooltipDefaultOptions
+} from '@angular/material/tooltip';
+
+export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
+  showDelay: 500,
+  hideDelay: 100,
+  touchendHideDelay: 0,
+};
 
 @NgModule({
   declarations: [
@@ -63,7 +75,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatMenuModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [{provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: myCustomTooltipDefaults}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

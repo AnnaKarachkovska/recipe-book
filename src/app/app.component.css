@@ -1,3 +1,5 @@
-.page {
-  margin-top: 85px;
+:host {
+  .page {
+    margin-top: 85px;
+  }
 }

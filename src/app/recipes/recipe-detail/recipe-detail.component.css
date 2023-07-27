@@ -1,9 +1,11 @@
-.card {
-  padding: 10px;
-  margin-bottom: 30px;
-}
-
-.image {
-  object-fit: contain;
-  max-height: 300px;
+:host{
+  .card {
+    padding: 10px;
+    margin-bottom: 30px;
+  }
+  
+  .image {
+    object-fit: contain;
+    max-height: 300px;
+  }
 }

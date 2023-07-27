@@ -1,24 +1,26 @@
-.add-btn {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  z-index: 3;
-}
+:host {
+  .add-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 3;
+  }
 
-.list {
-  margin-bottom: 20px;
-}
+  .list {
+    margin-bottom: 20px;
+  }
 
-.list .item {
-  height: auto;
-  padding: 0;
-}
+  .list .item {
+    height: auto;
+    padding: 0;
+  }
 
-.list .item:not(:last-child) {
-  margin-bottom: 15px;
-}
+  .list .item:not(:last-child) {
+    margin-bottom: 15px;
+  }
 
-.active {
-  border-radius: 4px;
-  box-shadow: -1px 2px 4px #5e79d3, 1px -2px 4px #5e79d3;
+  .active {
+    border-radius: 4px;
+    box-shadow: -1px 2px 4px #5e79d3, 1px -2px 4px #5e79d3;
+  }
 }

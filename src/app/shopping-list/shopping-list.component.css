@@ -1,19 +1,21 @@
-.table {
-  margin-bottom: 30px;
-}
+:host {
+  .table {
+    margin-bottom: 30px;
+  }
 
-td {
-  text-align: center;
-}
+  td {
+    text-align: center;
+  }
 
-tr:nth-child(2n) {
-  background-color: #eeeeee;
-}
+  tr:nth-child(2n) {
+    background-color: #eeeeee;
+  }
 
-tr:nth-child(n):hover {
-  background-color: #d7d7d7;
-}
+  tr:nth-child(n):hover {
+    background-color: #d7d7d7;
+  }
 
-.active > td {
-  background-color: #d1d9ff;
+  .active > td {
+    background-color: #d1d9ff;
+  }
 }
