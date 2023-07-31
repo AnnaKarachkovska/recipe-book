@@ -28,6 +28,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule } from '@angular/material/dialog';
 import { AngularMaterialModule } from './angular-material.module';
 
 import {
@@ -73,6 +74,7 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
     MatSortModule,
     MatPaginatorModule,
     MatMenuModule,
+    MatDialogModule,
     BrowserAnimationsModule
   ],
   providers: [{provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: myCustomTooltipDefaults}],

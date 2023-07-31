@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { nanoid } from 'nanoid';
 
 import { Recipe } from '../recipe.model';
@@ -13,21 +13,24 @@ import { RecipeService } from '../recipe.service';
 })
 export class RecipeEditComponent implements OnInit {
   id: string;
-  editMode = false;
+  editMode: boolean;
   recipeForm: FormGroup;
 
-  constructor(private route: ActivatedRoute,
-              private recipeService: RecipeService,
-              private router: Router) {};
+  constructor(private recipeService: RecipeService,
+              @Inject(MAT_DIALOG_DATA) public data) {};
 
   ngOnInit() {
-    this.route.params.subscribe(
-      (params: Params) => {
-        this.id = params['id'];
-        this.editMode = params['id'] != null;
-        this.initForm();
-      }
-    )
+    // this.route.params.subscribe(
+    //   (params: Params) => {
+    //     this.id = params['id'];
+    //     this.editMode = params['id'] != null;
+    //     this.initForm();
+    //   }
+    // )
+    
+    this.id = this.data?.id;
+    this.editMode = this.data?.editMode;
+    this.initForm();
   }
 
   onSubmit() {
@@ -45,11 +48,6 @@ export class RecipeEditComponent implements OnInit {
     } else {
       this.recipeService.addRecipe(newRecipe);
     }
-    this.onCancel();
-  }
-
-  onCancel() {
-    this.router.navigate(['../'], {relativeTo: this.route});
   }
 
   onAddIngredient() {

@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { RecipeEditComponent } from '../recipe-edit/recipe-edit.component';
 import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipe.service';
 
@@ -17,8 +18,7 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   recipeId: string;
 
   constructor(private recipeService: RecipeService,
-    private router: Router,
-    private route: ActivatedRoute) {}
+              public dialog: MatDialog) {}
 
   ngOnInit() {
     this.subscription = this.recipeService.recipesChanged
@@ -27,11 +27,12 @@ export class RecipeListComponent implements OnInit, OnDestroy {
           this.recipes = recipes;
         }
       )
-    this.recipes =  this.recipeService.getRecipes();
+    this.recipes = this.recipeService.getRecipes();
   }
 
   onNewRecipe() {
-    this.router.navigate(['new'], {relativeTo: this.route});
+    this.dialog.open(RecipeEditComponent);
+    // this.router.navigate(['new'], {relativeTo: this.route});
   };
 
   getRecipeId(event) {

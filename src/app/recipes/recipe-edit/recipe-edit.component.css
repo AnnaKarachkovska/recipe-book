@@ -1,6 +1,7 @@
 :host {
-  input.ng-invalid.ng-touched,
-  textarea.ng-invalid.ng-touched {
-    border: 1px solid red;
+  .form-container{
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
   }
 }

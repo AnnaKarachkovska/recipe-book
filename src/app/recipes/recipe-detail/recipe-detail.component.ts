@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { RecipeEditComponent } from '../recipe-edit/recipe-edit.component';
 
 import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipe.service';
@@ -16,7 +18,8 @@ export class RecipeDetailComponent implements OnInit {
 
   constructor(private recipeService: RecipeService,
     private route: ActivatedRoute,
-    private router: Router) { };
+    private router: Router,
+    public dialog: MatDialog) { }
 
   ngOnInit() {    
     this.route.params.subscribe(
@@ -25,6 +28,15 @@ export class RecipeDetailComponent implements OnInit {
         this.id = params['id'];
       }
     )
+  }
+
+  onEditRecipe() {
+    this.dialog.open(RecipeEditComponent, {
+      data: {
+        id: this.id,
+        editMode: true,
+      }
+    });
   }
 
   onAddToShoppingList() {

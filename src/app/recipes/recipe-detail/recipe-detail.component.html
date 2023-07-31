@@ -14,8 +14,8 @@
       matTooltip="Add ingredients to the shopping list">
       <mat-icon>add_shopping_cart</mat-icon>
     </button>
-    <button mat-icon-button color="accent"
-      routerLink="edit"
+    <button mat-icon-button 
+      (click)="onEditRecipe()"
       matTooltip="Edit recipe">
       <mat-icon>edit</mat-icon>
     </button>

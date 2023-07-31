@@ -1,103 +1,111 @@
-<div class="row">
-  <div class="col-xs-12">
-    <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
-      <div class="row">
-        <div class="col-xs-12">
-          <button 
-            mat-raised-button color="primary"
-            style="margin-right: 10px;"
-            [disabled]="!recipeForm.valid"
-          >Save</button>
-          <!-- <button 
-          class="btn btn-success" 
-          style="margin-right: 10px;"
-          [disabled]="!recipeForm.valid"
-          >Save</button> -->
-          <button 
-            mat-raised-button color="warn"
-            type="button" 
-            (click)="onCancel()"
-          >Cancel</button>
-          <!-- <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button> -->
-        </div>
-      </div>
-      <div class="row" style="margin-top: 20px;">
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" class="form-control" formControlName="name"/>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label for="imgPath">Image URL</label>
-            <input type="text" id="imgPath" #imgPath class="form-control" formControlName="imgPath"/>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <img [src]="imgPath.value" width="150" class="img-responsive" />
-        </div>
-      </div>
-      <div class="row" style="margin-top: 10px;">
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label for="desc">Description</label>
-            <textarea
-              type="text"
-              id="desc"
-              class="form-control"
-              rows="6"
-              formControlName="desc"
-            ></textarea>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12" formArrayName="ingredients">
-          <div 
-            class="row" 
-            *ngFor="let ingrCtrl of controls; let i = index"
-            [formGroupName]="i"
-            style="margin-top: 10px;">
-            <div class="col-xs-8">
-              <input type="text" class="form-control" formControlName="name"/>
-            </div>
-            <div class="col-xs-2">
-              <input type="number" class="form-control" formControlName="amount"/>
-            </div>
-            <div class="col-xs-2">
-              <button mat-icon-button color="warn" 
-                aria-label="Icon button with a bin icon" 
-                type="button" 
-                (click)="onDeleteIngredient(i)"
-                style="height: 35px; display: flex; align-items: center;"
+<form 
+  [formGroup]="recipeForm" 
+  (ngSubmit)="onSubmit()"
+  class="form"
+>
+  <mat-dialog-content class="form-container">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput
+        type="text"
+        formControlName="name"
+      />
+      <mat-error *ngIf="recipeForm.get('name').touched 
+        && recipeForm.get('name').hasError('required')"
+      >
+        Name is required.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Image URL</mat-label>
+      <input matInput
+        type="text"
+        #imgPath
+        formControlName="imgPath"
+      />
+    </mat-form-field>
+
+    <!-- <img [src]="imgPath.value" width="150" class="img-responsive" /> -->
+
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <textarea matInput
+        type="text"
+        rows="6"
+        formControlName="desc"
+      ></textarea>
+    </mat-form-field>
+
+      <div formArrayName="ingredients">
+        <div
+          *ngFor="let ingrCtrl of controls; let i = index"
+          [formGroupName]="i"
+        >
+            <mat-form-field style=" margin-right: 5px;">
+              <mat-label>Name</mat-label>
+              <input matInput
+                type="text"
+                formControlName="name"
+              />
+              <!-- <mat-error 
+                *ngIf="recipeForm.get('ingredients')[i].get('name').hasError('required')"
               >
-                <mat-icon>delete</mat-icon>
-              </button>
-            </div>
-          </div>
+              Name is required.
+            </mat-error> -->
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Amount</mat-label>
+              <input matInput
+                type="number"
+                formControlName="amount"
+              />
+              <mat-error *ngIf=""></mat-error>
+            </mat-form-field>
+
+            <button
+              mat-icon-button
+              color="warn"
+              aria-label="Icon button with a bin icon"
+              type="button"
+              (click)="onDeleteIngredient(i)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
         </div>
       </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <button 
-            mat-raised-button color="primary"
-            type="button" 
-            style="margin-top: 10px;"
-            (click)="onAddIngredient()"
-          >Add ingredient</button>
-          <!-- <button 
-            type="button" 
-            class="btn btn-success" 
-            style="margin-top: 10px;"
-            (click)="onAddIngredient()"
-          >Add ingredient</button> -->
-        </div>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <button
+          mat-raised-button
+          color="primary"
+          type="button"
+          style="margin-top: 10px"
+          (click)="onAddIngredient()"
+        >
+          Add ingredient
+        </button>
       </div>
-    </form>
-  </div>
-</div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button
+      mat-raised-button
+      mat-dialog-close
+      type="button"
+    >
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      type="submit"
+      [mat-dialog-close]="true"
+      color="primary"
+      style="margin-right: 10px"
+      [disabled]="!recipeForm.valid"
+    >
+      Save
+    </button>
+  </mat-dialog-actions>
+</form>
