@@ -1,19 +1,27 @@
-<button mat-fab color="primary" 
+<button
+  mat-fab
+  color="primary"
   (click)="onNewRecipe()"
   class="add-btn"
-  matTooltip="Add a new recipe">
-    <mat-icon>add</mat-icon>
+  matTooltip="Add a new recipe"
+>
+  <mat-icon>add</mat-icon>
 </button>
 <!-- <button class="btn btn-success" (click)="onNewRecipe()">New recipe</button> -->
 
 <div class="row">
   <div class="col-xs-12">
-    <mat-list role="list" class="list" >
-      <mat-list-item role="listitem" 
-      class="item" 
-      *ngFor="let recipeEl of recipes"
-      [ngClass]="{active: recipeEl.id === recipeId}">
-        <app-recipe-item [recipe]="recipeEl" (recipeId)="getRecipeId($event)"></app-recipe-item>
+    <mat-list role="list" class="list">
+      <mat-list-item
+        role="listitem"
+        class="item"
+        *ngFor="let recipeEl of recipes"
+        [ngClass]="{ active: recipeEl.id === recipeId }"
+      >
+        <app-recipe-item
+          [recipe]="recipeEl"
+          (recipeId)="getRecipeId($event)"
+        ></app-recipe-item>
       </mat-list-item>
     </mat-list>
   </div>

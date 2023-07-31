@@ -5,7 +5,7 @@ import { Ingredient } from "../shared/ingredient.model";
 import { ShoppingListService } from "../shopping-list/shopping-list.service";
 import { Recipe } from "./recipe.model";
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class RecipeService {
   recipesChanged = new Subject<Recipe[]>();
 
@@ -13,16 +13,16 @@ export class RecipeService {
     new Recipe(
       '1',
       'First meal',
-      'First meal description', 
-      'https://cdn.pixabay.com/photo/2016/06/15/19/09/food-1459693_1280.jpg', 
+      'First meal description',
+      'https://cdn.pixabay.com/photo/2016/06/15/19/09/food-1459693_1280.jpg',
       [
         new Ingredient('Ingredient 1', 2),
         new Ingredient('Ingredient 2', 5),
       ]),
     new Recipe(
       '2',
-      'Second meal', 
-      'Second meal description', 
+      'Second meal',
+      'Second meal description',
       'https://cdn.pixabay.com/photo/2014/11/05/15/57/salmon-518032_1280.jpg',
       [
         new Ingredient('Ingredient 1', 1),
@@ -30,7 +30,7 @@ export class RecipeService {
       ])
   ];
 
-  constructor(private shoppingListService: ShoppingListService) {};
+  constructor(private shoppingListService: ShoppingListService) { };
 
   getRecipes() {
     return this.recipes.slice();
@@ -40,9 +40,8 @@ export class RecipeService {
     return this.recipes.find(recipe => recipe.id === id);
   };
 
-  addIngredients(ingredients: Ingredient[]) {
+  addIngredients(ingredients: Ingredient[]) {    
     this.shoppingListService.addIngredients(ingredients);
-    // this.recipesChanged.next(this.recipes.slice());
   };
 
   addRecipe(recipe: Recipe) {

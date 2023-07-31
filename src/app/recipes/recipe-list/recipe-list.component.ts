@@ -32,7 +32,6 @@ export class RecipeListComponent implements OnInit, OnDestroy {
 
   onNewRecipe() {
     this.dialog.open(RecipeEditComponent);
-    // this.router.navigate(['new'], {relativeTo: this.route});
   };
 
   getRecipeId(event) {
