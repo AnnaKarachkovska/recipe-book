@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { DialogWindowComponent } from 'src/app/shared/dialog-window/dialog-window.component';
 import { RecipeEditComponent } from '../recipe-edit/recipe-edit.component';
 
 import { Recipe } from '../recipe.model';
@@ -21,9 +23,10 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
   constructor(private recipeService: RecipeService,
     private route: ActivatedRoute,
     private router: Router,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private _snackBar: MatSnackBar) { }
 
-  ngOnInit() {    
+  ngOnInit() {
     this.route.params.subscribe(
       (params: Params) => {
         this.recipe = this.recipeService.getRecipeById(params['id']);
@@ -31,11 +34,12 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
       }
     )
     this.recipesChangedSubscription = this.recipeService.recipesChanged
-    .subscribe((
-      recipes: Recipe[]) => {
-        this.recipe = recipes.find(recipe => recipe.id === this.id);
+      .subscribe((
+        recipes: Recipe[]) => {
+        this.recipe = recipes.find(recipe => 
+          recipe.id === this.id);
       }
-    );
+      );
   }
 
   onEditRecipe() {
@@ -49,11 +53,26 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
 
   onAddToShoppingList() {
     this.recipeService.addIngredients(this.recipe.ingredients);
+    this._snackBar.open(
+      'Ingrediens have been added to the shopping list.', '',
+      {
+        verticalPosition: 'top',
+        horizontalPosition: 'end',
+        duration: 1500
+      });
   }
 
   onDeleteRecipe() {
-    this.recipeService.deleteRecipe(this.id);
-    this.router.navigate(['/recipes']);
+    const dialogRef = this.dialog.open(
+      DialogWindowComponent, 
+      { data: { name: this.recipe.name } }
+    );
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.recipeService.deleteRecipe(this.id);
+        this.router.navigate(['/recipes']);
+      }
+    });
   }
 
   ngOnDestroy() {

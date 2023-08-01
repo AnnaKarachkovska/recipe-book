@@ -1,0 +1,12 @@
+<p mat-dialog-content>
+  Are you sure you want to delete "{{data.name}}" recipe?
+</p>
+<mat-dialog-actions align="end">
+  <button mat-button 
+    [mat-dialog-close]="no" 
+    cdkFocusInitial
+  >No</button>
+  <button mat-button 
+    [mat-dialog-close]="yes"
+  >Yes</button>
+</mat-dialog-actions>
