@@ -21,10 +21,15 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
 
   ingredientForm = new FormGroup({
     'name': new FormControl(null, Validators.required),
-    'amount': new FormControl(null, [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)])
+    'amount': new FormControl(
+      null, 
+      [
+        Validators.required, 
+        Validators.pattern(/^[1-9]+[0-9]*$/)
+      ])
   });
 
-  constructor(private shoppingListService: ShoppingListService) {};
+  constructor(private shoppingListService: ShoppingListService) { };
 
   ngOnInit() {
     this.startedEditingSubscription = this.shoppingListService.startedEditing
@@ -33,6 +38,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
           if (index === null) {
             this.isOnEditMode.emit(false);
             this.editMode = false;
+            this.onClear();
           } else {
             this.isOnEditMode.emit(true);
             this.editMode = true;
@@ -44,14 +50,18 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
             })
           }
         }
-      );    
+      );
   }
 
   onSubmit() {
     if (this.ingredientForm.valid) {
-      const newIngredient = new Ingredient(this.ingredientForm.value['name'], this.ingredientForm.value['amount']);
+      const newIngredient = new Ingredient(
+        this.ingredientForm.value['name'], 
+        this.ingredientForm.value['amount']
+      );
       if (this.editMode) {
-        this.shoppingListService.updateIngredient(this.editedItemIndex, newIngredient);
+        this.shoppingListService.updateIngredient(
+          this.editedItemIndex, newIngredient);
         this.isOnEditMode.emit(false);
         this.editMode = false;
       } else {

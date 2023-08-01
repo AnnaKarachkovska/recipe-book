@@ -1,12 +1,12 @@
 <mat-card class="card">
   <img 
-    [src]="recipe.imagePath" 
-    alt={{recipe.name}} 
+    [src]="recipe?.imagePath" 
+    alt={{recipe?.name}} 
     class="image"
   />
   <mat-card-header>
-    <mat-card-title>{{recipe.name}}</mat-card-title>
-    <mat-card-subtitle>{{recipe.description}}</mat-card-subtitle>
+    <mat-card-title>{{recipe?.name}}</mat-card-title>
+    <mat-card-subtitle>{{recipe?.description}}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-actions>
     <button mat-icon-button 
@@ -28,7 +28,7 @@
   <mat-card-content>
     <mat-list role="list" style="padding: 0;">
       <mat-list-item role="listitem" style="height: 30px; padding: 0;"
-        *ngFor="let ingredient of recipe.ingredients">
+        *ngFor="let ingredient of recipe?.ingredients">
         <span matListItemLine>{{ingredient.name}} - {{ingredient.amount}}</span>
       </mat-list-item>
     </mat-list>
