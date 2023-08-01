@@ -12,7 +12,7 @@ import { ShoppingListService } from '../shopping-list.service';
   styleUrls: ['./shopping-edit.component.css']
 })
 export class ShoppingEditComponent implements OnInit, OnDestroy {
-  subscription: Subscription;
+  startedEditingSubscription: Subscription;
   editMode = false;
   editedItemIndex: number;
   editedItem: Ingredient;
@@ -27,17 +27,22 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   constructor(private shoppingListService: ShoppingListService) {};
 
   ngOnInit() {
-    this.subscription = this.shoppingListService.startedEditing
+    this.startedEditingSubscription = this.shoppingListService.startedEditing
       .subscribe(
         (index: number) => {
-          this.isOnEditMode.emit(true);
-          this.editMode = true;
-          this.editedItemIndex = index;
-          this.editedItem = this.shoppingListService.getIngredient(index);
-          this.ingredientForm.setValue({
-            name: this.editedItem.name,
-            amount: this.editedItem.amount
-          })
+          if (index === null) {
+            this.isOnEditMode.emit(false);
+            this.editMode = false;
+          } else {
+            this.isOnEditMode.emit(true);
+            this.editMode = true;
+            this.editedItemIndex = index;
+            this.editedItem = this.shoppingListService.getIngredient(index);
+            this.ingredientForm.setValue({
+              name: this.editedItem.name,
+              amount: this.editedItem.amount
+            })
+          }
         }
       );    
   }
@@ -70,6 +75,6 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.startedEditingSubscription.unsubscribe();
   }
 }

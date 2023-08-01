@@ -18,24 +18,26 @@ export class ShoppingListComponent implements OnInit, OnDestroy, AfterViewInit {
   displayedColumns: string[] = ['position', 'name', 'amount', 'edit'];
 
   editMode: boolean = false;
-  ingName: string = "";
- 
+  ingredientName: string = "";
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  private subscription: Subscription;
+  private ingredientsChangedSubscription: Subscription;
 
-  constructor(private shoppingListService: ShoppingListService) {};
+  constructor(private shoppingListService: ShoppingListService) { };
 
   ngOnInit() {
-    this.dataSource = new MatTableDataSource(this.shoppingListService.getIngredients());
-    this.subscription = this.shoppingListService.ingredientsChanged.subscribe(
-      (ingredients: Ingredient[]) => {
-        this.dataSource = new MatTableDataSource(ingredients);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      }
-    );
+    this.dataSource = new MatTableDataSource(
+      this.shoppingListService.getIngredients());
+    this.ingredientsChangedSubscription = this.shoppingListService.ingredientsChanged
+      .subscribe(
+        (ingredients: Ingredient[]) => {
+          this.dataSource = new MatTableDataSource(ingredients);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
+      );
   }
 
   ngAfterViewInit() {
@@ -45,15 +47,16 @@ export class ShoppingListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onEditItem(index: number) {
     this.shoppingListService.startedEditing.next(index);
-    this.ingName = this.shoppingListService.getIngredient(index).name;
+    this.ingredientName = this.shoppingListService.getIngredient(index).name;
   }
 
   onDeleteItem(index: number) {
     this.shoppingListService.deleteIngredient(index);
+    this.shoppingListService.startedEditing.next(null);
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.ingredientsChangedSubscription.unsubscribe();
   }
 
   toggleEditMode(event) {

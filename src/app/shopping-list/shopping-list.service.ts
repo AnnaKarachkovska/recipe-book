@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
+import * as _ from 'lodash';
 
 import { Ingredient } from "../shared/ingredient.model";
 
@@ -19,7 +20,8 @@ export class ShoppingListService {
   }
 
   addIngredient (ingredient: Ingredient) {
-    let ingredientRepeat = this.ingredients.find(el => el.name.toLowerCase() === ingredient.name.toLowerCase());
+    let ingredientsClone = _.cloneDeep(this.ingredients);
+    let ingredientRepeat = ingredientsClone.find(el => el.name.toLowerCase() === ingredient.name.toLowerCase());
     if (ingredientRepeat) {
       ingredientRepeat.amount += ingredient.amount;
     } else {
@@ -29,7 +31,8 @@ export class ShoppingListService {
   }
 
   addIngredients(ingredients: Ingredient[]) {
-    let ingredientRepeat = this.ingredients.filter(oldEl => 
+    let ingredientsClone = _.cloneDeep(this.ingredients);
+    let ingredientRepeat = ingredientsClone.filter(oldEl => 
       ingredients.find(newEl => oldEl.name.toLowerCase() === newEl.name.toLowerCase()));
 
     if (ingredientRepeat.length > 0) {

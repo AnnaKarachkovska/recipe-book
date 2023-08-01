@@ -3,19 +3,23 @@
     margin-bottom: 30px;
   }
 
-  td {
+  .table td {
     text-align: center;
   }
 
-  tr:nth-child(2n) {
+  .table th {
+    text-align: center;
+  }
+
+  .table tr:nth-child(2n) {
     background-color: #eeeeee;
   }
 
-  tr:nth-child(n):hover {
+  .table tr:nth-child(n):hover {
     background-color: #d7d7d7;
   }
 
-  .active > td {
-    background-color: #d1d9ff;
+  .table>tbody>tr.active>td {
+    background-color: #d0ddfc;
   }
 }
