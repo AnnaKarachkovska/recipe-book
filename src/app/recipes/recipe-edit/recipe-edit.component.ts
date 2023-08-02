@@ -71,6 +71,7 @@ export class RecipeEditComponent implements OnInit {
     let recipeImgPath = '';
     let recipeDesc = '';
     let recipeIngredients = new FormArray([]);
+    const urlRegex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
 
     if (this.editMode) {
       const recipe = this.recipeService.getRecipeById(this.id);      
@@ -95,8 +96,8 @@ export class RecipeEditComponent implements OnInit {
 
     this.recipeForm = new FormGroup({
       'name': new FormControl(recipeName, Validators.required),
-      'imgPath': new FormControl(recipeImgPath, Validators.required),
-      'desc': new FormControl(recipeDesc, Validators.required),
+      'imgPath': new FormControl(recipeImgPath, Validators.pattern(urlRegex)),
+      'desc': new FormControl(recipeDesc),
       'ingredients': recipeIngredients,
     })
   }
