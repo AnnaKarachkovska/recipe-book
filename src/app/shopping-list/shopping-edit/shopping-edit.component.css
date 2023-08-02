@@ -7,7 +7,7 @@
   .form {
     margin-top: 20px;
   }
-
+/* 
   .form.ng-submitted.ng-untouched label{
     color: rgba(0, 0, 0, 0.6);
   }
@@ -17,7 +17,7 @@
   }
   .form.ng-submitted.ng-untouched div::after{
     border-bottom-color: rgba(0, 0, 0, 0.6);
-  }
+  } */
   
   .btn-box {
     display: inline; margin-left: 20px;

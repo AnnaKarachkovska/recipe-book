@@ -1,3 +1,4 @@
+import { SelectionModel } from '@angular/cdk/collections';
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -14,8 +15,9 @@ import { ShoppingListService } from './shopping-list.service';
   styleUrls: ['./shopping-list.component.css']
 })
 export class ShoppingListComponent implements OnInit, OnDestroy, AfterViewInit {
-  dataSource: MatTableDataSource<Ingredient>;
-  displayedColumns: string[] = ['position', 'name', 'amount', 'edit'];
+  dataSource: MatTableDataSource<Ingredient> = new MatTableDataSource();
+  displayedColumns: string[] = ['position', 'name', 'amount', 'select', 'edit'];
+  selection = new SelectionModel<Ingredient>(true, []);
 
   editMode: boolean = false;
   ingredientName: string = "";
@@ -33,9 +35,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.ingredientsChangedSubscription = this.shoppingListService.ingredientsChanged
       .subscribe(
         (ingredients: Ingredient[]) => {
-          this.dataSource = new MatTableDataSource(ingredients);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
+          this.dataSource.data = ingredients;
         }
       );
   }
@@ -43,6 +43,27 @@ export class ShoppingListComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  toggleAllRows() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+    this.selection.select(...this.dataSource.data);
+  }
+
+  checkboxLabel(element?: Ingredient): string {
+    if (!element) {
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }
+    return `${this.selection.isSelected(element) ? 'deselect' : 'select'} element ${this.dataSource.data.indexOf(element) + 2}`;
   }
 
   onEditItem(index: number) {
