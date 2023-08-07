@@ -9,7 +9,7 @@ import { ShoppingListService } from '../shopping-list.service';
   selector: 'app-shopping-edit',
   templateUrl: './shopping-edit.component.html',
   providers: [],
-  styleUrls: ['./shopping-edit.component.css']
+  styleUrls: ['./shopping-edit.component.scss']
 })
 export class ShoppingEditComponent implements OnInit, OnDestroy {
   startedEditingSubscription: Subscription;

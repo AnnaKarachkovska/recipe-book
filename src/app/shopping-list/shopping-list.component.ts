@@ -12,7 +12,7 @@ import { ShoppingListService } from './shopping-list.service';
   selector: 'app-shopping-list',
   templateUrl: './shopping-list.component.html',
   providers: [],
-  styleUrls: ['./shopping-list.component.css']
+  styleUrls: ['./shopping-list.component.scss']
 })
 export class ShoppingListComponent implements OnInit, OnDestroy, AfterViewInit {
   dataSource: MatTableDataSource<Ingredient> = new MatTableDataSource();
