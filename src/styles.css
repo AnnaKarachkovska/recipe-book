@@ -7,3 +7,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   justify-content: center;
   padding-left: 20px;
 }
+
+.mat-mdc-snack-bar-container {
+  &.snackbar {
+    --mdc-snackbar-container-color: #f44335;
+  }
+}
