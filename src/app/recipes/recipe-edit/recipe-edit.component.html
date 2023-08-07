@@ -53,12 +53,18 @@
               <input matInput
                 type="text"
                 formControlName="name"
+                (blur)="onBlurMethod($event.target.value)"
               />
               <mat-error 
                 *ngIf="ingrCtrl.touched && ingrCtrl.hasError"
               >
                 Name is required.
               </mat-error>
+              <!-- <mat-error 
+                *ngIf="ingrCtrl.errors?.uniqueIngredient"
+              >
+                Ingredient has already been added.
+              </mat-error> -->
             </mat-form-field>
 
             <mat-form-field>
