@@ -1,4 +1,9 @@
-<form [formGroup]="ingredientForm" (ngSubmit)="onSubmit()" class="form">
+<form 
+  [formGroup]="ingredientForm" 
+  (ngSubmit)="onSubmit()" 
+  #form="ngForm"
+  class="form"
+>
   <mat-form-field class="input-field">
     <mat-label>Name</mat-label>
     <input matInput type="text" formControlName="name" />

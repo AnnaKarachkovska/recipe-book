@@ -1,5 +1,6 @@
 <mat-card class="card">
   <img 
+    *ngIf="recipe?.imagePath"
     [src]="recipe?.imagePath" 
     alt={{recipe?.name}} 
     class="image"
