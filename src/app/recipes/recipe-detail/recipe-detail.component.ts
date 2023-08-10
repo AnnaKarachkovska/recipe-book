@@ -36,7 +36,8 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
             {
               verticalPosition: 'top',
               horizontalPosition: 'end',
-              duration: 1500
+              duration: 1500,
+              panelClass: ['snackbar']
             });
           this.router.navigate(['/recipes']);
         } else {
@@ -65,13 +66,15 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
 
   onAddToShoppingList() {
     this.recipeService.addIngredients(this.recipe.ingredients);
-    this._snackBar.open(
-      'Ingrediens have been added to the shopping list.', '',
-      {
-        verticalPosition: 'top',
-        horizontalPosition: 'end',
-        duration: 1500
-      });
+    if(this.recipe.ingredients.length > 0) {
+      this._snackBar.open(
+        'Ingrediens have been added to the shopping list.', '',
+        {
+          verticalPosition: 'top',
+          horizontalPosition: 'end',
+          duration: 1500
+        });
+    }
   }
 
   onDeleteRecipe() {
