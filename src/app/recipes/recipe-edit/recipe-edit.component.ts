@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { nanoid } from 'nanoid';
@@ -16,7 +16,6 @@ export class RecipeEditComponent implements OnInit {
   id: string;
   editMode: boolean;
   recipeForm: FormGroup;
-  ingredientInputNames: string[] = [];
 
   constructor(private recipeService: RecipeService,
               @Inject(MAT_DIALOG_DATA) public data) {};
@@ -68,14 +67,6 @@ export class RecipeEditComponent implements OnInit {
     (<FormArray>this.recipeForm.get('ingredients')).removeAt(index);
   }
 
-  onBlurMethod(value: string) {
-    if(this.ingredientInputNames.includes(value.toLowerCase()) || value === '') {
-      return;
-    } else {
-      this.ingredientInputNames.push(value.toLowerCase());
-    }        
-  }
-
   private initForm() {
     let recipeName = '';
     let recipeImgPath = '';
@@ -123,12 +114,12 @@ export class RecipeEditComponent implements OnInit {
         return null;
       }
       const ingredientsNamesArr = [];
-      this.recipe?.ingredients?.map(ingredient => {
+      this.recipeForm.value.ingredients?.map(ingredient => {
         ingredientsNamesArr.push(ingredient.name?.toLowerCase());
       })
-    
+
       let ingredientValid;
-      if(ingredientsNamesArr.indexOf(value) !== -1 || this.ingredientInputNames.indexOf(value) !== -1) {
+      if(ingredientsNamesArr.indexOf(value) !== -1) {
         ingredientValid = false;
       } else {
         ingredientValid = true;
