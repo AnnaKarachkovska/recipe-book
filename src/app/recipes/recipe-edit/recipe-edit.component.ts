@@ -1,5 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { nanoid } from 'nanoid';
 
@@ -12,6 +12,7 @@ import { RecipeService } from '../recipe.service';
   styleUrls: ['./recipe-edit.component.scss']
 })
 export class RecipeEditComponent implements OnInit {
+  recipe: Recipe;
   id: string;
   editMode: boolean;
   recipeForm: FormGroup;
@@ -53,7 +54,7 @@ export class RecipeEditComponent implements OnInit {
   onAddIngredient() {
     (<FormArray>this.recipeForm.get('ingredients')).push(
       new FormGroup({
-        'name': new FormControl(null, Validators.required),
+        'name': new FormControl(null, [Validators.required, this.duplicateIngredientValidator()]),
         'amount': new FormControl(null, [
           Validators.required,
           Validators.pattern(/^[1-9]+[0-9]*$/)
@@ -71,15 +72,16 @@ export class RecipeEditComponent implements OnInit {
     let recipeImgPath = '';
     let recipeDesc = '';
     let recipeIngredients = new FormArray([]);
+    const urlRegex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
 
     if (this.editMode) {
-      const recipe = this.recipeService.getRecipeById(this.id);      
-      recipeName = recipe.name;
-      recipeImgPath = recipe.imagePath;
-      recipeDesc = recipe.description;
+      this.recipe = this.recipeService.getRecipeById(this.id);      
+      recipeName = this.recipe.name;
+      recipeImgPath = this.recipe.imagePath;
+      recipeDesc = this.recipe.description;
 
-      if (recipe['ingredients']) {
-        for (let ingredient of recipe.ingredients) {
+      if (this.recipe['ingredients']) {
+        for (let ingredient of this.recipe.ingredients) {
           recipeIngredients.push(
             new FormGroup({
               'name': new FormControl(ingredient.name, Validators.required),
@@ -95,8 +97,8 @@ export class RecipeEditComponent implements OnInit {
 
     this.recipeForm = new FormGroup({
       'name': new FormControl(recipeName, Validators.required),
-      'imgPath': new FormControl(recipeImgPath, Validators.required),
-      'desc': new FormControl(recipeDesc, Validators.required),
+      'imgPath': new FormControl(recipeImgPath, Validators.pattern(urlRegex)),
+      'desc': new FormControl(recipeDesc),
       'ingredients': recipeIngredients,
     })
   }
@@ -104,4 +106,26 @@ export class RecipeEditComponent implements OnInit {
   get controls() {
     return (<FormArray>this.recipeForm.get('ingredients')).controls;
   }
+
+  duplicateIngredientValidator(): ValidatorFn {
+    return (control: AbstractControl) : ValidationErrors | null => {
+      const value = control.value?.toLowerCase();
+      if (!value) {
+        return null;
+      }
+      const ingredientsNamesArr = [];
+      this.recipeForm.value.ingredients?.map(ingredient => {
+        ingredientsNamesArr.push(ingredient.name?.toLowerCase());
+      })
+
+      let ingredientValid;
+      if(ingredientsNamesArr.indexOf(value) !== -1) {
+        ingredientValid = false;
+      } else {
+        ingredientValid = true;
+      }
+    
+      return !ingredientValid ? {uniqueIngredient:true} : null;
+    }
+  } 
 }

@@ -18,6 +18,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   editedItem: Ingredient;
 
   @Output() isOnEditMode = new EventEmitter<boolean>();
+  @ViewChild('form') formRef;
 
   ingredientForm = new FormGroup({
     'name': new FormControl(null, Validators.required),
@@ -67,7 +68,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
       } else {
         this.shoppingListService.addIngredient(newIngredient);
       }
-      this.ingredientForm.reset();
+      this.formRef.resetForm();
     } else {
       return;
     }
@@ -81,7 +82,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   }
 
   onClear() {
-    this.ingredientForm.reset();
+    this.formRef.resetForm();
   }
 
   ngOnDestroy() {

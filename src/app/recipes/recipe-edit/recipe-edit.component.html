@@ -4,28 +4,36 @@
   class="form"
 >
   <mat-dialog-content class="form-container">
-    <mat-form-field>
+    <mat-form-field class="form-field">
       <mat-label>Name</mat-label>
       <input matInput
         type="text"
         formControlName="name"
       />
-      <mat-error *ngIf="recipeForm.get('name').touched 
-        && recipeForm.get('name').hasError('required')"
+      <mat-error 
+        *ngIf="recipeForm.controls.name.touched && 
+              recipeForm.controls.name.errors?.required"
       >
         Name is required.
       </mat-error>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class="form-field">
       <mat-label>Image URL</mat-label>
       <input matInput
         type="text"
         #imgPath
         formControlName="imgPath"
       />
+      <mat-error *ngIf="recipeForm.controls.imgPath.touched 
+        && recipeForm.controls.imgPath.errors?.pattern"
+      >
+        Please enter a valid URL.
+      </mat-error>
     </mat-form-field>
 
-    <!-- <img [src]="imgPath.value" width="150" class="img-responsive" /> -->
+    <div *ngIf="imgPath.value" class="form-img">
+      <img [src]="imgPath.value" width="120" class="img-responsive" />
+    </div>
 
     <mat-form-field>
       <mat-label>Description</mat-label>
@@ -38,7 +46,7 @@
 
       <div formArrayName="ingredients">
         <div
-          *ngFor="let ingrCtrl of controls; let i = index"
+          *ngFor="let ingrCtrl of controls let i = index"
           [formGroupName]="i"
         >
             <mat-form-field style=" margin-right: 5px;">
@@ -47,11 +55,18 @@
                 type="text"
                 formControlName="name"
               />
-              <!-- <mat-error 
-                *ngIf="recipeForm.get('ingredients')[i].get('name').hasError('required')"
+              <mat-error 
+                *ngIf="ingrCtrl.controls.name.touched && 
+                  ingrCtrl.controls.name.errors?.required"
               >
-              Name is required.
-            </mat-error> -->
+                Name is required.
+              </mat-error>
+              <mat-error 
+                *ngIf="ingrCtrl.controls.name.touched && 
+                  ingrCtrl.controls.name.errors?.uniqueIngredient"
+              >
+                Ingredient was already added.
+              </mat-error>
             </mat-form-field>
 
             <mat-form-field>
@@ -60,7 +75,18 @@
                 type="number"
                 formControlName="amount"
               />
-              <mat-error *ngIf=""></mat-error>
+              <mat-error 
+               *ngIf="ingrCtrl.controls.amount.touched && 
+                 ingrCtrl.controls.amount.errors?.required"
+              >
+                Amount is required.
+              </mat-error>
+              <mat-error 
+                *ngIf="ingrCtrl.controls.amount.touched && 
+                  ingrCtrl.controls.amount.errors?.pattern"
+              >
+                Please enter a valid amount.
+              </mat-error>
             </mat-form-field>
 
             <button

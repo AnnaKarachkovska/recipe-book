@@ -1,5 +1,6 @@
 <mat-card class="card">
   <img 
+    *ngIf="recipe?.imagePath"
     [src]="recipe?.imagePath" 
     alt={{recipe?.name}} 
     class="image"
@@ -10,6 +11,7 @@
   </mat-card-header>
   <mat-card-actions>
     <button mat-icon-button 
+      *ngIf="recipe?.ingredients.length > 0"
       (click)="onAddToShoppingList()" color="primary"
       matTooltip="Add ingredients to the shopping list">
       <mat-icon>add_shopping_cart</mat-icon>
