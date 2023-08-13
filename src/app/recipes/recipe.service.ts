@@ -37,7 +37,11 @@ export class RecipeService {
   };
 
   getRecipeById(id: string) {
-    return this.recipes.find(recipe => recipe.id === id);
+    const recipe = this.recipes.find(recipe => recipe.id === id);
+    if (recipe === undefined) {
+      throw new Error('There is no recipe.'); 
+    }
+    return recipe;
   };
 
   addIngredients(ingredients: Ingredient[]) {    

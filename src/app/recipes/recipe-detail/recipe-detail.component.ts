@@ -49,8 +49,11 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
     this.recipesChangedSubscription = this.recipeService.recipesChanged
       .subscribe((
         recipes: Recipe[]) => {
-        this.recipe = recipes.find(recipe => 
-          recipe.id === this.id);
+          const recipe = recipes.find(recipe => 
+            recipe.id === this.id);
+          if (recipe !== undefined) {
+            this.recipe = recipe;
+          }
       }
       );
   }

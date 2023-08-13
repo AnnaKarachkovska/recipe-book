@@ -6,6 +6,10 @@ import { nanoid } from 'nanoid';
 import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipe.service';
 
+export type IngredientForm = FormGroup<{
+  name: FormControl<string | null>;
+  amount: FormControl<number | null>;}>;
+
 @Component({
   selector: 'app-recipe-edit',
   templateUrl: './recipe-edit.component.html',
@@ -18,7 +22,7 @@ export class RecipeEditComponent implements OnInit {
   recipeForm: FormGroup;
 
   constructor(private recipeService: RecipeService,
-              @Inject(MAT_DIALOG_DATA) public data) {};
+              @Inject(MAT_DIALOG_DATA) public data: {id: string, editMode: boolean}) {};
 
   ngOnInit() {
     // this.route.params.subscribe(
@@ -71,7 +75,7 @@ export class RecipeEditComponent implements OnInit {
     let recipeName = '';
     let recipeImgPath = '';
     let recipeDesc = '';
-    let recipeIngredients = new FormArray([]);
+    let recipeIngredients = new FormArray<IngredientForm>([]);
     const urlRegex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
 
     if (this.editMode) {
@@ -113,8 +117,8 @@ export class RecipeEditComponent implements OnInit {
       if (!value) {
         return null;
       }
-      const ingredientsNamesArr = [];
-      this.recipeForm.value.ingredients?.map(ingredient => {
+      const ingredientsNamesArr: string[] = [];
+      this.recipeForm.value.ingredients?.map((ingredient: { name: string; }) => {
         ingredientsNamesArr.push(ingredient.name?.toLowerCase());
       })
 

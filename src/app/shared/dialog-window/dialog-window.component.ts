@@ -12,6 +12,6 @@ export class DialogWindowComponent {
   yes = true;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data,
+    @Inject(MAT_DIALOG_DATA) public data: {name: string},
   ) {}
 }

@@ -18,12 +18,12 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   editedItem: Ingredient;
 
   @Output() isOnEditMode = new EventEmitter<boolean>();
-  @ViewChild('form') formRef;
+  @ViewChild('form') formRef: { resetForm: () => void; };
 
   ingredientForm = new FormGroup({
-    'name': new FormControl(null, Validators.required),
+    'name': new FormControl('', Validators.required),
     'amount': new FormControl(
-      null, 
+      0, 
       [
         Validators.required, 
         Validators.pattern(/^[1-9]+[0-9]*$/)
@@ -55,7 +55,12 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    if (this.ingredientForm.valid) {
+    if (this.ingredientForm.invalid || 
+      (this.ingredientForm.value['name'] == null || 
+      this.ingredientForm.value['amount'] == null)) {
+      return;
+    } 
+
       const newIngredient = new Ingredient(
         this.ingredientForm.value['name'], 
         this.ingredientForm.value['amount']
@@ -68,10 +73,8 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
       } else {
         this.shoppingListService.addIngredient(newIngredient);
       }
-      this.formRef.resetForm();
-    } else {
-      return;
-    }
+
+    this.formRef.resetForm();
   }
 
   onDeleteItem() {

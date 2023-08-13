@@ -9,8 +9,8 @@
     <input matInput type="text" formControlName="name" />
     <mat-error
       *ngIf="
-        ingredientForm.get('name').touched &&
-        ingredientForm.get('name').hasError('required')
+        ingredientForm.get('name')?.touched &&
+        ingredientForm.get('name')?.hasError('required')
       "
     >
       Name is required.
@@ -21,17 +21,17 @@
     <input matInput type="number" formControlName="amount" />
     <mat-error
       *ngIf="
-        ingredientForm.get('amount').touched &&
-        ingredientForm.get('amount').hasError('pattern') &&
-        !ingredientForm.get('amount').hasError('required')
+        ingredientForm.get('amount')?.touched &&
+        ingredientForm.get('amount')?.hasError('pattern') &&
+        !ingredientForm.get('amount')?.hasError('required')
       "
     >
       Please enter a valid amount.
     </mat-error>
     <mat-error
       *ngIf="
-        ingredientForm.get('amount').touched &&
-        ingredientForm.get('amount').hasError('required')
+        ingredientForm.get('amount')?.touched &&
+        ingredientForm.get('amount')?.hasError('required')
       "
     >
       Amount is required.

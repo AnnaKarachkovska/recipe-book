@@ -56,14 +56,13 @@
                 formControlName="name"
               />
               <mat-error 
-                *ngIf="ingrCtrl.controls.name.touched && 
-                  ingrCtrl.controls.name.errors?.required"
+                *ngIf="ingrCtrl.get('name')?.touched && ingrCtrl.get('name')?.errors?.required"
               >
                 Name is required.
               </mat-error>
               <mat-error 
-                *ngIf="ingrCtrl.controls.name.touched && 
-                  ingrCtrl.controls.name.errors?.uniqueIngredient"
+              *ngIf="ingrCtrl.get('name')?.touched && 
+                ingrCtrl.get('name')?.errors?.uniqueIngredient"
               >
                 Ingredient was already added.
               </mat-error>
@@ -76,14 +75,14 @@
                 formControlName="amount"
               />
               <mat-error 
-               *ngIf="ingrCtrl.controls.amount.touched && 
-                 ingrCtrl.controls.amount.errors?.required"
+               *ngIf="ingrCtrl.get('amount')?.touched && 
+                 ingrCtrl.get('amount')?.errors?.required"
               >
                 Amount is required.
               </mat-error>
               <mat-error 
-                *ngIf="ingrCtrl.controls.amount.touched && 
-                  ingrCtrl.controls.amount.errors?.pattern"
+              *ngIf="ingrCtrl.get('amount')?.touched && 
+                ingrCtrl.get('amount')?.errors?.pattern"
               >
                 Please enter a valid amount.
               </mat-error>

@@ -37,9 +37,12 @@ export class ShoppingListService {
 
     if (ingredientRepeat.length > 0) {
       for (let i=0; i<ingredientRepeat.length; i++) {
-        ingredientRepeat[i].amount += ingredients.find(el =>
+        const foundIngredient = ingredients.find(el =>
           el.name.toLowerCase() === ingredientRepeat[i].name.toLowerCase()
-        ).amount;
+        );
+        if (foundIngredient !== undefined) {
+          ingredientRepeat[i].amount += foundIngredient.amount;
+        }
       }
     } else {
       this.ingredients.push(...ingredients);
