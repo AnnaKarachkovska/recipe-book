@@ -20,3 +20,7 @@ body {
     --mdc-snackbar-container-color: #f44335;
   }
 }
+
+.table>tbody>tr.active>td {
+  background-color: #d0ddfc;
+}

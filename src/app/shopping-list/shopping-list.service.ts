@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
 import * as _ from 'lodash';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Ingredient } from "../shared/ingredient.model";
 
@@ -10,6 +11,8 @@ export class ShoppingListService {
   startedEditing = new Subject<number>();
 
   private ingredients: Ingredient[] = [];
+
+  constructor(private _snackBar: MatSnackBar) {}
 
   getIngredients() {
     return this.ingredients.slice();
@@ -22,8 +25,15 @@ export class ShoppingListService {
   addIngredient (ingredient: Ingredient) {
     let ingredientsClone = _.cloneDeep(this.ingredients);
     let ingredientRepeat = ingredientsClone.find(el => el.name.toLowerCase() === ingredient.name.toLowerCase());
+    
     if (ingredientRepeat) {
-      ingredientRepeat.amount += ingredient.amount;
+      this._snackBar.open(
+        `Ingredient with name "${ingredientRepeat.name}" has already been added.`, '',
+        {
+          verticalPosition: 'top',
+          horizontalPosition: 'end',
+          duration: 2000
+        });
     } else {
       this.ingredients.push(ingredient);
     }

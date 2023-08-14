@@ -23,7 +23,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   ingredientForm = new FormGroup({
     'name': new FormControl('', Validators.required),
     'amount': new FormControl(
-      0, 
+      NaN, 
       [
         Validators.required, 
         Validators.pattern(/^[1-9]+[0-9]*$/)
@@ -36,7 +36,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     this.startedEditingSubscription = this.shoppingListService.startedEditing
       .subscribe(
         (index: number) => {
-          if (index === null) {
+          if (index === -1) {
             this.isOnEditMode.emit(false);
             this.editMode = false;
             this.onClear();
@@ -60,7 +60,6 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
       this.ingredientForm.value['amount'] == null)) {
       return;
     } 
-
       const newIngredient = new Ingredient(
         this.ingredientForm.value['name'], 
         this.ingredientForm.value['amount']

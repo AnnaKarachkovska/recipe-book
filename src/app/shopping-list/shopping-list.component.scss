@@ -5,10 +5,12 @@
 
   .table td {
     text-align: center;
+    vertical-align: middle;
   }
 
   .table th {
     text-align: center;
+    vertical-align: middle;
   }
 
   .table tr:nth-child(2n) {
@@ -17,9 +19,5 @@
 
   .table tr:nth-child(n):hover {
     background-color: #d7d7d7;
-  }
-
-  .table>tbody>tr.active>td {
-    background-color: #d0ddfc;
   }
 }

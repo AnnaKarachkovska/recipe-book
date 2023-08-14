@@ -16,7 +16,7 @@ import { ShoppingListService } from './shopping-list.service';
 })
 export class ShoppingListComponent implements OnInit, OnDestroy, AfterViewInit {
   dataSource: MatTableDataSource<Ingredient> = new MatTableDataSource();
-  displayedColumns: string[] = ['position', 'name', 'amount', 'select', 'edit'];
+  displayedColumns: string[] = ['select', 'position', 'name', 'amount', 'edit'];
   selection = new SelectionModel<Ingredient>(true, []);
 
   editMode: boolean = false;
@@ -73,7 +73,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onDeleteItem(index: number) {
     this.shoppingListService.deleteIngredient(index);
-    this.shoppingListService.startedEditing.next(0);
+    this.shoppingListService.startedEditing.next(-1);
   }
 
   ngOnDestroy(): void {
