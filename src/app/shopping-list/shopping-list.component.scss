@@ -1,25 +1,22 @@
 :host {
   .table {
     margin-bottom: 30px;
-  }
 
-  .table td {
-    text-align: center;
-  }
+    td,
+    th {
+      text-align: center;
+    }
 
-  .table th {
-    text-align: center;
-  }
+    tr:nth-child(2n) {
+      background-color: #eeeeee;
+    }
 
-  .table tr:nth-child(2n) {
-    background-color: #eeeeee;
-  }
+    tr:nth-child(n):hover {
+      background-color: #d7d7d7;
+    }
 
-  .table tr:nth-child(n):hover {
-    background-color: #d7d7d7;
-  }
-
-  .table>tbody>tr.active>td {
-    background-color: #d0ddfc;
+    &>tbody>tr.active>td {
+      background-color: #d0ddfc;
+    }
   }
 }

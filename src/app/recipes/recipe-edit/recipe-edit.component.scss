@@ -1,12 +1,12 @@
 :host {
-  .form-container{
+  .form-container {
     display: flex;
     flex-direction: column;
     min-width: 300px;
   }
 
   @media screen and (min-width: 767px) {
-    .form-container{
+    .form-container {
       width: 525px;
     }
   }

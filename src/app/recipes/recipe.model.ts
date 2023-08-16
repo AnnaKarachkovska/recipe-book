@@ -7,11 +7,17 @@ export class Recipe {
   public ingredients: Ingredient[];
   public id: string;
 
-  constructor( id: string, name: string, desc: string, imagePath: string, ingredients: Ingredient[]) {
-    this.id = id;
-    this.name = name;
-    this.description = desc;
-    this.imagePath = imagePath;
-    this.ingredients = ingredients;
+  constructor(config: {
+    id: string,
+    name: string,
+    desc: string,
+    imagePath: string,
+    ingredients: Ingredient[],
+  }) {
+    this.id = config.id;
+    this.name = config.name;
+    this.description = config.desc;
+    this.imagePath = config.imagePath;
+    this.ingredients = config.ingredients;
   }
 }

@@ -1,10 +1,12 @@
 import { Injectable } from "@angular/core";
+import { cloneDeep } from "lodash-es";
 import { Subject } from "rxjs";
-import * as _ from 'lodash';
 
 import { Ingredient } from "../shared/ingredient.model";
 
-@Injectable({providedIn: 'root'})
+@Injectable({
+  providedIn: 'root',
+})
 export class ShoppingListService {
   ingredientsChanged = new Subject<Ingredient[]>();
   startedEditing = new Subject<number>();
@@ -19,38 +21,42 @@ export class ShoppingListService {
     return this.ingredients[index];
   }
 
-  addIngredient (ingredient: Ingredient) {
-    let ingredientsClone = _.cloneDeep(this.ingredients);
+  addIngredient(ingredient: Ingredient) {
+    let ingredientsClone = cloneDeep(this.ingredients);
     let ingredientRepeat = ingredientsClone.find(el => el.name.toLowerCase() === ingredient.name.toLowerCase());
+    
     if (ingredientRepeat) {
       ingredientRepeat.amount += ingredient.amount;
-    } else {
+    } 
+    else {
       this.ingredients.push(ingredient);
     }
+
     this.ingredientsChanged.next(this.ingredients.slice());
   }
 
   addIngredients(ingredients: Ingredient[]) {
-    let ingredientsClone = _.cloneDeep(this.ingredients);
-    let ingredientRepeat = ingredientsClone.filter(oldEl => 
+    let ingredientsClone = cloneDeep(this.ingredients);
+    let ingredientRepeat = ingredientsClone.filter(oldEl =>
       ingredients.find(newEl => oldEl.name.toLowerCase() === newEl.name.toLowerCase()));
 
     if (ingredientRepeat.length > 0) {
-      for (let i=0; i<ingredientRepeat.length; i++) {
-        const foundIngredient = ingredients.find(el =>
-          el.name.toLowerCase() === ingredientRepeat[i].name.toLowerCase()
-        );
+      for (let i = 0; i < ingredientRepeat.length; i++) {
+        const foundIngredient = ingredients.find(el =>el.name.toLowerCase() === ingredientRepeat[i].name.toLowerCase());
+
         if (foundIngredient !== undefined) {
           ingredientRepeat[i].amount += foundIngredient.amount;
         }
       }
-    } else {
+    } 
+    else {
       this.ingredients.push(...ingredients);
     }
+    
     this.ingredientsChanged.next(this.ingredients.slice());
   }
 
-  updateIngredient (index: number, newIngredient: Ingredient) {
+  updateIngredient(index: number, newIngredient: Ingredient) {
     this.ingredients[index] = newIngredient;
     this.ingredientsChanged.next(this.ingredients.slice());
   }

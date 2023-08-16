@@ -1,68 +1,61 @@
-<form 
-  [formGroup]="ingredientForm" 
-  (ngSubmit)="onSubmit()" 
-  #form="ngForm"
-  class="form"
->
+<form [formGroup]="ingredientForm"
+      (ngSubmit)="onSubmit()"
+      #form="ngForm"
+      class="form">
+
   <mat-form-field class="input-field">
     <mat-label>Name</mat-label>
-    <input matInput type="text" formControlName="name" />
-    <mat-error
-      *ngIf="
+    <input matInput
+           type="text"
+           formControlName="name" />
+    <mat-error *ngIf="
         ingredientForm.get('name')?.touched &&
         ingredientForm.get('name')?.hasError('required')
-      "
-    >
+      ">
       Name is required.
     </mat-error>
   </mat-form-field>
+
   <mat-form-field class="input-field">
     <mat-label>Amount</mat-label>
-    <input matInput type="number" formControlName="amount" />
-    <mat-error
-      *ngIf="
+    <input matInput
+           type="number"
+           formControlName="amount" />
+    <mat-error *ngIf="
         ingredientForm.get('amount')?.touched &&
         ingredientForm.get('amount')?.hasError('pattern') &&
         !ingredientForm.get('amount')?.hasError('required')
-      "
-    >
+      ">
       Please enter a valid amount.
     </mat-error>
-    <mat-error
-      *ngIf="
+    <mat-error *ngIf="
         ingredientForm.get('amount')?.touched &&
         ingredientForm.get('amount')?.hasError('required')
-      "
-    >
+      ">
       Amount is required.
     </mat-error>
   </mat-form-field>
+
   <div class="btn-box">
-    <button
-      mat-icon-button
-      color="primary"
-      [disabled]="!ingredientForm.valid"
-      matTooltip="Add recipe"
-    >
+    <button mat-icon-button
+            color="primary"
+            [disabled]="!ingredientForm.valid"
+            matTooltip="Add recipe">
       <mat-icon>{{ editMode ? "done" : "add" }}</mat-icon>
     </button>
-    <button
-      mat-icon-button
-      type="button"
-      color="warn"
-      (click)="onDeleteItem()"
-      *ngIf="editMode"
-      matTooltip="Delete recipe"
-    >
+    <button mat-icon-button
+            type="button"
+            color="warn"
+            (click)="onDeleteItem()"
+            *ngIf="editMode"
+            matTooltip="Delete recipe">
       <mat-icon>delete</mat-icon>
     </button>
-    <button
-      mat-icon-button
-      type="button"
-      [disabled]="!ingredientForm.dirty && !editMode"
-      matTooltip="Clear form"
-      (click)="onClear()"
-    >
+    <button mat-icon-button
+            type="button"
+            [disabled]="!ingredientForm.dirty && !editMode"
+            matTooltip="Clear form"
+            (click)="clear()">
       <mat-icon>clear</mat-icon>
     </button>
   </div>

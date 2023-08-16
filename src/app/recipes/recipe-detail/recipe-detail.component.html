@@ -1,74 +1,40 @@
 <mat-card class="card">
-  <img 
-    *ngIf="recipe.imagePath"
-    [src]="recipe.imagePath" 
-    alt={{recipe.name}} 
-    class="image"
-  />
+  <img *ngIf="recipe.imagePath"
+       [src]="recipe.imagePath"
+       alt={{recipe.name}}
+       class="image" />
   <mat-card-header>
     <mat-card-title>{{recipe.name}}</mat-card-title>
     <mat-card-subtitle>{{recipe.description}}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-actions>
-    <button mat-icon-button 
-      *ngIf="recipe.ingredients.length > 0"
-      (click)="onAddToShoppingList()" color="primary"
-      matTooltip="Add ingredients to the shopping list">
+    <button mat-icon-button
+            *ngIf="recipe.ingredients.length > 0"
+            (click)="onAddToShoppingList()"
+            color="primary"
+            matTooltip="Add ingredients to the shopping list">
       <mat-icon>add_shopping_cart</mat-icon>
     </button>
-    <button mat-icon-button 
-      (click)="onEditRecipe()"
-      matTooltip="Edit recipe">
+    <button mat-icon-button
+            (click)="onEditRecipe()"
+            matTooltip="Edit recipe">
       <mat-icon>edit</mat-icon>
     </button>
-    <button mat-icon-button color="warn"
-      (click)="onDeleteRecipe()"
-      matTooltip="Delete recipe">
+    <button mat-icon-button
+            color="warn"
+            (click)="onDeleteRecipe()"
+            matTooltip="Delete recipe">
       <mat-icon>delete</mat-icon>
     </button>
   </mat-card-actions>
   <mat-card-content>
-    <mat-list role="list" style="padding: 0;">
-      <mat-list-item role="listitem" style="height: 30px; padding: 0;"
-        *ngFor="let ingredient of recipe?.ingredients">
+    <mat-list role="list"
+              style="padding: 0;">
+      <mat-list-item role="listitem"
+                     style="height: 30px; padding: 0;"
+                     *ngFor="let ingredient of recipe.ingredients">
         <span matListItemLine>{{ingredient.name}} - {{ingredient.amount}}</span>
       </mat-list-item>
     </mat-list>
-    <!-- <ul class="list-group">
-      <li 
-        class="list-group-item"
-        *ngFor="let ingredient of recipe.ingredients">
-      {{ingredient.name}} - {{ingredient.amount}}
-      </li>
-    </ul> -->
   </mat-card-content>
 </mat-card>
-
- <!-- <div class="row">
-  <div class="col-xs-12">
-    <div class="btn-group" appDropdown>
-      <button type="button" class="btn btn-primary dropdown-toggle">
-        Manage recipe <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu">
-        <li><a (click)="onAddToShoppingList()" style="cursor: pointer;">To shopping list</a></li>
-        <li><a routerLink="edit" style="cursor: pointer;">Edit recipe</a></li>
-        <li><a (click)="onDeleteRecipe()" style="cursor: pointer;">Delete recipe</a></li>
-      </ul>
-    </div> 
-  </div>
-</div>  -->
-<!-- <mat-accordion>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Manage recipe
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <ul style="list-style: none; padding-left: 0;">
-      <li><a (click)="onAddToShoppingList()" class="link">To shopping list</a></li>
-      <li><a routerLink="edit" class="link">Edit recipe</a></li>
-      <li><a (click)="onDeleteRecipe()" class="link">Delete recipe</a></li>
-    </ul> 
-  </mat-expansion-panel>
-</mat-accordion> -->
