@@ -62,7 +62,6 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
     this.dialog.open(RecipeEditComponent, {
       data: {
         id: this.id,
-        editMode: true,
       }
     });
   }

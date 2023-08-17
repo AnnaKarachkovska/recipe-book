@@ -1,89 +1,90 @@
-<app-shopping-edit (isOnEditMode)="toggleEditMode($event)"></app-shopping-edit>
+<app-shopping-edit [ingredient]="editedItem"></app-shopping-edit>
 <hr />
 <div>
-  <table
-    mat-table
-    matSort
-    [dataSource]="dataSource"
-    class="table"
-  >
-  <ng-container matColumnDef="select">
-    <th mat-header-cell *matHeaderCellDef>
-      <mat-checkbox (change)="$event ? toggleAllRows() : null"
-                    [checked]="selection.hasValue() && isAllSelected()"
-                    [indeterminate]="selection.hasValue() && !isAllSelected()"
-                    [aria-label]="checkboxLabel()">
-      </mat-checkbox>
-    </th>
-    <td mat-cell *matCellDef="let element">
-      <mat-checkbox (click)="$event.stopPropagation()"
-                    (change)="$event ? selection.toggle(element) : null"
-                    [checked]="selection.isSelected(element)"
-                    [aria-label]="checkboxLabel(element)">
-      </mat-checkbox>
-    </td>
-  </ng-container>
-  
+  <table mat-table
+         matSort
+         [dataSource]="dataSource"
+         class="table">
+    <ng-container matColumnDef="select">
+      <th mat-header-cell
+          *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()"
+                      [aria-label]="checkboxLabel()">
+        </mat-checkbox>
+      </th>
+      <td mat-cell
+          *matCellDef="let element">
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(element) : null"
+                      [checked]="selection.isSelected(element)"
+                      [aria-label]="checkboxLabel(element)">
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="position">
-      <th mat-header-cell *matHeaderCellDef>No.</th>
-      <td mat-cell *matCellDef="let element">
+      <th mat-header-cell
+          *matHeaderCellDef>No.</th>
+      <td mat-cell
+          *matCellDef="let element">
         {{ dataSource.data.indexOf(element) + 1 }}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Ingredient</th>
-      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      <th mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header>Ingredient</th>
+      <td mat-cell
+          *matCellDef="let element">{{ element.name }}</td>
     </ng-container>
 
     <ng-container matColumnDef="amount">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount</th>
-      <td mat-cell *matCellDef="let element">{{ element.amount }}</td>
+      <th mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header>Amount</th>
+      <td mat-cell
+          *matCellDef="let element">{{ element.amount }}</td>
     </ng-container>
 
     <ng-container matColumnDef="edit">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let element">
-        <button mat-button [matMenuTriggerFor]="menu" matTooltip="More actions">
+      <th mat-header-cell
+          *matHeaderCellDef></th>
+      <td mat-cell
+          *matCellDef="let element">
+        <button mat-button
+                [matMenuTriggerFor]="menu"
+                matTooltip="More actions">
           <mat-icon style="margin: 0">more_horiz</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item type="button" matTooltip="Edit recipe"
-          (click)="onEditItem(dataSource.data.indexOf(element))">
+          <button mat-menu-item
+                  type="button"
+                  matTooltip="Edit recipe"
+                  (click)="onEditItem(element.name)">
             <mat-icon color="primary">edit</mat-icon> Edit
           </button>
-          <button mat-menu-item type="button" matTooltip="Delete recipe"
-          (click)="onDeleteItem(dataSource.data.indexOf(element))">
+          <button mat-menu-item
+                  type="button"
+                  matTooltip="Delete recipe"
+                  (click)="onDeleteItem(element.name)">
             <mat-icon color="warn">delete</mat-icon> Delete
           </button>
         </mat-menu>
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row
+        *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row
-      *matRowDef="let row; columns: displayedColumns" 
-      [ngClass]="{active: this.editMode === true && this.ingredientName === row.name }"
-    ></tr>
+        *matRowDef="let row; columns: displayedColumns"
+        [ngClass]="{active: editedItem?.name === row.name }"></tr>
 
     <tr *matNoDataRow>
       <td colspan="4">There are no ingredients in the list yet.</td>
     </tr>
   </table>
-  <mat-paginator
-    [pageSizeOptions]="[5, 10, 25]"
-  ></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
 </div>
-
-<!-- <ul class="list-group" style="list-style: none;">
-      <li>
-        <a 
-        class="list-group-item" 
-        style="cursor: pointer; "
-        *ngFor="let ingredient of ingredients; let i = index"
-        (click)="onEditItem(i)"
-        >
-          {{ingredient.name}} ({{ingredient.amount}})
-        </a>
-      </li>
-    </ul> -->

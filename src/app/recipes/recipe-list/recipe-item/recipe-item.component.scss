@@ -1,8 +1,9 @@
 :host {
   .card {
     border-radius: 0;
-    padding-bottom: 12px;
+    padding-bottom: 16px;
     margin: 1px;
+    width: 286px;
     cursor: pointer;
   }
 
@@ -11,7 +12,8 @@
   }
 
   .card-img {
-    max-height: 50px;
+    max-width: 80px;
     margin-left: auto;
+    border-radius: 0;
   }
 }

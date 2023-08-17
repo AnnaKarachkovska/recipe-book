@@ -5,29 +5,36 @@ import { Ingredient } from "../shared/ingredient.model";
 import { ShoppingListService } from "../shopping-list/shopping-list.service";
 import { Recipe } from "./recipe.model";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class RecipeService {
+
   recipesChanged = new Subject<Recipe[]>();
 
   private recipes: Recipe[] = [
     new Recipe(
-      '1',
-      'First meal',
-      'First meal description',
-      'https://cdn.pixabay.com/photo/2016/06/15/19/09/food-1459693_1280.jpg',
-      [
-        new Ingredient('Ingredient 1', 2),
-        new Ingredient('Ingredient 2', 5),
-      ]),
+      {
+        id: '1',
+        name: 'First meal',
+        description: 'First meal description',
+        imageUrl: 'https://cdn.pixabay.com/photo/2016/06/15/19/09/food-1459693_1280.jpg',
+        ingredients: [
+          new Ingredient('Ingredient 1', 2),
+          new Ingredient('Ingredient 2', 5),
+        ],
+      }),
     new Recipe(
-      '2',
-      'Second meal',
-      'Second meal description',
-      'https://cdn.pixabay.com/photo/2014/11/05/15/57/salmon-518032_1280.jpg',
-      [
-        new Ingredient('Ingredient 1', 1),
-        new Ingredient('Ingredient 2', 3),
-      ])
+      {
+        id: '2',
+        name: 'Second meal',
+        description: 'Second meal description',
+        imageUrl: 'https://cdn.pixabay.com/photo/2014/11/05/15/57/salmon-518032_1280.jpg',
+        ingredients: [
+          new Ingredient('Ingredient 3', 1),
+          new Ingredient('Ingredient 4', 3),
+        ],
+      }),
   ];
 
   constructor(private shoppingListService: ShoppingListService) { };
@@ -39,29 +46,29 @@ export class RecipeService {
   getRecipeById(id: string) {
     const recipe = this.recipes.find(recipe => recipe.id === id);
     if (recipe === undefined) {
-      throw new Error('There is no recipe.'); 
+      throw new Error('There is no recipe.');
     }
     return recipe;
   };
 
-  addIngredients(ingredients: Ingredient[]) {    
+  addIngredients(ingredients: Ingredient[]) {
     this.shoppingListService.addIngredients(ingredients);
   };
 
   addRecipe(recipe: Recipe) {
     this.recipes.push(recipe);
-    this.recipesChanged.next(this.recipes.slice());
+    this.recipesChanged.next([...this.recipes]);
   }
 
   updateRecipe(id: string, newRecipe: Recipe) {
     const index = this.recipes.findIndex(recipe => recipe.id === id);
     this.recipes[index] = newRecipe;
-    this.recipesChanged.next(this.recipes.slice());
+    this.recipesChanged.next([...this.recipes]);
   }
 
   deleteRecipe(id: string) {
     const index = this.recipes.findIndex(recipe => recipe.id === id);
     this.recipes.splice(index, 1);
-    this.recipesChanged.next(this.recipes.slice());
+    this.recipesChanged.next([...this.recipes]);
   }
 }
