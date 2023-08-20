@@ -2,7 +2,7 @@ import {
   Component, Input, OnChanges, 
   SimpleChanges, ViewChild,
 } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { getIngredientControl } from "app/shared/ingredient-form-template";
 import { Subscription } from "rxjs";
 
 import { Ingredient } from "src/app/shared/ingredient.model";
@@ -27,23 +27,7 @@ export class ShoppingEditComponent implements OnChanges {
 
   @ViewChild('form') formRef: { resetForm: () => void; };
 
-  // TODO: reuse ingredient formGroup initializer as in recipe-edit 
-  // getIngredientForm({
-  //   assertUnique: boolean = false
-  // }){
-  //   assertUnique ? [Validators.required, Validators.unquie] : Validators.required
-  // }
-
-  ingredientForm = new FormGroup({
-    'name': new FormControl('', Validators.required),
-    'amount': new FormControl(
-      0,
-      [
-        Validators.required,
-        Validators.min(1),
-        Validators.max(1000),
-      ])
-  });
+  ingredientForm = getIngredientControl();
 
   constructor(private shoppingListService: ShoppingListService) { }
 

@@ -6,10 +6,9 @@ import {
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { uniqueId } from "lodash";
 
-import { Ingredient } from "app/shared/ingredient.model";
-
 import { Recipe } from "../recipe.model";
 import { RecipeService } from "../recipe.service";
+import { getIngredientControl } from "app/shared/ingredient-form-template";
 
 export type IngredientForm = FormGroup<{
   name: FormControl<string | null>;
@@ -54,21 +53,8 @@ export class RecipeEditComponent implements OnInit {
 
   addIngredient() {
     (<FormArray>this.recipeForm.get('ingredients')).push(
-      this.getIngredientControl(undefined, true),
+      getIngredientControl(undefined, this.duplicateIngredientValidator())
     )
-  }
-
-  private getIngredientControl(ingredient?: Ingredient, isNew?: boolean) {    
-    return new FormGroup({
-      'name': new FormControl(
-        ingredient?.name || null, 
-        isNew ? [Validators.required, this.duplicateIngredientValidator()] : Validators.required),
-      'amount': new FormControl(ingredient?.amount || null, [
-        Validators.required,
-        Validators.min(1),
-        Validators.max(1000),
-      ])
-    })
   }
 
   deleteIngredient(index: number) {
@@ -89,7 +75,7 @@ export class RecipeEditComponent implements OnInit {
 
       if (this.recipe.ingredients) {
         this.recipe.ingredients
-          .forEach(ingredient => recipeIngredients.push(this.getIngredientControl(ingredient, false)));
+          .forEach(ingredient => recipeIngredients.push(getIngredientControl(ingredient)));
       }
     }
 
