@@ -1,3 +1,12 @@
+<button *ngIf="selection.selected.length !== 0"
+        mat-fab
+        color="primary"
+        class="done-btn"
+        (click)="deleteAll()"
+        matTooltip="Delete selected ingredients">
+  <mat-icon>done_all</mat-icon>
+</button>
+
 <app-shopping-edit [ingredient]="editedItem"></app-shopping-edit>
 <hr />
 <div>
@@ -63,13 +72,13 @@
           <button mat-menu-item
                   type="button"
                   matTooltip="Edit recipe"
-                  (click)="onEditItem(element.name)">
+                  (click)="editItem(element.name)">
             <mat-icon color="primary">edit</mat-icon> Edit
           </button>
           <button mat-menu-item
                   type="button"
                   matTooltip="Delete recipe"
-                  (click)="onDeleteItem(element.name)">
+                  (click)="deleteItem(element.name)">
             <mat-icon color="warn">delete</mat-icon> Delete
           </button>
         </mat-menu>
