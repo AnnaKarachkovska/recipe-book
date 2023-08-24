@@ -1,35 +1,14 @@
-<mat-card 
-  class="card"
-  (click)="toRecipe()" 
-  >
-  <mat-card-header>
-    <mat-card-title>{{ recipe.name }}</mat-card-title>
-    <mat-card-subtitle>{{ recipe.description }}</mat-card-subtitle>
-    <img 
-      *ngIf="recipe?.imagePath"
-      mat-card-image 
-      src="{{ recipe.imagePath }}"
-      alt="{{ recipe.name }}"
-      class="img-responsive card-img"
-    >
+<mat-card class="card"
+          (click)="toRecipe()">
+  <mat-card-header class="header">
+    <div class="mr-5">
+      <mat-card-title>{{ recipe.name }}</mat-card-title>
+      <mat-card-subtitle>{{ recipe.description }}</mat-card-subtitle>
+    </div>
+    <img *ngIf="recipe?.imageUrl"
+         mat-card-image
+         src="{{ recipe.imageUrl }}"
+         alt="{{ recipe.name }}"
+         class="card-img">
   </mat-card-header>
 </mat-card>
-
-<!-- <a 
-  [routerLink]="[recipe.id]"
-  routerLinkActive="active"
-  style="cursor: pointer;"
-  class="list-group-item clearfix">
-  <div class="pull-left">
-    <h4 class="list-group-item-heading">{{ recipe.name }}</h4>
-    <p class="list-group-item-text">{{ recipe.description }}</p>
-  </div>
-  <span class="pull-right">
-    <img
-      src="{{ recipe.imagePath }}"
-      alt="{{ recipe.name }}"
-      class="img-responsive"
-      style="max-height: 50px"
-    />
-  </span>
-</a> -->

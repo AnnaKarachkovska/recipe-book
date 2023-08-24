@@ -3,15 +3,21 @@ import { Ingredient } from "../shared/ingredient.model";
 export class Recipe {
   public name: string;
   public description: string;
-  public imagePath: string;
+  public imageUrl: string;
   public ingredients: Ingredient[];
   public id: string;
 
-  constructor( id: string, name: string, desc: string, imagePath: string, ingredients: Ingredient[]) {
-    this.id = id;
-    this.name = name;
-    this.description = desc;
-    this.imagePath = imagePath;
-    this.ingredients = ingredients;
+  constructor(config: {
+    id: string,
+    name: string,
+    description: string,
+    imageUrl: string,
+    ingredients: Ingredient[],
+  }) {
+    this.id = config.id;
+    this.name = config.name;
+    this.description = config.description;
+    this.imageUrl = config.imageUrl;
+    this.ingredients = config.ingredients;
   }
 }

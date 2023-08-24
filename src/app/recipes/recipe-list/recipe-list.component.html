@@ -8,21 +8,13 @@
   <mat-icon>add</mat-icon>
 </button>
 
-<div class="row">
-  <div class="col-xs-12">
-    <mat-nav-list role="list" class="list">
-      <mat-list-item
-        role="listitem"
-        class="item"
-        *ngFor="let recipeEl of recipes"
-        [ngClass]="{ active: recipeEl.id === recipeId }"
-        [activated]="recipeEl.id === recipeId"
-      >
-        <app-recipe-item
-          [recipe]="recipeEl"
-          (recipeId)="getRecipeId($event)"
-        ></app-recipe-item>
-      </mat-list-item>
-    </mat-nav-list>
-  </div>
-</div>
+<mat-nav-list class="list py-0">
+  <mat-list-item
+    class="item px-0"
+    *ngFor="let recipe of recipes"
+    [activated]="recipe.id === recipeId"
+  >
+    <app-recipe-item [recipe]="recipe" (recipeId)="getRecipeId($event)">
+    </app-recipe-item>
+  </mat-list-item>
+</mat-nav-list>

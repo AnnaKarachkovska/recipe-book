@@ -1,0 +1,30 @@
+:host {
+  .done-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 3;
+  }
+
+  .table {
+    margin-bottom: 30px;
+
+    td,
+    th {
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    tr:nth-child(2n) {
+      background-color: #eeeeee;
+    }
+
+    tr:nth-child(n):hover {
+      background-color: #d7d7d7;
+    }
+
+    &>tbody>tr.active>td {
+      background-color: #d0ddfc;
+    }
+  }
+}

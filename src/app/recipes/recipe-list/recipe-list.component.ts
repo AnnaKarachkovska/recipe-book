@@ -1,44 +1,41 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
-import { RecipeEditComponent } from '../recipe-edit/recipe-edit.component';
-import { Recipe } from '../recipe.model';
-import { RecipeService } from '../recipe.service';
+import { Component, OnInit } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { MatDialog } from "@angular/material/dialog";
+import { startWith } from "rxjs";
+
+import { RecipeEditComponent } from "../recipe-edit/recipe-edit.component";
+import { Recipe } from "../recipe.model";
+import { RecipeService } from "../recipe.service";
 
 @Component({
   selector: 'app-recipe-list',
   templateUrl: './recipe-list.component.html',
-  providers: [],
-  styleUrls: ['./recipe-list.component.css']
+  styleUrls: ['./recipe-list.component.scss']
 })
-export class RecipeListComponent implements OnInit, OnDestroy {
-  recipes: Recipe[];
-  subscription: Subscription;
+export class RecipeListComponent implements OnInit {
 
+  recipes: Recipe[];
   recipeId: string;
 
-  constructor(private recipeService: RecipeService,
-              public dialog: MatDialog) {}
+  constructor(
+    private recipeService: RecipeService,
+    public dialog: MatDialog,
+  ) {
+    this.recipeService.recipesChanged
+      .pipe(
+        startWith(this.recipeService.getRecipes()),
+        takeUntilDestroyed())
+      .subscribe((recipes: Recipe[]) => this.recipes = recipes);
+  }
 
   ngOnInit() {
-    this.subscription = this.recipeService.recipesChanged
-      .subscribe(
-        (recipes: Recipe[]) => {
-          this.recipes = recipes;
-        }
-      )
-    this.recipes = this.recipeService.getRecipes();
   }
 
   onNewRecipe() {
     this.dialog.open(RecipeEditComponent);
   };
 
-  getRecipeId(event) {
+  getRecipeId(event: string) {
     this.recipeId = event;
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 }

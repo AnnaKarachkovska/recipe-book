@@ -13,7 +13,7 @@ import { RecipeService } from '../recipe.service';
   selector: 'app-recipe-detail',
   templateUrl: './recipe-detail.component.html',
   providers: [],
-  styleUrls: ['./recipe-detail.component.css']
+  styleUrls: ['./recipe-detail.component.scss']
 })
 export class RecipeDetailComponent implements OnInit, OnDestroy {
   recipe: Recipe;
@@ -49,8 +49,11 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
     this.recipesChangedSubscription = this.recipeService.recipesChanged
       .subscribe((
         recipes: Recipe[]) => {
-        this.recipe = recipes.find(recipe => 
-          recipe.id === this.id);
+          const recipe = recipes.find(recipe => 
+            recipe.id === this.id);
+          if (recipe !== undefined) {
+            this.recipe = recipe;
+          }
       }
       );
   }
@@ -59,7 +62,6 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
     this.dialog.open(RecipeEditComponent, {
       data: {
         id: this.id,
-        editMode: true,
       }
     });
   }

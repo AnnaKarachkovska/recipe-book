@@ -1,5 +1,6 @@
 import { Directive, ElementRef, HostBinding, HostListener } from "@angular/core";
 
+// TODO: remove unused directive
 @Directive({
   selector: '[appDropdown]'
 })

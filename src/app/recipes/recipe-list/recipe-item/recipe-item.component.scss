@@ -1,9 +1,12 @@
 :host {
   .card {
-    border-radius: 0;
-    padding-bottom: 12px;
     margin: 1px;
+    // width: 286px;
     cursor: pointer;
+  }
+
+  .header {
+    padding: 16px;
   }
 
   .card:hover {
@@ -11,7 +14,8 @@
   }
 
   .card-img {
-    max-height: 50px;
+    max-width: 80px;
     margin-left: auto;
+    border-radius: 0;
   }
 }
