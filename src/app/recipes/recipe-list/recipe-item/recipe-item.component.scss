@@ -1,10 +1,12 @@
 :host {
   .card {
-    border-radius: 0;
-    padding-bottom: 16px;
     margin: 1px;
-    width: 286px;
+    // width: 286px;
     cursor: pointer;
+  }
+
+  .header {
+    padding: 16px;
   }
 
   .card:hover {

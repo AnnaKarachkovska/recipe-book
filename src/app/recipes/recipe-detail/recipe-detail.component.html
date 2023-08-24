@@ -28,10 +28,8 @@
     </button>
   </mat-card-actions>
   <mat-card-content>
-    <mat-list role="list"
-              style="padding: 0;">
-      <mat-list-item role="listitem"
-                     style="height: 30px; padding: 0;"
+    <mat-list class="py-0">
+      <mat-list-item class="list-item px-0"
                      *ngFor="let ingredient of recipe.ingredients">
         <span matListItemLine>{{ingredient.name}} - {{ingredient.amount}}</span>
       </mat-list-item>

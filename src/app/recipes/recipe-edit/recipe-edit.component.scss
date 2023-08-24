@@ -2,11 +2,8 @@
   .form-container {
     display: flex;
     flex-direction: column;
-    min-width: 300px;
-  }
 
-  @media screen and (min-width: 767px) {
-    .form-container {
+    @media screen and (min-width: 768px) {
       width: 525px;
     }
   }
@@ -19,4 +16,15 @@
     margin-bottom: 15px;
     margin-left: 15px;
   }
+
+  .add-ingredient-btn {
+    margin-top: 10px; 
+    width: 150px; 
+    height: 36px;
+  }
+
+  .dialog-actions {
+    padding-bottom: 20px; 
+    padding-right: 24px;
+  } 
 }

@@ -1,11 +1,15 @@
 :host{
   .card {
-    padding: 10px;
+    padding: 16px;
     margin-bottom: 30px;
   }
   
   .image {
     object-fit: contain;
     max-height: 300px;
+  }
+
+  .list-item {
+    height: 30px;
   }
 }
