@@ -17,12 +17,11 @@ import { ShoppingListComponent } from "./shopping-list/shopping-list.component";
   imports: [
     RouterModule.forRoot([
       { path: '', redirectTo: '/recipes', pathMatch: 'full' },
-      {
-        path: 'recipes', component: RecipesComponent, children: [
-          { path: '', component: RecipeStartComponent },
-          { path: ':id', component: RecipeDetailComponent },
-        ]
-      },
+      { path: 'recipes', children: [
+        {
+          path: '', loadChildren: () => import("./recipes/recipes.module").then(module => module.RecipesModule),
+        }
+      ] },
       { path: 'shopping-list', component: ShoppingListComponent },
       { path: '**', pathMatch: 'full', component: NotFoundPageComponent },
     ])
@@ -31,3 +30,8 @@ import { ShoppingListComponent } from "./shopping-list/shopping-list.component";
 })
 export class AppRoutingModule {
 }
+//       { path: 'recipes', component: RecipesComponent },
+// , children: [
+//   { path: '', component: RecipeStartComponent },
+//   { path: ':id', component: RecipeDetailComponent },
+// ]
