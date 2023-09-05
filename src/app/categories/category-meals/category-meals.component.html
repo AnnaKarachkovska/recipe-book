@@ -1,0 +1,16 @@
+<section class="section">
+  <h1 class="title">{{ category }}</h1>
+  <mat-card *ngFor="let meal of meals" class="mb-3">
+    <mat-card-header class="card-header">
+      <mat-card-title>
+        {{ meal.strMeal }}
+      </mat-card-title>
+      <img
+        class="card-image"
+        src="{{ meal.strMealThumb }}/preview"
+        alt="{{ meal.strMeal }}"
+        width="60"
+      />
+    </mat-card-header>
+  </mat-card>
+</section>

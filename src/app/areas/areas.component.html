@@ -1,0 +1,17 @@
+<mat-list>
+  <mat-list-item 
+    *ngFor="let area of areas; let i = index"
+    class="mb-3"
+  >
+  <a [routerLink]="area" class="link">
+    <!-- <img
+      mat-card-image
+      width="80"
+      class="mr-3"
+      src="{{ areaImageUrls[i] }}"
+      alt=""
+    /> -->
+    {{ area }}
+  </a>
+  </mat-list-item>
+</mat-list>

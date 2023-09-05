@@ -1,0 +1,16 @@
+<mat-list>
+  <mat-list-item 
+    *ngFor="let category of categories; let i = index"
+    class="mb-3"
+  >
+  <a [routerLink]="category" class="link">
+    <img
+      mat-card-image
+      width="80"
+      class="mr-3"
+      src="{{ categoryImageUrls[i] }}"
+      alt=""
+    />{{ category }}
+  </a>
+  </mat-list-item>
+</mat-list>

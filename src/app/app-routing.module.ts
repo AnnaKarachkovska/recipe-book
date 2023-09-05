@@ -4,25 +4,41 @@ import { RouterModule } from "@angular/router";
 import {
   NotFoundPageComponent,
 } from "./not-found-page/not-found-page.component";
-import {
-  RecipeDetailComponent,
-} from "./recipes/recipe-detail/recipe-detail.component";
-import {
-  RecipeStartComponent,
-} from "./recipes/recipe-start/recipe-start.component";
-import { RecipesComponent } from "./recipes/recipes.component";
-import { ShoppingListComponent } from "./shopping-list/shopping-list.component";
 
 @NgModule({
   imports: [
     RouterModule.forRoot([
-      { path: '', redirectTo: '/recipes', pathMatch: 'full' },
-      { path: 'recipes', children: [
-        {
-          path: '', loadChildren: () => import("./recipes/recipes.module").then(module => module.RecipesModule),
-        }
-      ] },
-      { path: 'shopping-list', component: ShoppingListComponent },
+      { 
+        path: '',  
+        loadChildren: () => import("./landing-page/landing-page.module")
+          .then(module => module.LandingPageModule), 
+        pathMatch: 'full' 
+      },
+      { 
+        path: 'recipes', 
+        loadChildren: () => import("./recipes/recipes.module")
+          .then(module => module.RecipesModule)
+      },
+      { 
+        path: 'shopping-list', 
+        loadChildren: () => import("./shopping-list/shopping-list.module")
+          .then(module => module.ShoppingListModule) 
+      },
+      { 
+        path: 'areas', 
+        loadChildren: () => import("./areas/areas.module")
+          .then(module => module.AreasModule)
+      },
+      { 
+        path: 'categories', 
+        loadChildren: () => import("./categories/categories.module")
+          .then(module => module.CategoriesModule)
+      },
+      { 
+        path: 'ingredients', 
+        loadChildren: () => import("./ingredients/ingredients.module")
+          .then(module => module.IngredientsModule)
+      },
       { path: '**', pathMatch: 'full', component: NotFoundPageComponent },
     ])
   ],
@@ -30,8 +46,3 @@ import { ShoppingListComponent } from "./shopping-list/shopping-list.component";
 })
 export class AppRoutingModule {
 }
-//       { path: 'recipes', component: RecipesComponent },
-// , children: [
-//   { path: '', component: RecipeStartComponent },
-//   { path: ':id', component: RecipeDetailComponent },
-// ]

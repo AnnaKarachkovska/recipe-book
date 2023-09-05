@@ -1,21 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { RecipesComponent } from './recipes/recipes.component';
-import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component';
-import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
-import { RecipeItemComponent } from './recipes/recipe-list/recipe-item/recipe-item.component';
-import { ShoppingListComponent } from './shopping-list/shopping-list.component';
-import { ShoppingEditComponent } from './shopping-list/shopping-edit/shopping-edit.component';
 import { DropdownDirective } from './shared/dropdown.directive';
 import { AppRoutingModule } from './app-routing.module';
-import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
-import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
-import { AngularMaterialModule } from './angular-material.module';
 import { DialogWindowComponent } from './shared/dialog-window/dialog-window.component';
 
 import {
@@ -24,6 +14,13 @@ import {
 } from '@angular/material/tooltip';
 
 import { RecipesModule } from './recipes/recipes.module';
+import { SharedModule } from './shared.module';
+import { ShoppingListModule } from './shopping-list/shopping-list.module';
+import { AreasModule } from './areas/areas.module';
+import { CategoriesModule } from './categories/categories.module';
+import { IngredientsModule } from './ingredients/ingredients.module';
+import { LandingPageModule } from './landing-page/landing-page.module';
+import { HttpClientModule } from '@angular/common/http';
 
 export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
   showDelay: 500,
@@ -35,19 +32,21 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
   declarations: [
     AppComponent,
     HeaderComponent,
-    ShoppingListComponent,
-    ShoppingEditComponent,
     DropdownDirective,
     DialogWindowComponent,
   ],
   imports: [
     BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AppRoutingModule,
-    AngularMaterialModule,
     BrowserAnimationsModule,
+    HttpClientModule,
+    AppRoutingModule,
+    SharedModule,
     RecipesModule,
+    ShoppingListModule,
+    AreasModule,
+    CategoriesModule,
+    IngredientsModule,
+    LandingPageModule
   ],
   providers: [{provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: myCustomTooltipDefaults}],
   bootstrap: [AppComponent]
