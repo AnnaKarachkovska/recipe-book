@@ -1,8 +1,0 @@
-:host .page {
-  margin-top: 84px;
-}
-@media screen and (max-width: 599px) {
-  :host .page {
-    margin-top: 66px;
-  }
-}/*# sourceMappingURL=app.component.css.map */
