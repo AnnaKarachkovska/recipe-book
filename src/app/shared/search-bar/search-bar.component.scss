@@ -1,0 +1,15 @@
+:host {
+  .input-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .form-input {
+    width: 150px;
+    height: 30px;
+    border-width: 0;
+    border-radius: 4px;
+    font-size: medium;
+    padding: 8px;
+  }
+}

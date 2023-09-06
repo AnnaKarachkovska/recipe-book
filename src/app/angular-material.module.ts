@@ -16,6 +16,8 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   imports: [
@@ -35,7 +37,9 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatCheckboxModule,
     MatMenuModule,
     MatSnackBarModule,
-    MatGridListModule
+    MatGridListModule,
+    MatAutocompleteModule,
+    MatChipsModule,
   ],
   exports: [
     MatButtonModule,
@@ -54,7 +58,9 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatCheckboxModule,
     MatMenuModule,
     MatSnackBarModule,
-    MatGridListModule
+    MatGridListModule,
+    MatAutocompleteModule,
+    MatChipsModule,
   ]
 })
 export class AngularMaterialModule {

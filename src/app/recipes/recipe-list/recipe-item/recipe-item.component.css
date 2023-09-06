@@ -1,0 +1,15 @@
+:host .card {
+  margin: 1px;
+  cursor: pointer;
+}
+:host .header {
+  padding: 16px;
+}
+:host .card:hover {
+  background-color: #eeeeee;
+}
+:host .card-img {
+  max-width: 80px;
+  margin-left: auto;
+  border-radius: 0;
+}/*# sourceMappingURL=recipe-item.component.css.map */

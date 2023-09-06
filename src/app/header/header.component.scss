@@ -5,8 +5,18 @@
     z-index: 3;
   }
 
+  .nav-link-container {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center
+  }
+
   .link {
     color: #ffffff;
     font-size: large;
+  }
+
+  .search-bar {
+    display: inline;
   }
 }

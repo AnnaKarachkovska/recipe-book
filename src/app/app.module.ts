@@ -21,6 +21,7 @@ import { CategoriesModule } from './categories/categories.module';
 import { IngredientsModule } from './ingredients/ingredients.module';
 import { LandingPageModule } from './landing-page/landing-page.module';
 import { HttpClientModule } from '@angular/common/http';
+import { SearchBarComponent } from './shared/search-bar/search-bar.component';
 
 export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
   showDelay: 500,
@@ -34,6 +35,7 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
     HeaderComponent,
     DropdownDirective,
     DialogWindowComponent,
+    SearchBarComponent,
   ],
   imports: [
     BrowserModule,

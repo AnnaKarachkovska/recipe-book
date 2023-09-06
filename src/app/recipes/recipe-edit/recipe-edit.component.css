@@ -1,0 +1,25 @@
+:host .form-container {
+  display: flex;
+  flex-direction: column;
+}
+@media screen and (min-width: 768px) {
+  :host .form-container {
+    width: 525px;
+  }
+}
+:host .form-field {
+  margin-bottom: 10px;
+}
+:host .form-img {
+  margin-bottom: 15px;
+  margin-left: 15px;
+}
+:host .add-ingredient-btn {
+  margin-top: 10px;
+  width: 150px;
+  height: 36px;
+}
+:host .dialog-actions {
+  padding-bottom: 20px;
+  padding-right: 24px;
+}/*# sourceMappingURL=recipe-edit.component.css.map */

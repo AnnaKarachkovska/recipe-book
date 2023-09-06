@@ -11,7 +11,7 @@ import { Meal } from 'app/shared/meal.model';
 export class LandingPageComponent implements OnInit{
   constructor (private mealDbService: MealDbService) {};
 
-  randomMeal: Meal;
+  randomMeal: Meal | null;
   randomMealImageUrl: string;
   categories: string[];
   categoryImageUrls: string[] = [];

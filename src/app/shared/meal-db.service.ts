@@ -32,6 +32,45 @@ export class MealDbService {
       }))
   }
 
+  getMealById(id: string) {
+    return this.http
+    .get<{[key: string]: [Meal]}>(this.url + 'lookup.php?i=' + id)
+    .pipe(map(res => {
+      let meal: Meal = {
+        idMeal: "",
+        strMeal: "",
+        strInstructions: "",
+        strMealThumb: "",
+        strCategory: "",
+        strArea: ""
+      };
+      for (const key in res) {
+        if(res.hasOwnProperty(key)) {
+          meal = res[key][0];            
+        }
+      }
+      return meal;
+    }))
+  }
+
+  getMealsByFirstLetter(letter: string) {
+    return this.http
+    .get<{[key: string]: [Meal]}>(this.url + 'search.php?f=' + letter)
+    .pipe(map(res => {
+      let meals: Meal[] = [];
+      const mealNames: {name:string, id:string}[] = [];
+      for (const key in res) {
+        if(res.hasOwnProperty(key)) {
+          meals.push(...res[key]);      
+          for (let i=0; i<meals?.length; i++) {
+            mealNames.push({name: meals[i].strMeal, id: meals[i].idMeal});
+          }
+        }
+      }      
+      return mealNames;
+    }))
+  }
+
   getCategories() {
     return this.http
     .get<{[key: string]: [{strCategory: string}]}>(this.url + 'list.php?c=list')
@@ -41,7 +80,7 @@ export class MealDbService {
       for (const key in res) {
         if(res.hasOwnProperty(key)) {
           categories = res[key];
-          for( let i=0; i<categories?.length; i++) {
+          for (let i=0; i<categories?.length; i++) {
             categoriesArray.push(categories[i].strCategory);
           } 
         }

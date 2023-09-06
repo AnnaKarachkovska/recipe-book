@@ -1,0 +1,15 @@
+:host .section {
+  padding-bottom: 20px;
+}
+:host .title {
+  text-align: center;
+}
+:host .card-header {
+  padding-bottom: 16px;
+}
+:host .card-title {
+  color: #000;
+}
+:host .card-image {
+  margin-left: auto;
+}/*# sourceMappingURL=category-meals.component.css.map */

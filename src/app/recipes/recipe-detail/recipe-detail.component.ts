@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { MealDbService } from 'app/shared/meal-db.service';
+import { Meal } from 'app/shared/meal.model';
 import { Subscription } from 'rxjs';
 import { DialogWindowComponent } from 'src/app/shared/dialog-window/dialog-window.component';
 import { RecipeEditComponent } from '../recipe-edit/recipe-edit.component';
@@ -20,30 +22,40 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
   id: string;
   recipesChangedSubscription: Subscription;
 
+  meal: Meal | null;
+  mealImageUrl: string = '';
+
   constructor(private recipeService: RecipeService,
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar) { }
+    private _snackBar: MatSnackBar,
+    private mealDbService: MealDbService) { }
 
   ngOnInit() {
     this.route.params.subscribe(
       (params: Params) => {
-        let recipe = this.recipeService.getRecipeById(params['id']);
-        if(!recipe) {
-          this._snackBar.open(
-            `Sorry, there is no recipe with id: ${params['id']}.`, '',
-            {
-              verticalPosition: 'top',
-              horizontalPosition: 'end',
-              duration: 1500,
-              panelClass: ['snackbar']
-            });
-          this.router.navigate(['/recipes']);
-        } else {
-          this.recipe = recipe;
-          this.id = params['id'];
-        }
+        this.mealDbService.getMealById(params['id'])
+          .subscribe(res => {
+            this.meal = res;
+            this.mealImageUrl = res.strMealThumb + '/preview';
+          }
+        );
+        // let recipe = this.recipeService.getRecipeById(params['id']);
+        // if(!recipe) {
+        //   this._snackBar.open(
+        //     `Sorry, there is no recipe with id: ${params['id']}.`, '',
+        //     {
+        //       verticalPosition: 'top',
+        //       horizontalPosition: 'end',
+        //       duration: 1500,
+        //       panelClass: ['snackbar']
+        //     });
+        //   this.router.navigate(['/recipes']);
+        // } else {
+        //   this.recipe = recipe;
+        //   this.id = params['id'];
+        // }
       }
     )
     this.recipesChangedSubscription = this.recipeService.recipesChanged
@@ -55,7 +67,7 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
             this.recipe = recipe;
           }
       }
-      );
+    );    
   }
 
   onEditRecipe() {

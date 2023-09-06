@@ -15,7 +15,7 @@ import {
         pathMatch: 'full' 
       },
       { 
-        path: 'recipes', 
+        path: 'meals', 
         loadChildren: () => import("./recipes/recipes.module")
           .then(module => module.RecipesModule)
       },
