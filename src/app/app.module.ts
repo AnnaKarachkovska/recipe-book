@@ -23,6 +23,7 @@ import { LandingPageModule } from './landing-page/landing-page.module';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchBarComponent } from './shared/search-bar/search-bar.component';
 import { FooterComponent } from './footer/footer.component';
+import { FeedbackFormComponent } from './footer/feedback-form/feedback-form.component';
 
 export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
   showDelay: 500,
@@ -38,6 +39,7 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
     DialogWindowComponent,
     SearchBarComponent,
     FooterComponent,
+    FeedbackFormComponent,
   ],
   imports: [
     BrowserModule,
