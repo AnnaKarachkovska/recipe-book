@@ -73,10 +73,10 @@ export class RecipeEditComponent implements OnInit {
       recipeImageUrl = this.recipe.imageUrl;
       recipeDescription = this.recipe.description;
 
-      if (this.recipe.ingredients) {
-        this.recipe.ingredients
-          .forEach(ingredient => recipeIngredients.push(getIngredientControl(ingredient)));
-      }
+      // if (this.recipe.ingredients) {
+      //   this.recipe.ingredients
+      //     .forEach(ingredient => recipeIngredients.push(getIngredientControl(ingredient)));
+      // }
     }
 
     this.recipeForm = new FormGroup({

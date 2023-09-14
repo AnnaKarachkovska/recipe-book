@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map } from "rxjs/operators";
+import { Ingredient } from "./ingredient.model";
 import { Meal } from "./meal.model";
 
 @Injectable({
@@ -109,20 +110,19 @@ export class MealDbService {
 
   getIngredients() {
     return this.http
-    .get<{[key: string]: [{}]}>(this.url + 'list.php?i=list')
+    .get<{[key: string]: Ingredient[]}>(this.url + 'list.php?i=list')
     .pipe(map(res => {
       let ingredients;
-      const ingredientsArray: string[] = [];
+      const ingredientsArray: Ingredient[] = [];
       for (const key in res) {
         if(res.hasOwnProperty(key)) {
           ingredients = res[key];
-          // console.log(ingredients);
           
           for( let i=0; i<ingredients?.length; i++) {
-            // areasArray.push(ingredients[i].strArea);
+            ingredientsArray.push(ingredients[i]);
           } 
         }        
-      }
+      }      
       return ingredientsArray;
     }))
   }

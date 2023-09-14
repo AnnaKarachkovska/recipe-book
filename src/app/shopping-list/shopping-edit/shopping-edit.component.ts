@@ -37,10 +37,10 @@ export class ShoppingEditComponent implements OnChanges {
       if (item !== undefined) {
         this.editMode = true;
         this.editedItem = item;
-        this.ingredientForm.setValue({
-          name: this.editedItem.name,
-          amount: this.editedItem.amount
-        });
+        // this.ingredientForm.setValue({
+        //   name: this.editedItem.name,
+        //   amount: this.editedItem.amount
+        // });
       }
     } else {
       this.editMode = false;
@@ -55,19 +55,19 @@ export class ShoppingEditComponent implements OnChanges {
       return;
     }
 
-    const newIngredient = new Ingredient(
-      this.ingredientForm.value['name'],
-      this.ingredientForm.value['amount']
-    );
+    // const newIngredient = new Ingredient(
+    //   this.ingredientForm.value['name'],
+    //   this.ingredientForm.value['amount']
+    // );
     
-    if (this.editMode) {
-      this.shoppingListService.updateIngredient(
-        this.editedItem.name, newIngredient);
-      this.editMode = false;
-    }
-    else {
-      this.shoppingListService.addIngredient(newIngredient);
-    }
+    // if (this.editMode) {
+    //   this.shoppingListService.updateIngredient(
+    //     this.editedItem.name, newIngredient);
+    //   this.editMode = false;
+    // }
+    // else {
+    //   this.shoppingListService.addIngredient(newIngredient);
+    // }
 
     this.clear();
   }

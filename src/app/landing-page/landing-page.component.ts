@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Ingredient } from 'app/shared/ingredient.model';
 import { MealDbService } from 'app/shared/meal-db.service';
 import { Meal } from 'app/shared/meal.model';
 
@@ -27,8 +28,5 @@ export class LandingPageComponent implements OnInit{
         this.categoryImageUrls.push('https://www.themealdb.com/images/category/' + this.categories[i] + '.png');
       };      
     })
-    // this.mealDbService.getIngredients().subscribe(res => {})
   };
-
-
 }

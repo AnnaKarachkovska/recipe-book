@@ -3,20 +3,22 @@
   <mat-grid-list cols="3" rowHeight="2:1" gutterSize="8px">
     <a routerLink="/meals/{{randomMeal?.idMeal}}">
       <mat-grid-tile 
-        class="recomendations-grid-item" 
+        class="recomendations-grid-item text" 
         style="background-image: url('{{randomMealImageUrl}}')"
       >
-        Random Meal
+        <h3>Random Meal</h3>
       </mat-grid-tile>
     </a>
-    <a routerLink="/ingredients">
-      <mat-grid-tile class="recomendations-grid-item">
-        Best ingredients
+    <a routerLink="/ingredients/best">
+      <mat-grid-tile class="recomendations-grid-item text"
+        style="background-image: url('https://www.themealdb.com/images/ingredients/Chicken.png')"
+      >
+        <h3>Best ingredients</h3>
       </mat-grid-tile>
     </a>
     <a routerLink="/areas">
-      <mat-grid-tile class="recomendations-grid-item">
-        Popular in your area
+      <mat-grid-tile class="recomendations-grid-item text">
+        <h3>Popular in your area</h3>
       </mat-grid-tile>
     </a>
   </mat-grid-list>
@@ -26,10 +28,10 @@
   <mat-grid-list cols="5" rowHeight="3:1" gutterSize="5px">
     <a *ngFor="let category of categories; let i = index" routerLink="/categories/{{category}}">
       <mat-grid-tile 
-        class="category-grid-item"
+        class="category-grid-item text"
         style="background-image: url('{{categoryImageUrls[i]}}')"
       >
-        {{category}}
+        <h3>{{category}}</h3>
       </mat-grid-tile>
     </a>
   </mat-grid-list>

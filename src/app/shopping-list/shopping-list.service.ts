@@ -52,9 +52,9 @@ export class ShoppingListService {
       for (let i = 0; i < ingredientRepeat.length; i++) {
         const foundIngredient = ingredients.find(el =>el.name.toLowerCase() === ingredientRepeat[i].name.toLowerCase());
 
-        if (foundIngredient !== undefined) {
-          ingredientRepeat[i].amount += foundIngredient.amount;
-        }
+        // if (foundIngredient !== undefined) {
+        //   ingredientRepeat[i].amount += foundIngredient.amount;
+        // }
       }
     } 
     else {

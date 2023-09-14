@@ -20,8 +20,8 @@ export class RecipeService {
         description: 'First meal description',
         imageUrl: 'https://cdn.pixabay.com/photo/2016/06/15/19/09/food-1459693_1280.jpg',
         ingredients: [
-          new Ingredient('Ingredient 1', 2),
-          new Ingredient('Ingredient 2', 5),
+          // new Ingredient('Ingredient 1', 2),
+          // new Ingredient('Ingredient 2', 5),
         ],
       }),
     new Recipe(
@@ -31,8 +31,8 @@ export class RecipeService {
         description: 'Second meal description',
         imageUrl: 'https://cdn.pixabay.com/photo/2014/11/05/15/57/salmon-518032_1280.jpg',
         ingredients: [
-          new Ingredient('Ingredient 3', 1),
-          new Ingredient('Ingredient 4', 3),
+          // new Ingredient('Ingredient 3', 1),
+          // new Ingredient('Ingredient 4', 3),
         ],
       }),
   ];

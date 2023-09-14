@@ -1,0 +1,19 @@
+<section>
+  <h2 class="title">Best Ingredients</h2>
+  <mat-list>
+    <mat-list-item
+      *ngFor="let ingredient of bestIngredients; let i = index"
+      class="mb-3"
+    >
+      <a [routerLink]="" class="link">
+        <img
+          width="50"
+          class="mr-3 ingredient-image"
+          src="{{ bestIngredientImageUrls[i] }}"
+          alt="{{ ingredient.strIngredient }}"
+        />
+        {{ ingredient.strIngredient }}
+      </a>
+    </mat-list-item>
+  </mat-list>
+</section>
