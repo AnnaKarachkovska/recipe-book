@@ -9,11 +9,12 @@ import { RecipesComponent } from "./recipes.component";
     RouterModule.forChild([
       { 
         path: '', component: RecipesComponent, 
-        children: [
-          { path: '', component: RecipeStartComponent },
-          { path: ':id', component: RecipeDetailComponent }
-        ],
+        // children: [
+        //   { path: '', component: RecipeStartComponent },
+        //   { path: ':id', component: RecipeDetailComponent }
+        // ],
       },
+      { path: ':id', component: RecipeDetailComponent }
     ])
   ],
   exports: [RouterModule]

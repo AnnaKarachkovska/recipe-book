@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { Meal } from "app/shared/meal.model";
 
 import { Recipe } from "../../recipe.model";
 
@@ -9,8 +10,7 @@ import { Recipe } from "../../recipe.model";
   styleUrls: ['./recipe-item.component.scss']
 })
 export class RecipeItemComponent {
-  @Input() recipe: Recipe;
-  @Output() recipeId = new EventEmitter<string>();
+  @Input() meal: Meal;
 
   constructor(
     private router: Router,
@@ -18,7 +18,6 @@ export class RecipeItemComponent {
   ) { }
 
   toRecipe() {
-    this.router.navigate([this.recipe.id], { relativeTo: this.route });
-    this.recipeId.emit(this.recipe.id);
+    this.router.navigate([this.meal.idMeal], { relativeTo: this.route });
   }
 }

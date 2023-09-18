@@ -18,6 +18,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import { MatChipsModule } from '@angular/material/chips';
     MatGridListModule,
     MatAutocompleteModule,
     MatChipsModule,
+    ScrollingModule,
   ],
   exports: [
     MatButtonModule,
@@ -61,6 +63,7 @@ import { MatChipsModule } from '@angular/material/chips';
     MatGridListModule,
     MatAutocompleteModule,
     MatChipsModule,
+    ScrollingModule,
   ]
 })
 export class AngularMaterialModule {

@@ -1,6 +1,7 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { map } from "rxjs/operators";
+import { throwError } from "rxjs";
+import { catchError, map } from "rxjs/operators";
 import { Ingredient } from "./ingredient.model";
 import { Meal } from "./meal.model";
 
@@ -15,7 +16,9 @@ export class MealDbService {
   getRandomMeal() {
     return this.http
       .get<{[key: string]: [Meal]}>(this.url + 'random.php')
-      .pipe(map(res => {
+      .pipe(
+        catchError(this.handleError),
+        map(res => {
         let meal: Meal = {
           idMeal: "",
           strMeal: "",
@@ -36,7 +39,9 @@ export class MealDbService {
   getMealById(id: string) {
     return this.http
     .get<{[key: string]: [Meal]}>(this.url + 'lookup.php?i=' + id)
-    .pipe(map(res => {
+    .pipe(
+      catchError(this.handleError),
+      map(res => {
       let meal: Meal = {
         idMeal: "",
         strMeal: "",
@@ -57,7 +62,9 @@ export class MealDbService {
   getMealsByFirstLetter(letter: string) {
     return this.http
     .get<{[key: string]: [Meal]}>(this.url + 'search.php?f=' + letter)
-    .pipe(map(res => {
+    .pipe(
+      catchError(this.handleError),
+      map(res => {
       let meals: Meal[] = [];
       const mealNames: {name:string, id:string}[] = [];
       for (const key in res) {
@@ -75,7 +82,9 @@ export class MealDbService {
   getCategories() {
     return this.http
     .get<{[key: string]: [{strCategory: string}]}>(this.url + 'list.php?c=list')
-    .pipe(map(res => {
+    .pipe(
+      catchError(this.handleError),
+      map(res => {
       let categories;
       const categoriesArray: string[] = [];
       for (const key in res) {
@@ -93,7 +102,9 @@ export class MealDbService {
   getAreas() {
     return this.http
     .get<{[key: string]: [{strArea: string}]}>(this.url + 'list.php?a=list')
-    .pipe(map(res => {
+    .pipe(
+      catchError(this.handleError),
+      map(res => {
       let areas;
       const areasArray: string[] = [];
       for (const key in res) {
@@ -111,7 +122,9 @@ export class MealDbService {
   getIngredients() {
     return this.http
     .get<{[key: string]: Ingredient[]}>(this.url + 'list.php?i=list')
-    .pipe(map(res => {
+    .pipe(
+      catchError(this.handleError),
+      map(res => {
       let ingredients;
       const ingredientsArray: Ingredient[] = [];
       for (const key in res) {
@@ -130,7 +143,9 @@ export class MealDbService {
   getMealsByCategory(category: string) {
     return this.http
     .get<{[key: string]: [Meal]}>(this.url + 'filter.php?c=' + category)
-    .pipe(map(res => {
+    .pipe(
+      catchError(this.handleError),
+      map(res => {
       let meals: Meal[] = [];
       for (const key in res) {
         if(res.hasOwnProperty(key)) {
@@ -144,7 +159,25 @@ export class MealDbService {
   getMealsByArea(area: string) {
     return this.http
     .get<{[key: string]: [Meal]}>(this.url + 'filter.php?a=' + area)
-    .pipe(map(res => {
+    .pipe(
+      catchError(this.handleError),
+      map(res => {
+      let meals: Meal[] = [];
+      for (const key in res) {
+        if(res.hasOwnProperty(key)) {
+          meals.push(...res[key]);            
+        }
+      }       
+      return meals;
+    }))
+  }
+
+  getMealsByIngredient(ingredient: string) {
+    return this.http
+    .get<{[key: string]: [Meal]}>(this.url + 'filter.php?i=' + ingredient)
+    .pipe(
+      catchError(this.handleError),
+      map(res => {
       let meals: Meal[] = [];
       for (const key in res) {
         if(res.hasOwnProperty(key)) {
@@ -153,5 +186,16 @@ export class MealDbService {
       }      
       return meals;
     }))
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.status === 0) {
+      console.error('An error occurred:', error.error);
+    } else {
+      console.error(
+        `Backend returned code ${error.status}, body was: `, error.error);
+    }
+
+    return throwError(() => new Error('Something bad happened; please try again later.'));
   }
 };

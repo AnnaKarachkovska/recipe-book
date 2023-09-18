@@ -1,7 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Ingredient } from 'app/shared/ingredient.model';
 import { MealDbService } from 'app/shared/meal-db.service';
 import { Meal } from 'app/shared/meal.model';
+import { map } from 'rxjs';
 
 
 @Component({
@@ -10,7 +12,8 @@ import { Meal } from 'app/shared/meal.model';
   styleUrls: ['./landing-page.component.scss']
 })
 export class LandingPageComponent implements OnInit{
-  constructor (private mealDbService: MealDbService) {};
+  constructor (private mealDbService: MealDbService,
+    private http: HttpClient) {};
 
   randomMeal: Meal | null;
   randomMealImageUrl: string;
@@ -28,5 +31,12 @@ export class LandingPageComponent implements OnInit{
         this.categoryImageUrls.push('https://www.themealdb.com/images/category/' + this.categories[i] + '.png');
       };      
     })
+
+    // this.http.get<{ loc: string }>("https://ipinfo.io/json", { token: environment.ipInfoAccessToken })
+    // .pipe(map(info => [info.loc?.replace(/,/g, ";")]))
+    // .subscribe(res => console.log(res))
+
+    // this.http.get<{ country: string }>("https://ipinfo.io/json")
+    //   .subscribe(res => console.log(res))
   };
 }
