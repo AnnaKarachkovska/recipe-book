@@ -7,13 +7,7 @@ import { RecipesComponent } from "./recipes.component";
 @NgModule({
   imports: [
     RouterModule.forChild([
-      { 
-        path: '', component: RecipesComponent, 
-        // children: [
-        //   { path: '', component: RecipeStartComponent },
-        //   { path: ':id', component: RecipeDetailComponent }
-        // ],
-      },
+      { path: '', component: RecipesComponent },
       { path: ':id', component: RecipeDetailComponent }
     ])
   ],

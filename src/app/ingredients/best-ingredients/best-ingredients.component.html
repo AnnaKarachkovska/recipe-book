@@ -2,14 +2,14 @@
   <h2 class="title">Best Ingredients</h2>
   <mat-list>
     <mat-list-item
-      *ngFor="let ingredient of bestIngredients; let i = index"
+      *ngFor="let ingredient of bestIngredients"
       class="mb-3"
     >
-      <a [routerLink]="" class="link">
+      <a [routerLink]="['/ingredients/'+ ingredient.idIngredient]" class="link">
         <img
           width="50"
           class="mr-3 ingredient-image"
-          src="{{ bestIngredientImageUrls[i] }}"
+          src="{{ingredient.imageUrlSmall}}"
           alt="{{ ingredient.strIngredient }}"
         />
         {{ ingredient.strIngredient }}

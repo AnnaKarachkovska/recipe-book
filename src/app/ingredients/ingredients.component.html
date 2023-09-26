@@ -1,24 +1,25 @@
-<section class="section">
-  <h1 class="title">Ingredients</h1>
-  <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
-    <div *cdkVirtualFor="let ingredient of ingredients; templateCacheSize: 0" 
-      class="example-item">
-        {{ingredient.strIngredient}}
-    </div>
-    <!-- <mat-card *cdkVirtualFor="let ingredient of ingredients" class="mb-3 example-item">
-      <a [routerLink]="'../../meals/'+ ingredient.idIngredient">
-        <mat-card-header class="card-header">
-          <mat-card-title class="card-title">
+<div class="row">
+  <section class="section col-sm-6">
+    <cdk-virtual-scroll-viewport itemSize="50" class="scroll-viewport">
+      <mat-list>
+        <mat-list-item
+          *cdkVirtualFor="let ingredient of ingredients | async"
+          class="mb-3 list-item"
+        >
+          <a [routerLink]="ingredient.idIngredient" class="link">
+            <img
+              width="50"
+              class="mr-3"
+              src="{{ingredient.imageUrlSmall}}"
+              alt="{{ ingredient.strIngredient }}"
+            />
             {{ ingredient.strIngredient }}
-          </mat-card-title>
-          <img
-            class="card-image"
-            src="{{ meal.strMealThumb }}/preview"
-            alt="{{ meal.strMeal }}"
-            width="60"
-          />
-        </mat-card-header>
-      </a>
-    </mat-card> -->
-  </cdk-virtual-scroll-viewport>
-</section>
+          </a>
+        </mat-list-item>
+      </mat-list>
+    </cdk-virtual-scroll-viewport>
+  </section>
+  <section class="col-sm-6">
+    <router-outlet></router-outlet>
+  </section>
+</div>

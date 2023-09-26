@@ -1,11 +1,13 @@
-:host {
-  .example-viewport {
-    height: 200px;
-    width: 200px;
-    border: 1px solid black;
+:host {  
+  .scroll-viewport {
+    height: 100vh;
   }
 
-  .example-item {
+  .list-item {
     height: 50px;
+  }
+
+  .link {
+    color: #000;
   }
 }

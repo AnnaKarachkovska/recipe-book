@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Ingredient } from 'app/shared/ingredient.model';
 import { MealDbService } from 'app/shared/meal-db.service';
 import { Meal } from 'app/shared/meal.model';
 import { map } from 'rxjs';
 
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-landing-page',
@@ -19,6 +19,7 @@ export class LandingPageComponent implements OnInit{
   randomMealImageUrl: string;
   categories: string[];
   categoryImageUrls: string[] = [];
+  country: string;
   
   ngOnInit() {
     this.mealDbService.getRandomMeal().subscribe(res => {
@@ -32,11 +33,8 @@ export class LandingPageComponent implements OnInit{
       };      
     })
 
-    // this.http.get<{ loc: string }>("https://ipinfo.io/json", { token: environment.ipInfoAccessToken })
-    // .pipe(map(info => [info.loc?.replace(/,/g, ";")]))
-    // .subscribe(res => console.log(res))
-
-    // this.http.get<{ country: string }>("https://ipinfo.io/json")
-    //   .subscribe(res => console.log(res))
+    this.http.get<{ country: string }>("https://ipinfo.io/json", {params: { token: environment.ipInfoAccessToken }})
+    .pipe(map(info => info.country))
+    .subscribe(res => this.country = res)
   };
 }

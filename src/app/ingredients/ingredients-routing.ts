@@ -1,13 +1,16 @@
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { BestIngredientsComponent } from "./best-ingredients/best-ingredients.component";
+import { IngredientDetailComponent } from "./ingredient-detail/ingredient-detail.component";
 import { IngredientsComponent } from "./ingredients.component";
 
 @NgModule({
   imports: [
     RouterModule.forChild([
-      { path: '', component: IngredientsComponent },
       { path: 'best', component: BestIngredientsComponent },
+      { path: '', component: IngredientsComponent, children: [
+        {path: ':id', component: IngredientDetailComponent}
+      ]},
     ])
   ],
   exports: [RouterModule]

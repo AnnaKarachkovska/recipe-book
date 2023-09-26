@@ -25,11 +25,12 @@ export class MealDbService {
           strInstructions: "",
           strMealThumb: "",
           strCategory: "",
-          strArea: ""
+          strArea: "",
+          ingredients: [{ingredient: '', measure: ''}],
         };
         for (const key in res) {
           if(res.hasOwnProperty(key)) {
-            meal = res[key][0];            
+            meal = res[key][0];
           }
         }
         return meal;
@@ -38,7 +39,34 @@ export class MealDbService {
 
   getMealById(id: string) {
     return this.http
-    .get<{[key: string]: [Meal]}>(this.url + 'lookup.php?i=' + id)
+    .get<{[key: string]: [{
+      idMeal: string,
+      strMeal: string,
+      strInstructions: string,
+      strMealThumb: string,
+      strCategory: string,
+      strArea: string,
+      strIngredient1: string,
+      strIngredient2: string,
+      strIngredient3: string,
+      strIngredient4: string,
+      strIngredient5: string,
+      strIngredient6: string,
+      strIngredient7: string,
+      strIngredient8: string,
+      strIngredient9: string,
+      strIngredient10: string,
+      strMeasure1: string,
+      strMeasure2: string,
+      strMeasure3: string,
+      strMeasure4: string,
+      strMeasure5: string,
+      strMeasure6: string,
+      strMeasure7: string,
+      strMeasure8: string,
+      strMeasure9: string,
+      strMeasure10: string,
+    }]}>(this.url + 'lookup.php?i=' + id)
     .pipe(
       catchError(this.handleError),
       map(res => {
@@ -48,11 +76,29 @@ export class MealDbService {
         strInstructions: "",
         strMealThumb: "",
         strCategory: "",
-        strArea: ""
+        strArea: "",
+        ingredients: [{ingredient: '', measure: ''}],
       };
       for (const key in res) {
         if(res.hasOwnProperty(key)) {
-          meal = res[key][0];            
+          meal.idMeal = res[key][0].idMeal;
+          meal.strMeal = res[key][0].strMeal;
+          meal.strInstructions = res[key][0].strInstructions;
+          meal.strMealThumb = res[key][0].strMealThumb;
+          meal.strCategory = res[key][0].strCategory;
+          meal.strArea = res[key][0].strArea;
+          meal.ingredients[0] = {ingredient: res[key][0].strIngredient1, measure: res[key][0].strMeasure1};
+          meal.ingredients.push(
+            {ingredient: res[key][0].strIngredient2, measure: res[key][0].strMeasure2},
+            {ingredient: res[key][0].strIngredient3, measure: res[key][0].strMeasure3},
+            {ingredient: res[key][0].strIngredient4, measure: res[key][0].strMeasure4},
+            {ingredient: res[key][0].strIngredient5, measure: res[key][0].strMeasure5},
+            {ingredient: res[key][0].strIngredient6, measure: res[key][0].strMeasure6},
+            {ingredient: res[key][0].strIngredient7, measure: res[key][0].strMeasure7},
+            {ingredient: res[key][0].strIngredient8, measure: res[key][0].strMeasure8},
+            {ingredient: res[key][0].strIngredient9, measure: res[key][0].strMeasure9},
+            {ingredient: res[key][0].strIngredient10, measure: res[key][0].strMeasure10},
+          ); 
         }
       }
       return meal;
@@ -131,13 +177,24 @@ export class MealDbService {
         if(res.hasOwnProperty(key)) {
           ingredients = res[key];
           
-          for( let i=0; i<ingredients?.length; i++) {
-            ingredientsArray.push(ingredients[i]);
+          for(let i=0; i<ingredients?.length; i++) {
+            ingredientsArray.push({
+              ...ingredients[i], 
+              imageUrl: 'https://www.themealdb.com/images/ingredients/' + ingredients[i].strIngredient + '.png',
+              imageUrlSmall: 'https://www.themealdb.com/images/ingredients/' + ingredients[i].strIngredient + '-Small.png',
+            })
           } 
         }        
       }      
       return ingredientsArray;
     }))
+  }
+
+  getIngredientById(id: string) {
+    return this.getIngredients()
+      .pipe(
+        map(res => res.find(ingredient => ingredient.idIngredient === id))
+      );
   }
 
   getMealsByCategory(category: string) {
