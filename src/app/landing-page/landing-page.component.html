@@ -1,7 +1,7 @@
 <section>
   <h2 class="section-title">Our recomendations</h2>
   <mat-grid-list cols="3" rowHeight="2:1" gutterSize="8px">
-    <a routerLink="/meals/{{randomMeal?.idMeal}}">
+    <a routerLink="/meals/{{randomMeal?.id}}">
       <mat-grid-tile 
         class="recomendations-grid-item text" 
         style="background-image: url('{{randomMealImageUrl}}')"
@@ -16,7 +16,7 @@
         <h3>Best ingredients</h3>
       </mat-grid-tile>
     </a>
-    <a routerLink="/areas/Unknown">
+    <a routerLink="/areas/{{country}}">
       <mat-grid-tile 
         class="recomendations-grid-item text"
         style="background-image: url('https://www.themealdb.com/images/media/meals/urzj1d1587670726.jpg/preview')">

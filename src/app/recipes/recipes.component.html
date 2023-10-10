@@ -3,12 +3,6 @@
     <form>
       <mat-form-field>
         <mat-chip-grid #chipGrid style="display: none;">
-          <!-- <mat-chip-row *ngFor="let tag of tags" (removed)="remove(tag)">
-            {{tag.value}}
-            <button matChipRemove>
-              <mat-icon>cancel</mat-icon>
-            </button>
-          </mat-chip-row> -->
         </mat-chip-grid>
         <input placeholder="Search..." #tagInput [formControl]="tagControl"
           [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
@@ -25,8 +19,9 @@
       <mat-chip-option 
         *ngFor="let tag of tags" 
         (removed)="remove(tag)"
-        [ngClass]="{'category-chip': tag.type === 1}">
-        {{tag.value}}
+        [ngClass]="{'category-chip': tag.type === 1}"
+      >
+          {{tag.value}}
         <button matChipRemove>
           <mat-icon>cancel</mat-icon>
         </button>
@@ -36,7 +31,4 @@
   <div class="col-sm-8 px-0">
     <app-recipe-list [meals]=meals></app-recipe-list>
   </div>
-  <!-- <div class="col-sm-6 px-0">
-    <router-outlet></router-outlet>
-  </div> -->
 </div>

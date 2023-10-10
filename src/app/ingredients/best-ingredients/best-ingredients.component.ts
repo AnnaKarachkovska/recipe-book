@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Ingredient } from 'app/shared/ingredient.model';
 import { MealDbService } from 'app/shared/meal-db.service';
 
@@ -10,12 +11,35 @@ import { MealDbService } from 'app/shared/meal-db.service';
 export class BestIngredientsComponent implements OnInit {
   bestIngredients: Ingredient[] = [];
   
-  constructor(private mealDbService: MealDbService) {}
+  constructor(private mealDbService: MealDbService,
+    private _snackBar: MatSnackBar) {}
 
   ngOnInit() {
-    this.mealDbService.getIngredients().subscribe(res => {
-      for (let i=0; i<10; i++) {
-        this.bestIngredients.push(res[Math.round(Math.random() * (574 - 1) + 1)]);
+    this.mealDbService.getIngredients().subscribe({
+      next: ingredients => {
+        let ingredientsArray = [];
+        for (let i=0; i<10; i++) {
+          ingredientsArray.push(ingredients[Math.round(Math.random() * (574 - 1) + 1)]);
+        }
+  
+        const store = localStorage.getItem("bestIngredients");
+          
+        if (store !== null) {
+          this.bestIngredients = JSON.parse(store);
+        } else {
+          this.bestIngredients = ingredientsArray;
+          localStorage.setItem("bestIngredients", JSON.stringify(ingredientsArray));
+        }
+      },
+      error: (error) => {
+        this._snackBar.open(
+          `Sorry, there is an error: ${error}. Try again later.`, '',
+          {
+            verticalPosition: 'top',
+            horizontalPosition: 'end',
+            duration: 1500,
+            panelClass: ['snackbar']
+          });
       }
     })
   }

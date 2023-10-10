@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { MealDbService } from 'app/shared/meal-db.service';
 import { Meal } from 'app/shared/meal.model';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -21,31 +22,26 @@ export class RecipeDetailComponent implements OnInit {
     private mealDbService: MealDbService) { }
 
   ngOnInit() {
-    this.route.params.subscribe(
-      (params: Params) => {
-        this.mealDbService.getMealById(params['id'])
-          .subscribe(res => {
-            this.meal = res;
-            this.mealImageUrl = res.strMealThumb + '/preview';
-          }
-        );
-        // let recipe = this.recipeService.getRecipeById(params['id']);
-        // if(!recipe) {
-        //   this._snackBar.open(
-        //     `Sorry, there is no recipe with id: ${params['id']}.`, '',
-        //     {
-        //       verticalPosition: 'top',
-        //       horizontalPosition: 'end',
-        //       duration: 1500,
-        //       panelClass: ['snackbar']
-        //     });
-        //   this.router.navigate(['/recipes']);
-        // } else {
-        //   this.recipe = recipe;
-        //   this.id = params['id'];
-        // }
-      }
-    )
+    this.route.params
+      .pipe(
+        switchMap((params: Params) => this.mealDbService.getMealById(params['id'])) 
+      )
+      .subscribe({
+        next: (meal) => {
+          this.meal = meal;
+          this.mealImageUrl = meal?.imageUrl + '/preview';
+        }, 
+        error: (error) => {
+          this._snackBar.open(
+            `Sorry, there is an error: ${error}. Try again later.`, '',
+            {
+              verticalPosition: 'top',
+              horizontalPosition: 'end',
+              duration: 1500,
+              panelClass: ['snackbar']
+            });
+        }
+      })
   }
 
   // onEditRecipe() {

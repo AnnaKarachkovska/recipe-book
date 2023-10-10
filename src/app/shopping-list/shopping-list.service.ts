@@ -20,17 +20,18 @@ export class ShoppingListService {
     return [...this.ingredients];
   }
 
-  getIngredient(name: string) {
-    return this.ingredients.find(el => el.name === name)
+  getIngredient(id: string) {
+    return this.ingredients.find(el => el.idIngredient === id)
   }
 
   addIngredient(ingredient: Ingredient) {
     let ingredientsClone = cloneDeep(this.ingredients);
-    let ingredientRepeat = ingredientsClone.find((el: { name: string; }) => el.name.toLowerCase() === ingredient.name.toLowerCase());
+    let ingredientRepeat = ingredientsClone.find(
+      el => el.idIngredient === ingredient.idIngredient);
     
     if (ingredientRepeat) {
       this._snackBar.open(
-        `Ingredient with name "${ingredientRepeat.name}" has already been added.`, '',
+        `Ingredient with name "${ingredientRepeat.strIngredient}" has already been added.`, '',
         {
           verticalPosition: 'top',
           horizontalPosition: 'end',
@@ -46,11 +47,12 @@ export class ShoppingListService {
   addIngredients(ingredients: Ingredient[]) {
     let ingredientsClone = cloneDeep(this.ingredients);
     let ingredientRepeat = ingredientsClone.filter(oldEl =>
-      ingredients.find(newEl => oldEl.name.toLowerCase() === newEl.name.toLowerCase()));
+      ingredients.find(newEl => oldEl.idIngredient === newEl.idIngredient));
 
     if (ingredientRepeat.length > 0) {
       for (let i = 0; i < ingredientRepeat.length; i++) {
-        const foundIngredient = ingredients.find(el =>el.name.toLowerCase() === ingredientRepeat[i].name.toLowerCase());
+        const foundIngredient = ingredients.find(el => 
+          el.idIngredient === ingredientRepeat[i].idIngredient);
 
         // if (foundIngredient !== undefined) {
         //   ingredientRepeat[i].amount += foundIngredient.amount;
@@ -64,14 +66,14 @@ export class ShoppingListService {
     this.ingredientsChanged.next([...this.ingredients]);
   }
 
-  updateIngredient(name: string, newIngredient: Ingredient) {
-    const index = this.ingredients.findIndex(el => el.name === name);
+  updateIngredient(id: string, newIngredient: Ingredient) {
+    const index = this.ingredients.findIndex(el => el.idIngredient === id);
     this.ingredients[index] = newIngredient;
     this.ingredientsChanged.next([...this.ingredients]);
   }
 
-  deleteIngredient(name: string) {
-    const index = this.ingredients.findIndex(el => el.name === name);
+  deleteIngredient(id: string) {
+    const index = this.ingredients.findIndex(el => el.idIngredient === id);
     this.ingredients.splice(index, 1);
     this.ingredientsChanged.next([...this.ingredients]);
   }

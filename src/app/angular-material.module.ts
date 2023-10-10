@@ -19,6 +19,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   imports: [
@@ -42,6 +43,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatAutocompleteModule,
     MatChipsModule,
     ScrollingModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatButtonModule,
@@ -64,6 +66,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatAutocompleteModule,
     MatChipsModule,
     ScrollingModule,
+    MatProgressSpinnerModule
   ]
 })
 export class AngularMaterialModule {

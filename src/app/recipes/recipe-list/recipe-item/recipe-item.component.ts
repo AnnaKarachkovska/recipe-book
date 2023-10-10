@@ -18,6 +18,6 @@ export class RecipeItemComponent {
   ) { }
 
   toRecipe() {
-    this.router.navigate([this.meal.idMeal], { relativeTo: this.route });
+    this.router.navigate([this.meal.id], { relativeTo: this.route });
   }
 }

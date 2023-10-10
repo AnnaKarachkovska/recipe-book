@@ -11,6 +11,7 @@
           class="mr-3 ingredient-image"
           src="{{ingredient.imageUrlSmall}}"
           alt="{{ ingredient.strIngredient }}"
+          onerror="this.src = 'assets/images/recipes.png'"
         />
         {{ ingredient.strIngredient }}
       </a>

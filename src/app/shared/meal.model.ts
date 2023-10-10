@@ -1,11 +1,11 @@
 export class Meal {
-  public idMeal: string;
-  public strMeal: string;
-  public strInstructions: string;
-  public strMealThumb: string;
-  public strCategory: string;
-  public strArea: string;
-  public ingredients: [{ingredient: string, measure: string}];
+  public id: string;
+  public name: string;
+  public instructions: string;
+  public imageUrl: string;
+  public category: string;
+  public area: string;
+  public ingredients: {ingredient: string, measure: string}[];
 
   constructor(config: {
     id: string,
@@ -14,14 +14,14 @@ export class Meal {
     imageUrl: string,
     category: string,
     area: string,
-    ingredients: [{ingredient: string, measure: string}],
+    ingredients: {ingredient: string, measure: string}[],
   }) {
-    this.idMeal = config.id;
-    this.strMeal = config.name;
-    this.strInstructions = config.description;
-    this.strMealThumb = config.imageUrl;
-    this.strCategory = config.category;
-    this.strArea = config.area;
+    this.id = config.id;
+    this.name = config.name;
+    this.instructions = config.description;
+    this.imageUrl = config.imageUrl;
+    this.category = config.category;
+    this.area = config.area;
     this.ingredients = config.ingredients;
   }
 }

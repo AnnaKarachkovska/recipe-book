@@ -10,10 +10,12 @@
 
   .list {
     padding-right: 20px;
+    margin-right: auto;
+    margin-left: auto;
     text-align: center;
+    width: 550px;
 
     display: flex;
-    justify-content: center;
   }
 
   .list-item {
@@ -27,5 +29,6 @@
 
   .link-btn {
     border: 0;
+    background-color: #ebebeb;
   }
 }
