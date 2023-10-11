@@ -50,12 +50,11 @@ export class LandingPageComponent implements OnInit {
           next: (country) => {
             const countryName = Object.keys(CountryNames).filter(countryName => countryName === country)[0];
             
-            // if (this.areas.includes(CountryNames[countryName])) {
-            //   this.country = CountryNames[countryName];
-            // } else {
-            //   this.country = "Unknown";
-            // }
-
+            if (this.areas.includes(CountryNames[countryName])) {
+              this.country = CountryNames[countryName];
+            } else {
+              this.country = "Unknown";
+            }
           }, 
           error: (error) => {
             this._snackBar.open(
