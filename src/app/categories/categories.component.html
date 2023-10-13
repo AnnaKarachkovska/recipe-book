@@ -3,7 +3,7 @@
     *ngFor="let category of categories; let i = index"
     class="mb-3"
   >
-  <a [routerLink]="category" class="link">
+  <a routerLink="../meals" [queryParams]="{category: category}" class="link">
     <img
       width="80"
       class="mr-3"

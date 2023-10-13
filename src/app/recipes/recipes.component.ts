@@ -10,6 +10,7 @@ import { Meal } from 'app/shared/meal.model';
 import { intersectionBy } from 'lodash-es';
 import { FilterType, Filter } from 'app/shared/data-types';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-recipes',
@@ -22,7 +23,8 @@ export class RecipesComponent implements OnInit {
   filteredResult: Observable<string[]>;
   tags: Filter[] = [];
   allTags: Filter[] = [];
-
+  params: {category?: string, area?: string};
+  selectedTag: Filter;
   meals: Meal[] = [];
 
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
@@ -30,16 +32,44 @@ export class RecipesComponent implements OnInit {
   announcer = inject(LiveAnnouncer);
 
   constructor(private mealDbService: MealDbService,
-    private _snackBar: MatSnackBar) {
+    private _snackBar: MatSnackBar,
+    private router: Router,
+    private route: ActivatedRoute) {
     this.filteredResult = this.tagControl.valueChanges.pipe(
       startWith(null),
       map((tag: string | null) => (
-        tag ? this._filter(tag) : this.allTags.map(tag => tag.value)
+        tag ? 
+        this._filter(tag) : 
+        this.allTags
+          .filter(tag => tag.type !== this.selectedTag?.type)
+          .map(tag => tag.value)
       )),
     );
   }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {  
+      this.params = params;
+      const index = this.tags.findIndex(
+        tag => tag.value === params.category || tag.value === params.area
+      );
+      if (index !== -1) {
+        this.tags.splice(index, 1);
+      }
+
+      if (params.category !== undefined) {
+        this.selectedTag = {value: params.category, type: FilterType.Category};
+        this.tags.push({value: params.category, type: FilterType.Category});
+        this.getMeals(this.tags);
+      }
+
+      if (params.area !== undefined) {
+        this.selectedTag = {value: params.category, type: FilterType.Area};
+        this.tags.push({value: params.area, type: FilterType.Area});
+        this.getMeals(this.tags);
+      }
+    })
+
     forkJoin({
       categories: this.mealDbService.getCategories(), 
       areas: this.mealDbService.getAreas()})
@@ -64,15 +94,19 @@ export class RecipesComponent implements OnInit {
 
     for (const tag of this.allTags) {
       if(tag.value === value) {
-        this.allTags.splice(this.allTags.indexOf(tag), 1);
-        this.tags.push(tag);
+        this.router.navigate(
+          ['/meals'], 
+          {queryParams: tag.type === 0 ? {area: tag.value} : {category: tag.value}, 
+          queryParamsHandling: 'merge'},
+        )
         this.getMeals(this.tags);
       }
     }
 
     event.chipInput!.clear();
     this.tagControl.setValue(null);
-    if(this.tags.length === 2) {
+
+    if(this.tags.length === 1) {
       this.tagControl.disable();
     }
   }
@@ -80,8 +114,20 @@ export class RecipesComponent implements OnInit {
   remove(tag: Filter) {
     const index = this.tags.indexOf(tag);
 
+    let newParams = Object.assign({}, this.params);
+
+    if (tag.type === 0) {
+      delete newParams.area;
+    } else {
+      delete newParams.category;
+    }
+
+    this.router.navigate(
+      ['meals'],
+      {queryParams: newParams}
+    )
+
     if (index >= 0) {
-      this.allTags.push(tag);
       this.tags.splice(index, 1);
       this.getMeals(this.tags);
       this.tagControl.enable();
@@ -92,16 +138,21 @@ export class RecipesComponent implements OnInit {
 
   selected(event: MatAutocompleteSelectedEvent) {
     for (const tag of this.allTags) {
-      if(tag.value === event.option.viewValue) {
-        this.allTags.splice(this.allTags.indexOf(tag), 1);
-        this.tags.push(tag);
+      if (tag.value === event.option.viewValue) {
+        this.selectedTag = tag;
+        this.router.navigate(
+          ['/meals'], 
+          {queryParams: tag.type === 0 ? {area: tag.value} : {category: tag.value}, 
+          queryParamsHandling: 'merge'},
+        )
         this.getMeals(this.tags);
       }
     }
 
     this.tagInput.nativeElement.value = '';
     this.tagControl.setValue(null);
-    if(this.tags.length === 2) {
+    
+    if(this.tags.length === 1) {
       this.tagControl.disable();
     }
   }
@@ -109,6 +160,7 @@ export class RecipesComponent implements OnInit {
   getMeals(tags: Filter[]) {    
     if (tags.length === 0) {
       this.meals = [];
+      this.selectedTag = {value: '', type: NaN}
     }
     
     this.mealDbService.getMealsForSearch(tags).subscribe({
@@ -135,8 +187,10 @@ export class RecipesComponent implements OnInit {
     const filterValue = value.toLowerCase();
     const filterArray = [];
 
-    for (const tag of this.allTags.filter(tag => tag.value.toLowerCase().includes(filterValue))) {
-      filterArray.push(tag.value);
+    for (const tag of this.allTags
+      .filter(tag => tag.type !== this.selectedTag?.type)
+      .filter(tag => tag.value.toLowerCase().includes(filterValue))) {
+        filterArray.push(tag.value);
     }
     
     return filterArray;

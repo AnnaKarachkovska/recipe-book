@@ -3,7 +3,7 @@
     *ngFor="let area of areas; let i = index"
     class="mb-3"
   >
-  <a [routerLink]="area" class="link">
+  <a routerLink="../meals" [queryParams]="{area: area}" class="link">
     {{ area }}
   </a>
   </mat-list-item>
