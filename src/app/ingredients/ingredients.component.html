@@ -1,9 +1,14 @@
 <div class="row">
   <section class="section col-sm-6">
+    <form>
+      <mat-form-field>
+        <input matInput placeholder="Search..." [formControl]="ingredientControl">
+      </mat-form-field>
+    </form>
     <cdk-virtual-scroll-viewport itemSize="50" class="scroll-viewport">
       <mat-list>
         <mat-list-item
-          *cdkVirtualFor="let ingredient of ingredients | async"
+          *cdkVirtualFor="let ingredient of filteredResult | async"
           class="mb-3 list-item"
         >
           <a [routerLink]="ingredient.idIngredient" class="link">

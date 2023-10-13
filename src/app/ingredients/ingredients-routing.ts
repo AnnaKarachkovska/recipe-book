@@ -7,7 +7,9 @@ import { IngredientsComponent } from "./ingredients.component";
 @NgModule({
   imports: [
     RouterModule.forChild([
-      { path: 'best', component: BestIngredientsComponent },
+      { path: 'best', component: BestIngredientsComponent, children: [
+        {path: ':id', component: IngredientDetailComponent}
+      ]},
       { path: '', component: IngredientsComponent, children: [
         {path: ':id', component: IngredientDetailComponent}
       ]},
