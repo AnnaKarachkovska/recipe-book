@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params } from '@angular/router';
 import { MealDbService } from 'app/shared/meal-db.service';
 import { Meal } from 'app/shared/meal.model';
+import { ShoppingListService } from 'app/shopping-list/shopping-list.service';
 import { switchMap } from 'rxjs';
 
 @Component({
@@ -19,7 +20,8 @@ export class RecipeDetailComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
-    private mealDbService: MealDbService) { }
+    private mealDbService: MealDbService, 
+    private shoppingListService: ShoppingListService) { }
 
   ngOnInit() {
     this.route.params
@@ -52,18 +54,18 @@ export class RecipeDetailComponent implements OnInit {
   //   });
   // }
 
-  // onAddToShoppingList() {
-  //   this.recipeService.addIngredients(this.recipe.ingredients);
-  //   if(this.recipe.ingredients.length > 0) {
-  //     this._snackBar.open(
-  //       'Ingrediens have been added to the shopping list.', '',
-  //       {
-  //         verticalPosition: 'top',
-  //         horizontalPosition: 'end',
-  //         duration: 1500
-  //       });
-  //   }
-  // }
+  onAddToShoppingList() {
+    if (this.meal?.ingredients) {
+      this.shoppingListService.addIngredients(this.meal.ingredients);
+      this._snackBar.open(
+        'Ingrediens have been added to the shopping list.', '',
+        {
+          verticalPosition: 'top',
+          horizontalPosition: 'end',
+          duration: 1500
+        });
+    }
+  }
 
   // onDeleteRecipe() {
   //   const dialogRef = this.dialog.open(

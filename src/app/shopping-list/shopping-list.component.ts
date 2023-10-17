@@ -59,19 +59,19 @@ export class ShoppingListComponent implements AfterViewInit {
     return `${this.selection.isSelected(element) ? 'deselect' : 'select'} element ${this.dataSource.data.indexOf(element) + 2}`;
   }
 
-  editItem(name: string) {
-    this.editedItem = this.shoppingListService.getIngredient(name);
-    this.shoppingListService.startedEditing.next(name);
+  editItem(id: string) {      
+    this.editedItem = this.shoppingListService.getIngredient(id);
+    this.shoppingListService.startedEditing.next(id);
   }
 
-  deleteItem(name: string) {
-    this.shoppingListService.deleteIngredient(name);
+  deleteItem(id: string) {
+    this.shoppingListService.deleteIngredient(id);
     this.shoppingListService.startedEditing.next('');
   }
 
   deleteAll() {
     this.selection.selected.forEach(el => {
-      this.deleteItem(el.name);
+      this.deleteItem(el.id);
       this.selection.clear();
     })
   }

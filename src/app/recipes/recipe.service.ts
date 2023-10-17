@@ -51,9 +51,9 @@ export class RecipeService {
     return recipe;
   };
 
-  addIngredients(ingredients: Ingredient[]) {
-    this.shoppingListService.addIngredients(ingredients);
-  };
+  // addIngredients(ingredients: Ingredient[]) {
+  //   this.shoppingListService.addIngredients(ingredients);
+  // };
 
   addRecipe(recipe: Recipe) {
     this.recipes.push(recipe);

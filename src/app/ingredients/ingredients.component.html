@@ -11,14 +11,14 @@
           *cdkVirtualFor="let ingredient of filteredResult | async"
           class="mb-3 list-item"
         >
-          <a [routerLink]="ingredient.idIngredient" class="link">
+          <a [routerLink]="ingredient.id" class="link">
             <img
               width="50"
               class="mr-3"
               src="{{ingredient.imageUrlSmall}}"
-              alt="{{ ingredient.strIngredient }}"
+              alt="{{ ingredient.name }}"
             />
-            {{ ingredient.strIngredient }}
+            {{ ingredient.name }}
           </a>
         </mat-list-item>
       </mat-list>

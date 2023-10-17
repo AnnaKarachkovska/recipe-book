@@ -36,7 +36,7 @@ export class IngredientsComponent implements OnInit {
     return this.ingredients.pipe(
       map(ingredients => 
         ingredients.filter(ingredient => 
-          ingredient.strIngredient.toLowerCase().includes(filterValue)))
+          ingredient.name.toLowerCase().includes(filterValue)))
     );
   }
 }

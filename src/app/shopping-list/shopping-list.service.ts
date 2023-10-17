@@ -4,6 +4,7 @@ import { Subject } from "rxjs";
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Ingredient } from "../shared/ingredient.model";
+import { MealDbService } from "app/shared/meal-db.service";
 
 @Injectable({
   providedIn: 'root',
@@ -14,24 +15,25 @@ export class ShoppingListService {
 
   private ingredients: Ingredient[] = [];
 
-  constructor(private _snackBar: MatSnackBar) {}
+  constructor(private _snackBar: MatSnackBar, 
+    private mealDbService: MealDbService) {}
 
   getIngredients() {
     return [...this.ingredients];
   }
 
   getIngredient(id: string) {
-    return this.ingredients.find(el => el.idIngredient === id)
+    return this.ingredients.find(el => el.id === id)
   }
 
   addIngredient(ingredient: Ingredient) {
     let ingredientsClone = cloneDeep(this.ingredients);
     let ingredientRepeat = ingredientsClone.find(
-      el => el.idIngredient === ingredient.idIngredient);
+      el => el.id === ingredient.id);
     
     if (ingredientRepeat) {
       this._snackBar.open(
-        `Ingredient with name "${ingredientRepeat.strIngredient}" has already been added.`, '',
+        `Ingredient with name "${ingredientRepeat.name}" has already been added.`, '',
         {
           verticalPosition: 'top',
           horizontalPosition: 'end',
@@ -44,36 +46,52 @@ export class ShoppingListService {
     this.ingredientsChanged.next([...this.ingredients]);
   }
 
-  addIngredients(ingredients: Ingredient[]) {
-    let ingredientsClone = cloneDeep(this.ingredients);
-    let ingredientRepeat = ingredientsClone.filter(oldEl =>
-      ingredients.find(newEl => oldEl.idIngredient === newEl.idIngredient));
-
-    if (ingredientRepeat.length > 0) {
-      for (let i = 0; i < ingredientRepeat.length; i++) {
-        const foundIngredient = ingredients.find(el => 
-          el.idIngredient === ingredientRepeat[i].idIngredient);
-
-        // if (foundIngredient !== undefined) {
-        //   ingredientRepeat[i].amount += foundIngredient.amount;
-        // }
-      }
-    } 
-    else {
-      this.ingredients.push(...ingredients);
-    }
+  addIngredients(ingredients: {ingredient: string, amount: string}[]) {
+    this.mealDbService.getIngredients().subscribe(allIngredients => {
+      ingredients.forEach(element => {
+        const ingredient = allIngredients
+          .find(ingredient => ingredient.name === element.ingredient);
+        const ingredientRepeatIndex = this.ingredients
+          .findIndex(element => element.id === ingredient?.id);
+        
+        if (ingredient !== undefined && ingredientRepeatIndex === -1) {
+          this.ingredients.push({
+            ...ingredient,
+             amount: Number.parseInt(element.amount) || 1
+          });
+        }
+      })
+    })
     
     this.ingredientsChanged.next([...this.ingredients]);
   }
 
   updateIngredient(id: string, newIngredient: Ingredient) {
-    const index = this.ingredients.findIndex(el => el.idIngredient === id);
-    this.ingredients[index] = newIngredient;
+    const index = this.ingredients.findIndex(el => el.id === id);
+
+    this.deleteIngredient(id);
+    
+    let ingredientsClone = cloneDeep(this.ingredients);
+    let ingredientRepeat = ingredientsClone.find(
+      el => el.id === newIngredient.id);
+    
+    if (ingredientRepeat) {
+      this._snackBar.open(
+        `Ingredient with name "${ingredientRepeat.name}" has already been added.`, '',
+        {
+          verticalPosition: 'top',
+          horizontalPosition: 'end',
+          duration: 2000
+        });
+    } else {
+      this.ingredients.splice(index, 0, newIngredient);
+    }
+    
     this.ingredientsChanged.next([...this.ingredients]);
   }
 
   deleteIngredient(id: string) {
-    const index = this.ingredients.findIndex(el => el.idIngredient === id);
+    const index = this.ingredients.findIndex(el => el.id === id);
     this.ingredients.splice(index, 1);
     this.ingredientsChanged.next([...this.ingredients]);
   }

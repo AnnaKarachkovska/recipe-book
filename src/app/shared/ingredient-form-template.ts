@@ -6,7 +6,7 @@ export function getIngredientControl(ingredient?: Ingredient, validator?: Valida
     'name': new FormControl(
       ingredient?.name || null, 
       validator ? [Validators.required, validator] : Validators.required),
-    'amount': new FormControl(ingredient?.amount || null, [
+    'amount': new FormControl(ingredient?.amount || null || undefined, [
       Validators.required,
       Validators.min(1),
       Validators.max(1000),

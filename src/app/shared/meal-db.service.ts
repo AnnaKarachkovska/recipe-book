@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { groupBy, intersectionBy } from "lodash-es";
+import { groupBy } from "lodash-es";
 import { forkJoin, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { Ingredient } from "./ingredient.model";
@@ -15,6 +15,12 @@ export type MealFromAPI = {
   strCategory: string,
   strArea: string,
 };
+
+export type IngredientFromAPI = {
+  strIngredient: string;
+  strDescription: string | null | undefined;
+  idIngredient: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -42,7 +48,7 @@ export class MealDbService {
             imageUrl: rawMeal.strMealThumb,
             category: rawMeal.strCategory,
             area: rawMeal.strArea,
-            ingredients: [{ ingredient: '', measure: '' }],
+            ingredients: [{ ingredient: '', amount: '' }],
           };
 
           return meal;
@@ -78,7 +84,7 @@ export class MealDbService {
             } else {
               ingredientsArray.push({
                 ingredient: ingredientsGroup[key][0][1],
-                measure: ingredientsGroup[key][1][1],
+                amount: ingredientsGroup[key][1][1],
               })
             }
           }
@@ -141,14 +147,16 @@ export class MealDbService {
 
   getIngredients() {
     return this.http
-      .get<{ meals: Ingredient[] }>(this.url + 'list.php?i=list')
+      .get<{ meals: IngredientFromAPI[] }>(this.url + 'list.php?i=list')
       .pipe(
         catchError(this.handleError),
         map(({meals}) => {
           const ingredientsArray: Ingredient[] = [];
           for (let i = 0; i < meals?.length; i++) {
             ingredientsArray.push({
-              ...meals[i],
+              name: meals[i].strIngredient,
+              description: meals[i].strDescription,
+              id: meals[i].idIngredient,
               imageUrl: 'https://www.themealdb.com/images/ingredients/' + meals[i].strIngredient + '.png',
               imageUrlSmall: 'https://www.themealdb.com/images/ingredients/' + meals[i].strIngredient + '-Small.png',
             })
@@ -160,7 +168,7 @@ export class MealDbService {
   getIngredientById(id: string) {
     return this.getIngredients()
       .pipe(
-        map(res => res.find(ingredient => ingredient.idIngredient === id))
+        map(res => res.find(ingredient => ingredient.id === id))
       );
   }
 
@@ -179,7 +187,7 @@ export class MealDbService {
               category: meal.strCategory,
               imageUrl: meal.strMealThumb,
               instructions: meal.strInstructions,
-              ingredients: [{ ingredient: '', measure: '' }]
+              ingredients: [{ ingredient: '', amount: '' }]
             })
           })
           return meals;
@@ -202,7 +210,7 @@ export class MealDbService {
               category: meal.strCategory,
               imageUrl: meal.strMealThumb,
               instructions: meal.strInstructions,
-              ingredients: [{ ingredient: '', measure: '' }]
+              ingredients: [{ ingredient: '', amount: '' }]
             })
           })
           return meals;
@@ -225,7 +233,7 @@ export class MealDbService {
               category: meal.strCategory,
               imageUrl: meal.strMealThumb,
               instructions: meal.strInstructions,
-              ingredients: [{ ingredient: '', measure: '' }]
+              ingredients: [{ ingredient: '', amount: '' }]
             })
           })
           return meals;

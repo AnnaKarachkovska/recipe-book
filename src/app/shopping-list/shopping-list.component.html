@@ -7,7 +7,7 @@
   <mat-icon>done_all</mat-icon>
 </button>
 
-<app-shopping-edit [ingredient]="editedItem"></app-shopping-edit>
+<app-shopping-edit [editedIngredient]="editedItem"></app-shopping-edit>
 <hr />
 <div>
   <table mat-table
@@ -72,13 +72,13 @@
           <button mat-menu-item
                   type="button"
                   matTooltip="Edit recipe"
-                  (click)="editItem(element.name)">
+                  (click)="editItem(element.id)">
             <mat-icon color="primary">edit</mat-icon> Edit
           </button>
           <button mat-menu-item
                   type="button"
                   matTooltip="Delete recipe"
-                  (click)="deleteItem(element.name)">
+                  (click)="deleteItem(element.id)">
             <mat-icon color="warn">delete</mat-icon> Delete
           </button>
         </mat-menu>

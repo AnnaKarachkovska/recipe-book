@@ -2,14 +2,14 @@
   <section class="section col-sm-6">
     <mat-list>
       <mat-list-item *ngFor="let ingredient of bestIngredients" class="mb-3">
-        <a [routerLink]="ingredient.idIngredient" class="link">
+        <a [routerLink]="ingredient.id" class="link">
           <img
             width="50"
             class="mr-3 ingredient-image"
             src="{{ ingredient.imageUrlSmall }}"
-            alt="{{ ingredient.strIngredient }}"
+            alt="{{ ingredient.name }}"
           />
-          {{ ingredient.strIngredient }}
+          {{ ingredient.name }}
         </a>
       </mat-list-item>
     </mat-list>
