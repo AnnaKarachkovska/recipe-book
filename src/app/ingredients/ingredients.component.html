@@ -2,7 +2,11 @@
   <section class="section col-sm-6">
     <form>
       <mat-form-field>
-        <input matInput placeholder="Search..." [formControl]="ingredientControl">
+        <input
+          matInput
+          placeholder="Search..."
+          [formControl]="ingredientControl"
+        />
       </mat-form-field>
     </form>
     <cdk-virtual-scroll-viewport itemSize="50" class="scroll-viewport">
@@ -15,7 +19,7 @@
             <img
               width="50"
               class="mr-3"
-              src="{{ingredient.imageUrlSmall}}"
+              src="{{ ingredient.imageUrlSmall }}"
               alt="{{ ingredient.name }}"
             />
             {{ ingredient.name }}

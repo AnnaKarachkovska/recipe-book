@@ -1,4 +1,13 @@
 :host {
+  .chip-box {
+    width: 70%; 
+    margin-bottom: 20px;
+  }
+
+  .chip-text {
+    display: inline;
+  }
+
   .category-chip {
     background-color: #bdcce7;
   }

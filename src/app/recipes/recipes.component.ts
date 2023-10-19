@@ -24,7 +24,6 @@ export class RecipesComponent implements OnInit {
   tags: Filter[] = [];
   allTags: Filter[] = [];
   params: {category?: string, area?: string};
-  selectedTag: Filter;
   meals: Meal[] = [];
 
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
@@ -41,7 +40,7 @@ export class RecipesComponent implements OnInit {
         tag ? 
         this._filter(tag) : 
         this.allTags
-          .filter(tag => tag.type !== this.selectedTag?.type)
+          .filter(tag => tag.type !== this.tags[0]?.type)
           .map(tag => tag.value)
       )),
     );
@@ -50,22 +49,20 @@ export class RecipesComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe(params => {  
       this.params = params;
-      const index = this.tags.findIndex(
-        tag => tag.value === params.category || tag.value === params.area
-      );
-      if (index !== -1) {
-        this.tags.splice(index, 1);
-      }
+      this.tags = [];
 
-      if (params.category !== undefined) {
-        this.selectedTag = {value: params.category, type: FilterType.Category};
-        this.tags.push({value: params.category, type: FilterType.Category});
-        this.getMeals(this.tags);
-      }
+      Object.entries(params).map(element => {
+        if (element[0] === 'area') {
+          this.tags.push({value: element[1], type: FilterType.Area});
+          this.getMeals(this.tags);
+        } else {
+          this.tags.push({value: element[1], type: FilterType.Category});
+          this.getMeals(this.tags);
+        }
+      })
 
-      if (params.area !== undefined) {
-        this.selectedTag = {value: params.category, type: FilterType.Area};
-        this.tags.push({value: params.area, type: FilterType.Area});
+      if (Object.entries(params).length === 0) {
+        this.tags = [];
         this.getMeals(this.tags);
       }
     })
@@ -90,23 +87,40 @@ export class RecipesComponent implements OnInit {
   }
 
   add(event: MatChipInputEvent) {
-    const value = (event.value || '').trim();
+    this.addTag((event.value || '').trim());
+    event.chipInput!.clear();
+  }
 
-    for (const tag of this.allTags) {
-      if(tag.value === value) {
-        this.router.navigate(
-          ['/meals'], 
-          {queryParams: tag.type === 0 ? {area: tag.value} : {category: tag.value}, 
-          queryParamsHandling: 'merge'},
-        )
-        this.getMeals(this.tags);
-      }
+  selected(event: MatAutocompleteSelectedEvent) {
+    this.addTag(event.option.viewValue);
+    this.tagInput.nativeElement.value = '';
+  }
+
+  addTag(value: string) {
+    if (value === '') {
+      return;
+    }
+    
+    const tag = this.allTags.find(tag => tag.value.toLowerCase() === value.toLowerCase())
+    if (tag !== undefined) {
+      this.router.navigate(
+        ['/meals'], 
+        {queryParams: tag.type === FilterType.Area ? {area: tag.value} : {category: tag.value}, 
+        queryParamsHandling: 'merge'},
+      )
+    } else {
+      this._snackBar.open(
+        `There is no area or category with the name "${value}". Please choose the option from the list.`, '',
+        {
+          verticalPosition: 'top',
+          horizontalPosition: 'end',
+          duration: 3000,
+          panelClass: ['snackbar']
+        }
+      );
     }
 
-    event.chipInput!.clear();
-    this.tagControl.setValue(null);
-
-    if(this.tags.length === 1) {
+    if (this.tags.length === 1) {
       this.tagControl.disable();
     }
   }
@@ -116,7 +130,7 @@ export class RecipesComponent implements OnInit {
 
     let newParams = Object.assign({}, this.params);
 
-    if (tag.type === 0) {
+    if (tag.type === FilterType.Area) {
       delete newParams.area;
     } else {
       delete newParams.category;
@@ -129,38 +143,15 @@ export class RecipesComponent implements OnInit {
 
     if (index >= 0) {
       this.tags.splice(index, 1);
-      this.getMeals(this.tags);
       this.tagControl.enable();
 
       this.announcer.announce(`Removed ${tag}`);
     }
   }
 
-  selected(event: MatAutocompleteSelectedEvent) {
-    for (const tag of this.allTags) {
-      if (tag.value === event.option.viewValue) {
-        this.selectedTag = tag;
-        this.router.navigate(
-          ['/meals'], 
-          {queryParams: tag.type === 0 ? {area: tag.value} : {category: tag.value}, 
-          queryParamsHandling: 'merge'},
-        )
-        this.getMeals(this.tags);
-      }
-    }
-
-    this.tagInput.nativeElement.value = '';
-    this.tagControl.setValue(null);
-    
-    if(this.tags.length === 1) {
-      this.tagControl.disable();
-    }
-  }
-
   getMeals(tags: Filter[]) {    
     if (tags.length === 0) {
       this.meals = [];
-      this.selectedTag = {value: '', type: NaN}
     }
     
     this.mealDbService.getMealsForSearch(tags).subscribe({
@@ -179,7 +170,8 @@ export class RecipesComponent implements OnInit {
             horizontalPosition: 'end',
             duration: 1500,
             panelClass: ['snackbar']
-          });
+          }
+        );
       }})
   }
 
@@ -188,7 +180,7 @@ export class RecipesComponent implements OnInit {
     const filterArray = [];
 
     for (const tag of this.allTags
-      .filter(tag => tag.type !== this.selectedTag?.type)
+      .filter(tag => tag.type !== this.tags[0]?.type)
       .filter(tag => tag.value.toLowerCase().includes(filterValue))) {
         filterArray.push(tag.value);
     }

@@ -2,33 +2,43 @@
   <aside>
     <form>
       <mat-form-field>
-        <mat-chip-grid #chipGrid style="display: none;">
-        </mat-chip-grid>
-        <input placeholder="Search..." #tagInput [formControl]="tagControl"
-          [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
+        <mat-chip-grid #chipGrid style="display: none"> </mat-chip-grid>
+        <input
+          placeholder="Area or category..."
+          #tagInput
+          [formControl]="tagControl"
+          [matChipInputFor]="chipGrid"
+          [matAutocomplete]="auto"
           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-          (matChipInputTokenEnd)="add($event)"/>
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+          (matChipInputTokenEnd)="add($event)"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="selected($event)"
+        >
           <mat-option *ngFor="let tag of filteredResult | async" [value]="tag">
-            {{tag}}
+            {{ tag }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
     </form>
     <mat-chip-listbox class="mat-mdc-chip-set-stacked">
-      <mat-chip-option 
-        *ngFor="let tag of tags" 
-        (removed)="remove(tag)"
-        [ngClass]="{'category-chip': tag.type === 1}"
-      >
-          {{tag.value}}
-        <button matChipRemove>
-          <mat-icon>cancel</mat-icon>
-        </button>
-      </mat-chip-option>
+      <div *ngFor="let tag of tags" class="chip-box">
+        <p *ngIf="tag.type === 0" class="chip-text">Area:</p>
+        <p *ngIf="tag.type === 1" class="chip-text">Category:</p>
+        <mat-chip-option
+          (removed)="remove(tag)"
+          [ngClass]="{ 'category-chip': tag.type === 1 }"
+        >
+          {{ tag.value }}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-option>
+      </div>
     </mat-chip-listbox>
   </aside>
   <div class="col-sm-8 px-0">
-    <app-recipe-list [meals]=meals></app-recipe-list>
+    <app-recipe-list [meals]="meals"></app-recipe-list>
   </div>
 </div>
