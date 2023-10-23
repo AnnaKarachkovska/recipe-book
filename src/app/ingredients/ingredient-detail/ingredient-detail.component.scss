@@ -13,4 +13,9 @@
     margin-left: auto;
     margin-right: auto;
   }
+
+  .card-description {
+    max-height: 240px;
+    overflow: auto;
+  }
 }

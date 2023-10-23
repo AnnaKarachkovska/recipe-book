@@ -10,6 +10,8 @@
   />
   <mat-card-header>
     <mat-card-title>{{ingredient?.name}}</mat-card-title>
-    <mat-card-subtitle>{{ingredient?.description}}</mat-card-subtitle>
+    <mat-card-subtitle class="card-description">
+      {{ingredient?.description || "No description"}}
+    </mat-card-subtitle>
   </mat-card-header>
 </mat-card>

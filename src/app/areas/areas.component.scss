@@ -1,5 +1,13 @@
 :host {
   .link {
     color: #000;
+
+    &:hover h3 {
+      text-decoration: underline;
+    }
+  }
+
+  .grid-list {
+    padding-top: 20px;
   }
 }
