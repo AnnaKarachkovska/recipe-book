@@ -1,14 +1,13 @@
-import {
-  Component, Input, OnChanges,
-  OnInit, ViewChild,
-} from "@angular/core";
+import { Component, Input, OnChanges, OnInit, ViewChild } from "@angular/core";
 import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { getIngredientControl } from "app/shared/ingredient-form-template";
-import { MealDbService } from "app/shared/meal-db.service";
 import { map, Observable, startWith, Subscription } from "rxjs";
 
-import { Ingredient } from "src/app/shared/ingredient.model";
+import {
+  getIngredientControl,
+} from "app/shared/models/ingredient-form-template";
+import { Ingredient } from "app/shared/models/ingredient.model";
+import { MealDbService } from "app/shared/services/meal-db.service";
 
 import { ShoppingListService } from "../shopping-list.service";
 

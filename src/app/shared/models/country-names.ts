@@ -1,4 +1,4 @@
-export const CountryNames: {[key: string]: string} = 
+export const CountryNames: { [key: string]: string } =
 {
   "BD": "Bangladesh",
   "BE": "Belgium",

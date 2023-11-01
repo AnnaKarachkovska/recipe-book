@@ -1,16 +1,20 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { forkJoin, map, Observable, startWith } from 'rxjs';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MealDbService } from 'app/shared/meal-db.service';
-import { Meal } from 'app/shared/meal.model';
-import { intersectionBy } from 'lodash-es';
-import { FilterType, Filter } from 'app/shared/data-types';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
+import { LiveAnnouncer } from "@angular/cdk/a11y";
+import { COMMA, ENTER } from "@angular/cdk/keycodes";
+import {
+  Component, ElementRef, inject, OnInit,
+  ViewChild,
+} from "@angular/core";
+import { FormControl } from "@angular/forms";
+import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
+import { MatChipInputEvent } from "@angular/material/chips";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { ActivatedRoute, Router } from "@angular/router";
+import { intersectionBy } from "lodash-es";
+import { forkJoin, map, Observable, startWith } from "rxjs";
+
+import { Filter, FilterType } from "app/shared/models/data-types";
+import { Meal } from "app/shared/models/meal.model";
+import { MealDbService } from "app/shared/services/meal-db.service";
 
 @Component({
   selector: 'app-recipes',
@@ -37,8 +41,8 @@ export class RecipesComponent implements OnInit {
     this.filteredResult = this.tagControl.valueChanges.pipe(
       startWith(null),
       map((tag: string | null) => (
-        tag ? 
-        this._filter(tag) : 
+        tag ?
+        this._filter(tag) :
         this.allTags
           .filter(tag => tag.type !== this.tags[0]?.type)
           .map(tag => tag.value)
@@ -47,7 +51,7 @@ export class RecipesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {  
+    this.route.queryParams.subscribe(params => {
       this.params = params;
       this.tags = [];
 
@@ -68,18 +72,18 @@ export class RecipesComponent implements OnInit {
     })
 
     forkJoin({
-      categories: this.mealDbService.getCategories(), 
+      categories: this.mealDbService.getCategories(),
       areas: this.mealDbService.getAreas()})
     .subscribe(({ categories, areas }) => {
       this.allTags.push(
         ...categories.map(category => (
         {
-          value: category, 
+          value: category,
           type: FilterType.Category
-        } as Filter)), 
+        } as Filter)),
         ...areas.map(area => (
           {
-            value: area, 
+            value: area,
             type: FilterType.Area
           } as Filter))
       );
@@ -90,7 +94,7 @@ export class RecipesComponent implements OnInit {
         if (this.tags.length === 0) {
           this.meals = meals;
         }
-      }, 
+      },
       error: (error) => {
         this._snackBar.open(
           `Sorry, there is an error: ${error}. Try again later.`, 'OK',
@@ -113,12 +117,12 @@ export class RecipesComponent implements OnInit {
     if (value === '') {
       return;
     }
-    
+
     const tag = this.allTags.find(tag => tag.value.toLowerCase() === value.toLowerCase())
     if (tag !== undefined) {
       this.router.navigate(
-        ['/meals'], 
-        {queryParams: tag.type === FilterType.Area ? {area: tag.value} : {category: tag.value}, 
+        ['/meals'],
+        {queryParams: tag.type === FilterType.Area ? {area: tag.value} : {category: tag.value},
         queryParamsHandling: 'merge'},
       )
     } else {
@@ -156,11 +160,11 @@ export class RecipesComponent implements OnInit {
     }
   }
 
-  getMeals(tags: Filter[]) {    
+  getMeals(tags: Filter[]) {
     if (tags.length === 0) {
       this.meals = [];
     }
-    
+
     this.mealDbService.getMealsForSearch(tags).subscribe({
       next: (meals) => {
         if (meals.length > 1) {
@@ -168,7 +172,7 @@ export class RecipesComponent implements OnInit {
         } else {
           this.meals = meals[0];
         }
-      }, 
+      },
       error: (error) => {
         this._snackBar.open(
           `Sorry, there is an error: ${error}. Try again later.`, 'OK',
@@ -186,7 +190,7 @@ export class RecipesComponent implements OnInit {
       .filter(tag => tag.value.toLowerCase().includes(filterValue))) {
         filterArray.push(tag.value);
     }
-    
+
     return filterArray;
   }
 }

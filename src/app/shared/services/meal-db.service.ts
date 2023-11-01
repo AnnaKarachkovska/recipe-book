@@ -3,9 +3,8 @@ import { Injectable } from "@angular/core";
 import { groupBy } from "lodash-es";
 import { forkJoin, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
-import { Ingredient } from "./ingredient.model";
-import { Meal } from "./meal.model";
-import { Filter, FilterType } from "./data-types";
+
+import { Filter, FilterType, Ingredient, Meal } from "../models";
 
 export type MealFromAPI = {
   idMeal: string,
@@ -79,7 +78,7 @@ export class MealDbService {
 
           let ingredientsArray = [];
           for (let key in ingredientsGroup) {
-            if( ingredientsGroup[key][0][1] === '') {
+            if (ingredientsGroup[key][0][1] === '') {
               break;
             } else {
               ingredientsArray.push({
@@ -172,7 +171,7 @@ export class MealDbService {
       .get<{ meals: IngredientFromAPI[] }>(this.url + 'list.php?i=list')
       .pipe(
         catchError(this.handleError),
-        map(({meals}) => {
+        map(({ meals }) => {
           const ingredientsArray: Ingredient[] = [];
           for (let i = 0; i < meals?.length; i++) {
             ingredientsArray.push({

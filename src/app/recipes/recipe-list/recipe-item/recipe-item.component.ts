@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Meal } from "app/shared/meal.model";
 
-import { Recipe } from "../../recipe.model";
+import { Meal } from "app/shared/models/meal.model";
 
 @Component({
   selector: 'app-recipe-item',

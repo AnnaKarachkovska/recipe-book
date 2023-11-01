@@ -6,9 +6,12 @@ import {
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { uniqueId } from "lodash";
 
+import {
+  getIngredientControl,
+} from "app/shared/models/ingredient-form-template";
+
 import { Recipe } from "../recipe.model";
 import { RecipeService } from "../recipe.service";
-import { getIngredientControl } from "app/shared/ingredient-form-template";
 
 export type IngredientForm = FormGroup<{
   name: FormControl<string | null>;
@@ -87,7 +90,7 @@ export class RecipeEditComponent implements OnInit {
       'description': new FormControl(recipeDescription),
       'ingredients': recipeIngredients,
     });
-    
+
     this.ingredientControls = recipeIngredients.controls;
   }
 

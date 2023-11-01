@@ -1,10 +1,14 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Params } from '@angular/router';
-import { Ingredient } from 'app/shared/ingredient.model';
-import { MealDbService } from 'app/shared/meal-db.service';
-import { switchMap } from 'rxjs';
+import {
+  animate, state, style, transition,
+  trigger,
+} from "@angular/animations";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { ActivatedRoute, Params } from "@angular/router";
+import { switchMap } from "rxjs";
+
+import { Ingredient } from "app/shared/models/ingredient.model";
+import { MealDbService } from "app/shared/services/meal-db.service";
 
 @Component({
   selector: 'app-ingredient-detail',

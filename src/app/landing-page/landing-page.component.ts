@@ -1,12 +1,12 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { MealDbService } from 'app/shared/meal-db.service';
-import { Meal } from 'app/shared/meal.model';
-import { forkJoin, map } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpClient } from "@angular/common/http";
+import { Component, OnInit } from "@angular/core";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { forkJoin, map } from "rxjs";
 
-import { environment } from 'environments/environment';
-import { CountryNames } from 'environments/country-names';
+import { CountryNames } from "app/shared/models/country-names";
+import { Meal } from "app/shared/models/meal.model";
+import { MealDbService } from "app/shared/services/meal-db.service";
+import { environment } from "environments/environment";
 
 @Component({
   selector: 'app-landing-page',

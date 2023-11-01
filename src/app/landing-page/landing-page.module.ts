@@ -1,5 +1,7 @@
 import { NgModule } from "@angular/core";
-import { SharedModule } from "app/shared.module";
+
+import { SharedModule } from "app/shared/shared.module";
+
 import { LandingPageRoutingModule } from "./landing-page-routing.module";
 import { LandingPageComponent } from "./landing-page.component";
 

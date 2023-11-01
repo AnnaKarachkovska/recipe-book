@@ -5,7 +5,7 @@ import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 
-import { Ingredient } from "../shared/ingredient.model";
+import { Ingredient } from "../shared/models/ingredient.model";
 import { ShoppingListService } from "./shopping-list.service";
 
 @Component({
@@ -52,14 +52,14 @@ export class ShoppingListComponent implements AfterViewInit {
     this.selection.select(...this.dataSource.data);
   }
 
-  checkboxLabel(element?: Ingredient): string {    
+  checkboxLabel(element?: Ingredient): string {
     if (!element) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(element) ? 'deselect' : 'select'} element ${this.dataSource.data.indexOf(element) + 2}`;
   }
 
-  editItem(id: string) {      
+  editItem(id: string) {
     this.editedItem = this.shoppingListService.getIngredient(id);
     this.shoppingListService.startedEditing.next(id);
   }

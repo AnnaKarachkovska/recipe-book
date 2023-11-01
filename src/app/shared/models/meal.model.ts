@@ -5,7 +5,7 @@ export class Meal {
   public imageUrl: string;
   public category: string;
   public area: string;
-  public ingredients: {ingredient: string, amount: string}[];
+  public ingredients: { ingredient: string, amount: string }[];
 
   constructor(config: {
     id: string,
@@ -14,7 +14,7 @@ export class Meal {
     imageUrl: string,
     category: string,
     area: string,
-    ingredients: {ingredient: string, amount: string}[],
+    ingredients: { ingredient: string, amount: string }[],
   }) {
     this.id = config.id;
     this.name = config.name;

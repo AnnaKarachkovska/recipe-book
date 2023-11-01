@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Ingredient } from 'app/shared/ingredient.model';
-import { MealDbService } from 'app/shared/meal-db.service';
+import { Component, OnInit } from "@angular/core";
+import { MatSnackBar } from "@angular/material/snack-bar";
+
+import { Ingredient } from "app/shared/models/ingredient.model";
+import { MealDbService } from "app/shared/services/meal-db.service";
 
 @Component({
   selector: 'app-best-ingredients',
@@ -10,7 +11,7 @@ import { MealDbService } from 'app/shared/meal-db.service';
 })
 export class BestIngredientsComponent implements OnInit {
   bestIngredients: Ingredient[] = [];
-  
+
   constructor(private mealDbService: MealDbService,
     private _snackBar: MatSnackBar) {}
 
@@ -21,9 +22,9 @@ export class BestIngredientsComponent implements OnInit {
         for (let i=0; i<10; i++) {
           ingredientsArray.push(ingredients[Math.round(Math.random() * (574 - 1) + 1)]);
         }
-  
+
         const store = localStorage.getItem("bestIngredients");
-          
+
         if (store !== null) {
           this.bestIngredients = JSON.parse(store);
         } else {

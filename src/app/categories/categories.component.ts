@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { MealDbService } from 'app/shared/meal-db.service';
+import { Component, OnInit } from "@angular/core";
 
+import { MealDbService } from "app/shared/services/meal-db.service";
+
+// TODO: make standalone, get rid of unnecessary module
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.component.html',
@@ -13,7 +15,7 @@ export class CategoriesComponent implements OnInit{
 
   ngOnInit() {
     this.mealDbService.getCategories().subscribe(categories => {
-      this.categories = categories;   
+      this.categories = categories;
     })
   }
 }

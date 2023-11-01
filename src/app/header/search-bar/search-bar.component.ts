@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
-import { debounceTime, map, Observable, startWith } from 'rxjs';
-import { MealDbService } from '../../shared/meal-db.service';
+import { Component } from "@angular/core";
+import { FormControl } from "@angular/forms";
+import { Router } from "@angular/router";
+import { debounceTime, map, Observable, startWith } from "rxjs";
+
+import { MealDbService } from "../../shared/services/meal-db.service";
 
 @Component({
   selector: 'app-search-bar',

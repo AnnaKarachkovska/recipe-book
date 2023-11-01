@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { MealDbService } from 'app/shared/meal-db.service';
-import { CountryNames } from 'environments/country-names';
+import { Component, OnInit } from "@angular/core";
 
+import { CountryNames } from "app/shared/models/country-names";
+import { MealDbService } from "app/shared/services/meal-db.service";
+
+// TODO: make standalone, get rid of unnecessary module
 @Component({
   selector: 'app-areas',
   templateUrl: './areas.component.html',
@@ -13,7 +15,7 @@ export class AreasComponent implements OnInit{
   areas: {country: string, code: string}[] = [];
 
   ngOnInit() {
-    this.mealDbService.getAreas().subscribe(areas => {            
+    this.mealDbService.getAreas().subscribe(areas => {
       for (let area of areas) {
         const countryName = Object.entries(CountryNames)
           .filter(countryName => countryName[1] === area)
