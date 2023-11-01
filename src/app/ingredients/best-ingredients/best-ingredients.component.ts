@@ -12,14 +12,19 @@ import { MealDbService } from "app/shared/services/meal-db.service";
 export class BestIngredientsComponent implements OnInit {
   bestIngredients: Ingredient[] = [];
 
-  constructor(private mealDbService: MealDbService,
-    private _snackBar: MatSnackBar) {}
+  constructor(
+    private mealDbService: MealDbService,
+    private snackBar: MatSnackBar,
+  ) {
+  }
 
   ngOnInit() {
+    // TODO: get a random selection of ingredients only if it's not already stored in local storage
     this.mealDbService.getIngredients().subscribe({
       next: ingredients => {
         let ingredientsArray = [];
-        for (let i=0; i<10; i++) {
+        for (let i = 0; i < 10; i++) {
+          // TODO: 574 is a magic number. Why 574?
           ingredientsArray.push(ingredients[Math.round(Math.random() * (574 - 1) + 1)]);
         }
 
@@ -33,10 +38,7 @@ export class BestIngredientsComponent implements OnInit {
         }
       },
       error: (error) => {
-        this._snackBar.open(
-          `Sorry, there is an error: ${error}. Try again later.`, 'OK',
-          { panelClass: 'error' }
-        );
+        this.snackBar.open(`Sorry, there is an error: ${error}. Try again later.`, 'OK', { panelClass: 'error' });
       }
     })
   }
