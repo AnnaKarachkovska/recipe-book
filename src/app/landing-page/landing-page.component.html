@@ -4,7 +4,7 @@
     <a routerLink="/meals/{{ randomMeal?.id }}">
       <mat-grid-tile
         class="recomendations-grid-item text"
-        style="background-image: url('{{ randomMealImageUrl }}')"
+        style="background-image: url('{{ randomMeal?.imageUrl }}/preview')"
       >
         <h3>Random Meal</h3>
       </mat-grid-tile>
@@ -19,7 +19,7 @@
         <h3>Best ingredients</h3>
       </mat-grid-tile>
     </a>
-    <a routerLink="/areas/{{ country }}">
+    <a routerLink="/meals" [queryParams]="{ area: country }" >
       <mat-grid-tile
         class="recomendations-grid-item text"
         style="
@@ -35,13 +35,13 @@
   <h2 class="section-title">Categories</h2>
   <mat-grid-list cols="5" rowHeight="3:1" gutterSize="5px">
     <a
-      *ngFor="let category of categories; let i = index"
+      *ngFor="let category of categories"
       routerLink="/meals"
       [queryParams]="{ category: category }"
     >
       <mat-grid-tile
         class="category-grid-item text"
-        style="background-image: url('{{ categoryImageUrls[i] }}')"
+        style="background-image: url('https://www.themealdb.com/images/category/{{ category }}.png')"
       >
         <h3>{{ category }}</h3>
       </mat-grid-tile>

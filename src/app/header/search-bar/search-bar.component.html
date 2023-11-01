@@ -1,0 +1,25 @@
+<form>
+  <div class="input-container">
+    <mat-icon>search</mat-icon>
+    <input
+      type="text"
+      placeholder="Meal name..."
+      matInput
+      [formControl]="searchControl"
+      [matAutocomplete]="auto"
+      class="form-input"
+    />
+  </div>
+  <mat-autocomplete 
+    autoActiveFirstOption 
+    #auto="matAutocomplete" 
+    (optionSelected)='submit($event.option.value)'
+  >
+    <mat-option
+      *ngFor="let option of filteredOptions | async"
+      [value]="option.name"
+    >
+      {{ option.name }}
+    </mat-option>
+  </mat-autocomplete>
+</form>

@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Ingredient } from 'app/shared/ingredient.model';
@@ -14,6 +15,11 @@ export class IngredientsComponent implements OnInit {
   ingredientControl = new FormControl('');
   ingredients: Observable<Ingredient[]>;
   filteredResult: Observable<Ingredient[]>;
+
+  isShown = false;
+  toggle() {
+    this.isShown = true;
+  }
 
   constructor (private mealDbService: MealDbService) {
     this.filteredResult = this.ingredientControl.valueChanges.pipe(

@@ -10,22 +10,19 @@ import { CountryNames } from 'environments/country-names';
 export class AreasComponent implements OnInit{
   constructor (private mealDbService: MealDbService) {};
 
-  areas: string[];
-  areaImageUrls: string[] = [];
+  areas: {country: string, code: string}[] = [];
 
   ngOnInit() {
-    this.mealDbService.getAreas().subscribe(res => {      
-      this.areas = res;
-      
-      for (let area of this.areas) {
+    this.mealDbService.getAreas().subscribe(areas => {            
+      for (let area of areas) {
         const countryName = Object.entries(CountryNames)
           .filter(countryName => countryName[1] === area)
           .map(countryName => countryName[0]);
 
         if (countryName[0] !== undefined) {
-          this.areaImageUrls.push("https://flagsapi.com/" + countryName[0] + "/shiny/64.png");
+          this.areas.push({country: area, code: countryName[0]});
         } else {
-          this.areaImageUrls.push("https://upload.wikimedia.org/wikipedia/commons/2/2f/Missing_flag.png");
+          this.areas.push({country: area, code: "JE"});
         }
       }
     })

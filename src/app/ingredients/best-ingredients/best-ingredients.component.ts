@@ -33,13 +33,9 @@ export class BestIngredientsComponent implements OnInit {
       },
       error: (error) => {
         this._snackBar.open(
-          `Sorry, there is an error: ${error}. Try again later.`, '',
-          {
-            verticalPosition: 'top',
-            horizontalPosition: 'end',
-            duration: 1500,
-            panelClass: ['snackbar']
-          });
+          `Sorry, there is an error: ${error}. Try again later.`, 'OK',
+          { panelClass: 'error' }
+        );
       }
     })
   }

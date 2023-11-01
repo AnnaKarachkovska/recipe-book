@@ -10,14 +10,10 @@ export class CategoriesComponent implements OnInit{
   constructor (private mealDbService: MealDbService) {};
 
   categories: string[];
-  categoryImageUrls: string[] = [];
 
   ngOnInit() {
-    this.mealDbService.getCategories().subscribe(res => {
-      this.categories = res;
-      for (let i = 0; i< this.categories.length; i++) {
-        this.categoryImageUrls.push('https://www.themealdb.com/images/category/' + this.categories[i] + '.png');
-      };      
+    this.mealDbService.getCategories().subscribe(categories => {
+      this.categories = categories;   
     })
   }
 }

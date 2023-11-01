@@ -1,4 +1,4 @@
-<mat-card class="card">
+<mat-card class="card" [@insertRemoveTrigger]="ingredient ? 'open' : 'closed'">
   <mat-spinner *ngIf="!ingredient" 
     class="spinner">
   </mat-spinner>

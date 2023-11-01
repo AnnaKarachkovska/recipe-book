@@ -16,10 +16,20 @@ body {
 }
 
 .mat-mdc-snack-bar-container {
-  &.snackbar {
+  &.error {
     --mdc-snackbar-container-color: #f44335;
+    // --mat-mdc-snack-bar-button-color: #fff;
+    // --mdc-snackbar-supporting-text-color: #fff;
+  }
+  &.success {
+    --mdc-snackbar-container-color: #52c543;
+  }
+
+  & .mdc-button__label {
+    color: #fff;
   }
 }
+
 
 .table>tbody>tr.active>td {
   background-color: #d0ddfc;

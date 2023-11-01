@@ -35,13 +35,9 @@ export class RecipeDetailComponent implements OnInit {
         }, 
         error: (error) => {
           this._snackBar.open(
-            `Sorry, there is an error: ${error}. Try again later.`, '',
-            {
-              verticalPosition: 'top',
-              horizontalPosition: 'end',
-              duration: 1500,
-              panelClass: ['snackbar']
-            });
+            `Sorry, there is an error: ${error}. Try again later.`, 'OK',
+            { panelClass: 'error' }
+          );
         }
       })
   }
@@ -58,12 +54,8 @@ export class RecipeDetailComponent implements OnInit {
     if (this.meal?.ingredients) {
       this.shoppingListService.addIngredients(this.meal.ingredients);
       this._snackBar.open(
-        'Ingrediens have been added to the shopping list.', '',
-        {
-          verticalPosition: 'top',
-          horizontalPosition: 'end',
-          duration: 1500
-        });
+        'Ingrediens have been added to the shopping list.', 'OK',
+      );
     }
   }
 

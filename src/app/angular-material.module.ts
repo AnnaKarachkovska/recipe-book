@@ -14,7 +14,7 @@ import { MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatTooltipModule } from "@angular/material/tooltip";
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
@@ -67,7 +67,15 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatChipsModule,
     ScrollingModule,
     MatProgressSpinnerModule
-  ]
+  ],
+  providers: [{
+    provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, 
+    useValue: {
+      duration: 2500,
+      verticalPosition: 'top',
+      horizontalPosition: 'end'
+    }
+  }]
 })
 export class AngularMaterialModule {
 }

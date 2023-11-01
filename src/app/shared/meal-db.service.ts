@@ -103,6 +103,28 @@ export class MealDbService {
         }))
   }
 
+  getAllMeals() {
+    return this.http
+      .get<{ meals: MealFromAPI[] }>(this.url + 'search.php?s=')
+      .pipe(
+        catchError(this.handleError),
+        map(({ meals }) => {
+          let mealNames: Meal[] = [];
+          meals.map(meal => {
+            mealNames.push({
+              id: meal.idMeal,
+              name: meal.strMeal,
+              area: meal.strArea,
+              category: meal.strCategory,
+              imageUrl: meal.strMealThumb,
+              instructions: meal.strInstructions,
+              ingredients: [{ ingredient: '', amount: '' }]
+            })
+          })
+          return mealNames;
+        }))
+  }
+
   getMealsByFirstLetter(letter: string) {
     return this.http
       .get<{ meals: MealFromAPI[] }>(this.url + 'search.php?f=' + letter)

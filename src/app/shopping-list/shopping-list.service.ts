@@ -33,12 +33,8 @@ export class ShoppingListService {
     
     if (ingredientRepeat) {
       this._snackBar.open(
-        `Ingredient with name "${ingredientRepeat.name}" has already been added.`, '',
-        {
-          verticalPosition: 'top',
-          horizontalPosition: 'end',
-          duration: 2000
-        });
+        `Ingredient with name "${ingredientRepeat.name}" has already been added.`, 'OK'
+      );
     } else {
       this.ingredients.push(ingredient);
     }
@@ -50,7 +46,7 @@ export class ShoppingListService {
     this.mealDbService.getIngredients().subscribe(allIngredients => {
       ingredients.forEach(element => {
         const ingredient = allIngredients
-          .find(ingredient => ingredient.name === element.ingredient);
+          .find(ingredient => ingredient.name.toLowerCase() === element.ingredient.toLowerCase());
         const ingredientRepeatIndex = this.ingredients
           .findIndex(element => element.id === ingredient?.id);
         
@@ -77,12 +73,8 @@ export class ShoppingListService {
     
     if (ingredientRepeat) {
       this._snackBar.open(
-        `Ingredient with name "${ingredientRepeat.name}" has already been added.`, '',
-        {
-          verticalPosition: 'top',
-          horizontalPosition: 'end',
-          duration: 2000
-        });
+        `Ingredient with name "${ingredientRepeat.name}" has already been added.`, 'OK'
+      );
     } else {
       this.ingredients.splice(index, 0, newIngredient);
     }

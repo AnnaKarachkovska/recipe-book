@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { debounceTime, map, Observable, startWith } from 'rxjs';
-import { MealDbService } from '../meal-db.service';
+import { MealDbService } from '../../shared/meal-db.service';
 
 @Component({
   selector: 'app-search-bar',
@@ -11,10 +11,8 @@ import { MealDbService } from '../meal-db.service';
 })
 export class SearchBarComponent {
   searchControl = new FormControl('');
-  filteredOptions: Observable<string[]>;
-
+  filteredOptions: Observable<{ name: string, id: string }[]>;
   meals: { name: string, id: string }[] = [];
-  options: string[] = [];
 
   constructor(private mealsDbService: MealDbService,
     private router: Router) { };
@@ -27,9 +25,9 @@ export class SearchBarComponent {
     )
   }
 
-  submit() {
+  submit(value: string) {
     for (let meal of this.meals) {
-      if (meal.name === this.searchControl.value) {
+      if (meal.name === value) {
         this.router.navigate([`/meals/${meal.id}`])
         this.searchControl.setValue('');
         this.meals = [];
@@ -37,18 +35,17 @@ export class SearchBarComponent {
     }
   }
 
-  private _filter(value: string): string[] {
+  private _filter(value: string): { name: string, id: string }[] {
     const filterValue = value.toLowerCase();
 
-    if (value.length !== 0 && value.length < 2) {
+    if (value.length !== 0) {
       this.mealsDbService.getMealsByFirstLetter(value.slice(0, 1))
-        .subscribe(res => {
-          this.meals = res;
+        .subscribe(meals => {
+          this.meals = meals;
         });
     }
 
-    this.options = this.meals.map(meal => meal.name);
-
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+    return this.meals
+      .filter(meal => meal.name.toLowerCase().includes(filterValue));
   }
 }

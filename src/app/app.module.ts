@@ -4,7 +4,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { DropdownDirective } from './shared/dropdown.directive';
 import { AppRoutingModule } from './app-routing.module';
 import { DialogWindowComponent } from './shared/dialog-window/dialog-window.component';
 
@@ -21,7 +20,7 @@ import { CategoriesModule } from './categories/categories.module';
 import { IngredientsModule } from './ingredients/ingredients.module';
 import { LandingPageModule } from './landing-page/landing-page.module';
 import { HttpClientModule } from '@angular/common/http';
-import { SearchBarComponent } from './shared/search-bar/search-bar.component';
+import { SearchBarComponent } from './header/search-bar/search-bar.component';
 import { FooterComponent } from './footer/footer.component';
 import { FeedbackFormComponent } from './footer/feedback-form/feedback-form.component';
 
@@ -35,7 +34,6 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
   declarations: [
     AppComponent,
     HeaderComponent,
-    DropdownDirective,
     DialogWindowComponent,
     SearchBarComponent,
     FooterComponent,

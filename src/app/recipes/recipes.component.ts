@@ -84,6 +84,19 @@ export class RecipesComponent implements OnInit {
           } as Filter))
       );
     });
+
+    this.mealDbService.getAllMeals().subscribe({
+      next: (meals) => {
+        if (this.tags.length === 0) {
+          this.meals = meals;
+        }
+      }, 
+      error: (error) => {
+        this._snackBar.open(
+          `Sorry, there is an error: ${error}. Try again later.`, 'OK',
+          { panelClass: 'error' }
+        );
+      }})
   }
 
   add(event: MatChipInputEvent) {
@@ -110,13 +123,7 @@ export class RecipesComponent implements OnInit {
       )
     } else {
       this._snackBar.open(
-        `There is no area or category with the name "${value}". Please choose the option from the list.`, '',
-        {
-          verticalPosition: 'top',
-          horizontalPosition: 'end',
-          duration: 3000,
-          panelClass: ['snackbar']
-        }
+        `There is no area or category with the name "${value}". Please choose the option from the list.`, 'OK',
       );
     }
 
@@ -164,13 +171,8 @@ export class RecipesComponent implements OnInit {
       }, 
       error: (error) => {
         this._snackBar.open(
-          `Sorry, there is an error: ${error}. Try again later.`, '',
-          {
-            verticalPosition: 'top',
-            horizontalPosition: 'end',
-            duration: 1500,
-            panelClass: ['snackbar']
-          }
+          `Sorry, there is an error: ${error}. Try again later.`, 'OK',
+          { panelClass: 'error' }
         );
       }})
   }

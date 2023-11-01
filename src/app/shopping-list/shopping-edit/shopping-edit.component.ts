@@ -90,12 +90,8 @@ export class ShoppingEditComponent implements OnChanges, OnInit {
       }
     } else {
       this._snackBar.open(
-        `Ingredient with name "${this.ingredientForm.value['name']}" is not found.`, '',
-        {
-          verticalPosition: 'top',
-          horizontalPosition: 'end',
-          duration: 2000
-        });
+        `Ingredient with name "${this.ingredientForm.value['name']}" is not found.`, 'OK',
+      );
     }
 
     this.clear();

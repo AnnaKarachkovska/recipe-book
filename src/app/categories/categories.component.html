@@ -5,13 +5,13 @@
   class="grid-list"
 >
   <a
-    *ngFor="let category of categories; let i = index"
+    *ngFor="let category of categories"
     routerLink="../meals"
     [queryParams]="{ category: category }"
   >
     <mat-grid-tile
       class="grid-item"
-      style="background-image: url('{{ categoryImageUrls[i] }}')"
+      style="background-image: url('https://www.themealdb.com/images/category/{{ category }}.png')"
     >
       <h3>{{ category }}</h3>
     </mat-grid-tile>

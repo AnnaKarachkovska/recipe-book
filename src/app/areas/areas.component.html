@@ -5,14 +5,14 @@
   class="grid-list"
 >
   <a
-    *ngFor="let area of areas; let i = index"
+    *ngFor="let area of areas"
     routerLink="../meals"
-    [queryParams]="{ area: area }"
+    [queryParams]="{ area: area.country}"
     class="link"
   >
     <mat-grid-tile>
-      <img src="{{areaImageUrls[i]}}" alt="{{area}}" width="30"/>
-      <h3 class="mb-0 ml-1">{{ area }}</h3>
+      <img src="https://flagsapi.com/{{ area.code }}/shiny/64.png" alt="{{area.country}}" width="30"/>
+      <h3 class="mb-0 ml-1">{{ area.country }}</h3>
     </mat-grid-tile>
   </a>
 </mat-grid-list>
