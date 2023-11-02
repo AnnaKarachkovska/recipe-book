@@ -1,5 +1,5 @@
 <div class="row">
-  <section class="section" [ngClass]="{'col-sm-6': isShown}">
+  <section class="section" [ngClass]="{'col-sm-6': outlet.isActivated}">
     <form>
       <mat-form-field class="form-field">
         <input
@@ -15,7 +15,7 @@
           *cdkVirtualFor="let ingredient of filteredResult | async"
           class="mb-3 list-item"
         >
-          <a [routerLink]="ingredient.id" class="link" (click)="toggle()">
+          <a [routerLink]="ingredient.id" class="link">
             <img
               width="50"
               class="mr-3"
@@ -29,7 +29,6 @@
     </cdk-virtual-scroll-viewport>
   </section>
   <section class="col-sm-6">
-    <!-- isActivated -->
-    <router-outlet></router-outlet>
+    <router-outlet #outlet="outlet"></router-outlet>
   </section>
 </div>

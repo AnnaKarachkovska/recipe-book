@@ -1,6 +1,6 @@
 <div class="row">
   <section class="section col-sm-6">
-    <!-- TODO: while ingredients load - show a loader -->
+    <mat-spinner *ngIf="!bestIngredients"></mat-spinner>
     <mat-list>
       <mat-list-item *ngFor="let ingredient of bestIngredients"
                      class="mb-3">

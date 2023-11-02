@@ -186,10 +186,25 @@ export class MealDbService {
         }))
   }
 
+  getRandomIngredients(number: number) {
+    return this.getIngredients()
+      .pipe(
+        map(ingredients => {
+          let ingredientsArray = [];
+          for (let i = 0; i < number; i++) {
+            ingredientsArray.push(
+              ingredients[Math.round(Math.random() * (ingredients.length - 1) + 1)]
+            );
+          }
+          return ingredientsArray;
+        })
+      )
+  }
+
   getIngredientById(id: string) {
     return this.getIngredients()
       .pipe(
-        map(res => res.find(ingredient => ingredient.id === id))
+        map(ingredients => ingredients.find(ingredient => ingredient.id === id))
       );
   }
 

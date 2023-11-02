@@ -19,26 +19,19 @@ export class BestIngredientsComponent implements OnInit {
   }
 
   ngOnInit() {
-    // TODO: get a random selection of ingredients only if it's not already stored in local storage
-    this.mealDbService.getIngredients().subscribe({
+    this.mealDbService.getRandomIngredients(10).subscribe({
       next: ingredients => {
-        let ingredientsArray = [];
-        for (let i = 0; i < 10; i++) {
-          // TODO: 574 is a magic number. Why 574?
-          ingredientsArray.push(ingredients[Math.round(Math.random() * (574 - 1) + 1)]);
-        }
-
-        const store = localStorage.getItem("bestIngredients");
+        const store = sessionStorage.getItem("bestIngredients");
 
         if (store !== null) {
           this.bestIngredients = JSON.parse(store);
         } else {
-          this.bestIngredients = ingredientsArray;
-          localStorage.setItem("bestIngredients", JSON.stringify(ingredientsArray));
+          this.bestIngredients = ingredients;
+          sessionStorage.setItem("bestIngredients", JSON.stringify(ingredients));
         }
       },
-      error: (error) => {
-        this.snackBar.open(`Sorry, there is an error: ${error}. Try again later.`, 'OK', { panelClass: 'error' });
+      error: () => {
+        this.snackBar.open('Oops, something bad happend. Please, try again later.', 'OK', { panelClass: 'error' });
       }
     })
   }

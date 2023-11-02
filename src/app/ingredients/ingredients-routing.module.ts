@@ -9,7 +9,6 @@ import {
 } from "./ingredient-detail/ingredient-detail.component";
 import { IngredientsComponent } from "./ingredients.component";
 
-// TODO: rename file to match module class defined inside
 @NgModule({
   imports: [
     RouterModule.forChild([

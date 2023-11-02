@@ -1,6 +1,5 @@
 import {
-  animate, state, style, transition,
-  trigger,
+  animate, state, style, transition, trigger,
 } from "@angular/animations";
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -15,9 +14,8 @@ import { MealDbService } from "app/shared/services/meal-db.service";
   templateUrl: './ingredient-detail.component.html',
   styleUrls: ['./ingredient-detail.component.scss'],
   animations: [
-    trigger('insertRemoveTrigger', [
-      state('open', style({
-      })),
+    trigger('insertRemove', [
+      state('open', style({})),
       state('closed', style({
         left: "500px",
         opacity: 0,

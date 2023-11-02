@@ -16,11 +16,6 @@ export class IngredientsComponent implements OnInit {
   ingredients: Observable<Ingredient[]>;
   filteredResult: Observable<Ingredient[]>;
 
-  isShown = false;
-  toggle() {
-    this.isShown = true;
-  }
-
   constructor (private mealDbService: MealDbService) {
     this.filteredResult = this.ingredientControl.valueChanges.pipe(
       startWith(null),
