@@ -1,7 +1,5 @@
 <p mat-dialog-content>
-  <!-- TODO: this label renders this component useless for yes/no dialog scenarios outside recipes -->
-  <!-- TODO: make label configurable -->
-  Are you sure you want to delete "{{data.name}}" recipe?
+  Are you sure you want to {{data.action}} {{data.name}}?
 </p>
 <mat-dialog-actions align="end">
   <button mat-button

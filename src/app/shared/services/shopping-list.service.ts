@@ -5,11 +5,10 @@ import { Subject } from "rxjs";
 
 import { MealDbService } from "app/shared/services/meal-db.service";
 
-import { Ingredient } from "../shared/models/ingredient.model";
+import { Ingredient } from "../models/ingredient.model";
 
-// TODO: move to shared module - reason: service used in two different modules, not necessary for whole project
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ShoppingListService {
   ingredientsChanged = new Subject<Ingredient[]>();
@@ -44,7 +43,7 @@ export class ShoppingListService {
     this.ingredientsChanged.next([...this.ingredients]);
   }
 
-  addIngredients(ingredients: { ingredient: string, amount: string }[]) {
+  addIngredients(ingredients: { ingredient: string, amount: string }[]) {    
     this.mealDbService.getIngredients().subscribe(allIngredients => {
       ingredients.forEach(element => {
         const ingredient = allIngredients
@@ -57,11 +56,10 @@ export class ShoppingListService {
             ...ingredient,
             amount: Number.parseInt(element.amount) || 1
           });
+          this.ingredientsChanged.next([...this.ingredients]);
         }
       })
     })
-
-    this.ingredientsChanged.next([...this.ingredients]);
   }
 
   updateIngredient(id: string, newIngredient: Ingredient) {

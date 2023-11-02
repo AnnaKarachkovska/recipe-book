@@ -1,12 +1,14 @@
 import { SelectionModel } from "@angular/cdk/collections";
 import { AfterViewInit, Component, ViewChild } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
+import { YesNoDialogComponent } from "app/shared/components";
 
 import { Ingredient } from "../shared/models/ingredient.model";
-import { ShoppingListService } from "./shopping-list.service";
+import { ShoppingListService } from "../shared/services/shopping-list.service";
 
 @Component({
   selector: 'app-shopping-list',
@@ -23,8 +25,10 @@ export class ShoppingListComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private shoppingListService: ShoppingListService) {
+  constructor(private shoppingListService: ShoppingListService,
+    private dialog: MatDialog) {
     this.dataSource = new MatTableDataSource(this.shoppingListService.getIngredients());
+    
     this.shoppingListService.ingredientsChanged
       .pipe(takeUntilDestroyed())
       .subscribe(ingredients => {
@@ -64,15 +68,32 @@ export class ShoppingListComponent implements AfterViewInit {
     this.shoppingListService.startedEditing.next(id);
   }
 
-  deleteItem(id: string) {
-    this.shoppingListService.deleteIngredient(id);
-    this.shoppingListService.startedEditing.next('');
+  deleteItem(id: string, name: string) {
+    const dialogRef = this.dialog.open(
+      YesNoDialogComponent,
+      { data: { action: 'delete', name: name } }
+    );
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.shoppingListService.deleteIngredient(id);
+        this.shoppingListService.startedEditing.next('');
+      }
+    });
   }
 
   deleteAll() {
-    this.selection.selected.forEach(el => {
-      this.deleteItem(el.id);
-      this.selection.clear();
-    })
+    const dialogRef = this.dialog.open(
+      YesNoDialogComponent,
+      { data: { action: 'delete', name: 'these ingredients' } }
+    );
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.selection.selected.forEach(el => {
+          this.shoppingListService.deleteIngredient(el.id);
+          this.shoppingListService.startedEditing.next('');
+        })
+        this.selection.clear();
+      }
+    });
   }
 }

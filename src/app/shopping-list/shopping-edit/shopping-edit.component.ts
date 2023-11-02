@@ -9,7 +9,9 @@ import {
 import { Ingredient } from "app/shared/models/ingredient.model";
 import { MealDbService } from "app/shared/services/meal-db.service";
 
-import { ShoppingListService } from "../shopping-list.service";
+import { ShoppingListService } from "../../shared/services/shopping-list.service";
+import { MatDialog } from "@angular/material/dialog";
+import { YesNoDialogComponent } from "app/shared/components";
 
 @Component({
   selector: 'app-shopping-edit',
@@ -30,7 +32,8 @@ export class ShoppingEditComponent implements OnChanges, OnInit {
 
   constructor(private shoppingListService: ShoppingListService,
     private mealDbService: MealDbService,
-    private _snackBar: MatSnackBar) {
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog) {
     this.filteredResult = this.ingredientForm.controls['name'].valueChanges.pipe(
       startWith(null),
       map((ingredient: string | null) => (
@@ -88,7 +91,7 @@ export class ShoppingEditComponent implements OnChanges, OnInit {
         });
       }
     } else {
-      this._snackBar.open(
+      this.snackBar.open(
         `Ingredient with name "${this.ingredientForm.value['name']}" is not found.`, 'OK',
       );
     }
@@ -98,8 +101,16 @@ export class ShoppingEditComponent implements OnChanges, OnInit {
 
   deleteItem() {
     if (this.editedIngredient !== undefined) {
-      this.shoppingListService.deleteIngredient(this.editedIngredient.id);
-      this.clear();
+      const dialogRef = this.dialog.open(
+        YesNoDialogComponent,
+        { data: { action: 'delete', name: this.editedIngredient.name} }
+      );
+      dialogRef.afterClosed().subscribe(result => {
+        if (result && this.editedIngredient !== undefined) {
+          this.shoppingListService.deleteIngredient(this.editedIngredient.id);
+          this.clear();
+        }
+      });
     }
   }
 

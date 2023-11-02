@@ -6,12 +6,11 @@ import { switchMap } from "rxjs";
 
 import { Meal } from "app/shared/models/meal.model";
 import { MealDbService } from "app/shared/services/meal-db.service";
-import { ShoppingListService } from "app/shopping-list/shopping-list.service";
+import { ShoppingListService } from "app/shared/services/shopping-list.service";
 
 @Component({
   selector: 'app-recipe-detail',
   templateUrl: './recipe-detail.component.html',
-  providers: [],
   styleUrls: ['./recipe-detail.component.scss']
 })
 export class RecipeDetailComponent implements OnInit {
@@ -52,7 +51,7 @@ export class RecipeDetailComponent implements OnInit {
   // }
 
   onAddToShoppingList() {
-    if (this.meal?.ingredients) {
+    if (this.meal?.ingredients) {      
       this.shoppingListService.addIngredients(this.meal.ingredients);
       this._snackBar.open(
         'Ingrediens have been added to the shopping list.', 'OK',

@@ -20,8 +20,8 @@ import { IngredientsModule } from "./ingredients/ingredients.module";
 import { LandingPageModule } from "./landing-page/landing-page.module";
 import { RecipesModule } from "./recipes/recipes.module";
 import {
-  DialogWindowComponent,
-} from "./shared/components/dialog-window/dialog-window.component";
+  YesNoDialogComponent,
+} from "./shared/components/yes-no-dialog/yes-no-dialog.component";
 import { SharedModule } from "./shared/shared.module";
 import { ShoppingListModule } from "./shopping-list/shopping-list.module";
 
@@ -35,7 +35,7 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
   declarations: [
     AppComponent,
     HeaderComponent,
-    DialogWindowComponent,
+    YesNoDialogComponent,
     SearchBarComponent,
     FooterComponent,
     FeedbackFormComponent,
