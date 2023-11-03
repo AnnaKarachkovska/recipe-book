@@ -26,13 +26,13 @@ import {
       },
       { 
         path: 'areas', 
-        loadChildren: () => import("./areas/areas.module")
-          .then(module => module.AreasModule)
+        loadComponent: () => import("./areas/areas.component")
+          .then(module => module.AreasComponent)
       },
       { 
         path: 'categories', 
-        loadChildren: () => import("./categories/categories.module")
-          .then(module => module.CategoriesModule)
+        loadComponent: () => import("./categories/categories.component")
+          .then(module => module.CategoriesComponent)
       },
       { 
         path: 'ingredients', 

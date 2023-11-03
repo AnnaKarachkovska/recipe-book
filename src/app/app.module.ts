@@ -8,8 +8,8 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { AreasModule } from "./areas/areas.module";
-import { CategoriesModule } from "./categories/categories.module";
+import { AreasComponent } from "./areas/areas.component";
+import { CategoriesComponent } from "./categories/categories.component";
 import {
   FeedbackFormComponent,
 } from "./footer/feedback-form/feedback-form.component";
@@ -48,10 +48,10 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
     SharedModule,
     RecipesModule,
     ShoppingListModule,
-    AreasModule,
-    CategoriesModule,
+    AreasComponent,
+    CategoriesComponent,
     IngredientsModule,
-    LandingPageModule
+    LandingPageModule,
   ],
   providers: [{provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: myCustomTooltipDefaults}],
   bootstrap: [AppComponent]
