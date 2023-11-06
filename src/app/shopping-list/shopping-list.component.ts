@@ -25,8 +25,10 @@ export class ShoppingListComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private shoppingListService: ShoppingListService,
-    private dialog: MatDialog) {
+  constructor(
+    private shoppingListService: ShoppingListService,
+    private dialog: MatDialog
+  ) {
     this.dataSource = new MatTableDataSource(this.shoppingListService.getIngredients());
     
     this.shoppingListService.ingredientsChanged

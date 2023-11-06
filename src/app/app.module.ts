@@ -12,12 +12,12 @@ import { AreasComponent } from "./areas/areas.component";
 import { CategoriesComponent } from "./categories/categories.component";
 import {
   FeedbackFormComponent,
-} from "./footer/feedback-form/feedback-form.component";
-import { FooterComponent } from "./footer/footer.component";
-import { HeaderComponent } from "./header/header.component";
-import { SearchBarComponent } from "./header/search-bar/search-bar.component";
+} from "./core/footer/feedback-form/feedback-form.component";
+import { FooterComponent } from "./core/footer/footer.component";
+import { HeaderComponent } from "./core/header/header.component";
+import { SearchBarComponent } from "./core/header/search-bar/search-bar.component";
 import { IngredientsModule } from "./ingredients/ingredients.module";
-import { LandingPageModule } from "./landing-page/landing-page.module";
+import { LandingPageModule } from "./core/landing-page/landing-page.module";
 import { RecipesModule } from "./recipes/recipes.module";
 import {
   YesNoDialogComponent,

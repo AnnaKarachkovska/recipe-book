@@ -14,9 +14,13 @@ import { environment } from "environments/environment";
   styleUrls: ['./landing-page.component.scss']
 })
 export class LandingPageComponent implements OnInit {
-  constructor(private mealDbService: MealDbService,
+  
+  constructor(
+    private mealDbService: MealDbService,
     private http: HttpClient,
-    private _snackBar: MatSnackBar) { };
+    private snackBar: MatSnackBar
+  ) { 
+  }
 
   randomMeal: Meal | null;
   categories: string[];
@@ -47,11 +51,8 @@ export class LandingPageComponent implements OnInit {
             this.country = "Unknown";
           }
         },
-        error: (error) => {
-          this._snackBar.open(
-            `Sorry, there is an error: ${error}. Try again later.`, 'OK',
-            { panelClass: 'error' }
-          );
+        error: () => {
+          this.snackBar.open('Oops, something bad happend. Please, try again later.', 'OK', { panelClass: 'error' });
         }
       })
   };

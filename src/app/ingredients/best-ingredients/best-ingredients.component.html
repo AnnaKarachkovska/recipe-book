@@ -1,22 +1,28 @@
 <div class="row">
-  <section class="section col-sm-6">
-    <mat-spinner *ngIf="!bestIngredients"></mat-spinner>
-    <mat-list>
-      <mat-list-item *ngFor="let ingredient of bestIngredients"
-                     class="mb-3">
+  <mat-spinner *ngIf="!bestIngredients"></mat-spinner>
+  <section class="section" [ngClass]="{'col-sm-6': outlet.isActivated}">
+    <mat-grid-list
+      cols="{{outlet.isActivated ? 1 : 3}}"
+      rowHeight="fit" 
+      gutterSize="10px" 
+      class="grid-list"
+      [ngClass]="{'big-grid-list': outlet.isActivated}"
+    >
+      <mat-grid-tile *ngFor="let ingredient of bestIngredients"
+                     class="mb-3 best-ingredient-grid-tile">
         <a [routerLink]="ingredient.id"
            class="link">
           <img width="50"
                class="mr-3 ingredient-image"
                src="{{ ingredient.imageUrlSmall }}"
                alt="{{ ingredient.name }}" />
-          {{ ingredient.name }}
+          <h4 class="grid-tile-title">{{ ingredient.name }}</h4>
         </a>
-      </mat-list-item>
-    </mat-list>
+      </mat-grid-tile>
+    </mat-grid-list>
   </section>
 
   <section class="col-sm-6">
-    <router-outlet></router-outlet>
+    <router-outlet #outlet="outlet"></router-outlet>
   </section>
 </div>

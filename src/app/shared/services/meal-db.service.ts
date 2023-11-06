@@ -25,7 +25,10 @@ export type IngredientFromAPI = {
   providedIn: 'root',
 })
 export class MealDbService {
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient
+  ) { 
+  }
 
   url: string = 'https://www.themealdb.com/api/json/v1/1/';
 

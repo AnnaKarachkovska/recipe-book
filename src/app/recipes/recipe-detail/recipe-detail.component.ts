@@ -15,13 +15,15 @@ import { ShoppingListService } from "app/shared/services/shopping-list.service";
 })
 export class RecipeDetailComponent implements OnInit {
   meal: Meal | null;
-  mealImageUrl: string = '';
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private route: ActivatedRoute,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
     private mealDbService: MealDbService,
-    private shoppingListService: ShoppingListService) { }
+    private shoppingListService: ShoppingListService
+  ) { 
+  }
 
   ngOnInit() {
     this.route.params
@@ -31,13 +33,9 @@ export class RecipeDetailComponent implements OnInit {
       .subscribe({
         next: (meal) => {
           this.meal = meal;
-          this.mealImageUrl = meal?.imageUrl + '/preview';
         },
-        error: (error) => {
-          this._snackBar.open(
-            `Sorry, there is an error: ${error}. Try again later.`, 'OK',
-            { panelClass: 'error' }
-          );
+        error: () => {
+          this.snackBar.open('Oops, something bad happend. Please, try again later.', 'OK', { panelClass: 'error' });
         }
       })
   }
@@ -53,7 +51,7 @@ export class RecipeDetailComponent implements OnInit {
   onAddToShoppingList() {
     if (this.meal?.ingredients) {      
       this.shoppingListService.addIngredients(this.meal.ingredients);
-      this._snackBar.open(
+      this.snackBar.open(
         'Ingrediens have been added to the shopping list.', 'OK',
       );
     }

@@ -29,10 +29,13 @@ import { MealDbService } from "app/shared/services/meal-db.service";
 export class IngredientDetailComponent implements OnInit {
   ingredient: Ingredient | undefined;
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private route: ActivatedRoute,
     private mealDbService: MealDbService,
     private changeDetector: ChangeDetectorRef,
-    private _snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar
+  ) { 
+  }
 
   ngOnInit() {
     this.route.params
@@ -44,11 +47,8 @@ export class IngredientDetailComponent implements OnInit {
           this.ingredient = ingredient;
           this.changeDetector.markForCheck();
         },
-        error: (error) => {
-          this._snackBar.open(
-            `Sorry, there is an error: ${error}. Try again later.`, 'OK',
-            { panelClass: 'error' }
-          );
+        error: () => {
+          this.snackBar.open('Oops, something bad happend. Please, try again later.', 'OK', { panelClass: 'error' });
         }
       });
   }

@@ -19,7 +19,7 @@ export class BestIngredientsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.mealDbService.getRandomIngredients(10).subscribe({
+    this.mealDbService.getRandomIngredients(12).subscribe({
       next: ingredients => {
         const store = sessionStorage.getItem("bestIngredients");
 

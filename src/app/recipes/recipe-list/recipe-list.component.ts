@@ -2,7 +2,6 @@ import { Component, Input } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 
 import { Meal } from "app/shared/models/meal.model";
-
 import { RecipeEditComponent } from "../recipe-edit/recipe-edit.component";
 
 @Component({
@@ -20,5 +19,4 @@ export class RecipeListComponent {
   onNewRecipe() {
     this.dialog.open(RecipeEditComponent);
   };
-
 }

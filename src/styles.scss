@@ -30,6 +30,9 @@ body {
   }
 }
 
+.best-ingredient-grid-tile .mat-grid-tile-content {
+  justify-content: start;
+}
 
 .table>tbody>tr.active>td {
   background-color: #d0ddfc;

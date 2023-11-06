@@ -16,7 +16,9 @@ export class IngredientsComponent implements OnInit {
   ingredients: Observable<Ingredient[]>;
   filteredResult: Observable<Ingredient[]>;
 
-  constructor (private mealDbService: MealDbService) {
+  constructor (
+    private mealDbService: MealDbService,
+  ) {
     this.filteredResult = this.ingredientControl.valueChanges.pipe(
       startWith(null),
       switchMap((ingredient: string | null) => (

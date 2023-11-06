@@ -2,13 +2,14 @@
   .chip-box {
     width: 70%; 
     margin-bottom: 20px;
-  }
-
-  .chip-text {
-    display: inline;
+    padding-left: 10px;
   }
 
   .category-chip {
     background-color: #bdcce7;
+  }
+
+  .chip-option {
+    max-width: 200px;
   }
 }

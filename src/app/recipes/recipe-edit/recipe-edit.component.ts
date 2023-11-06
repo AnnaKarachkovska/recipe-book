@@ -10,8 +10,8 @@ import {
   getIngredientControl,
 } from "app/shared/models/ingredient-form-template";
 
-import { Recipe } from "../recipe.model";
-import { RecipeService } from "../recipe.service";
+import { Recipe } from "../models/recipe.model";
+import { RecipeService } from "../services/recipe.service";
 
 export type IngredientForm = FormGroup<{
   name: FormControl<string | null>;

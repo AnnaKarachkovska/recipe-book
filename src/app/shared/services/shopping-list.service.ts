@@ -16,8 +16,11 @@ export class ShoppingListService {
 
   private ingredients: Ingredient[] = [];
 
-  constructor(private _snackBar: MatSnackBar,
-    private mealDbService: MealDbService) { }
+  constructor(
+    private snackBar: MatSnackBar,
+    private mealDbService: MealDbService,
+  ) {
+  }
 
   getIngredients() {
     return [...this.ingredients];
@@ -33,7 +36,7 @@ export class ShoppingListService {
       el => el.id === ingredient.id);
 
     if (ingredientRepeat) {
-      this._snackBar.open(
+      this.snackBar.open(
         `Ingredient with name "${ingredientRepeat.name}" has already been added.`, 'OK'
       );
     } else {
@@ -44,22 +47,33 @@ export class ShoppingListService {
   }
 
   addIngredients(ingredients: { ingredient: string, amount: string }[]) {    
-    this.mealDbService.getIngredients().subscribe(allIngredients => {
-      ingredients.forEach(element => {
-        const ingredient = allIngredients
-          .find(ingredient => ingredient.name.toLowerCase() === element.ingredient.toLowerCase());
-        const ingredientRepeatIndex = this.ingredients
-          .findIndex(element => element.id === ingredient?.id);
+    this.mealDbService.getIngredients()
+      .subscribe({
+        next: (allIngredients) => {
+          ingredients.forEach(element => {
+            const ingredient = allIngredients
+              .find(ingredient => 
+                ingredient.name.toLowerCase() === element.ingredient.toLowerCase()
+              );
 
-        if (ingredient !== undefined && ingredientRepeatIndex === -1) {
-          this.ingredients.push({
-            ...ingredient,
-            amount: Number.parseInt(element.amount) || 1
-          });
-          this.ingredientsChanged.next([...this.ingredients]);
+            const ingredientRepeatIndex = this.ingredients
+              .findIndex(element => 
+                element.id === ingredient?.id
+              );
+
+            if (ingredient !== undefined && ingredientRepeatIndex === -1) {
+              this.ingredients.push({
+                ...ingredient,
+                amount: Number.parseInt(element.amount) || 1
+              });
+              this.ingredientsChanged.next([...this.ingredients]);
+            }
+          })
+        },
+        error: () => {
+          this.snackBar.open('Oops, something bad happend. Please, try again later.', 'OK', { panelClass: 'error' });
         }
       })
-    })
   }
 
   updateIngredient(id: string, newIngredient: Ingredient) {
@@ -72,7 +86,7 @@ export class ShoppingListService {
       el => el.id === newIngredient.id);
 
     if (ingredientRepeat) {
-      this._snackBar.open(
+      this.snackBar.open(
         `Ingredient with name "${ingredientRepeat.name}" has already been added.`, 'OK'
       );
     } else {

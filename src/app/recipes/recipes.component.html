@@ -16,7 +16,10 @@
           #auto="matAutocomplete"
           (optionSelected)="selected($event)"
         >
-          <mat-option *ngFor="let tag of filteredResult | async" [value]="tag">
+          <mat-option 
+            *ngFor="let tag of filteredResult | async" 
+            [value]="tag"
+          >
             {{ tag }}
           </mat-option>
         </mat-autocomplete>
@@ -24,11 +27,12 @@
     </form>
     <mat-chip-listbox class="mat-mdc-chip-set-stacked">
       <div *ngFor="let tag of tags" class="chip-box">
-        <p *ngIf="tag.type === 0" class="chip-text">Area:</p>
-        <p *ngIf="tag.type === 1" class="chip-text">Category:</p>
+        <p *ngIf="tag.type === areaType">Area:</p>
+        <p *ngIf="tag.type === categoryType">Category:</p>
         <mat-chip-option
           (removed)="remove(tag)"
-          [ngClass]="{ 'category-chip': tag.type === 1 }"
+          [ngClass]="{ 'category-chip': tag.type === categoryType }"
+          class="chip-option"
         >
           {{ tag.value }}
           <button matChipRemove>

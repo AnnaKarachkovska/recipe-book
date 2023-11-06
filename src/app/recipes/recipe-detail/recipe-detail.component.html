@@ -1,7 +1,7 @@
 <mat-spinner *ngIf="!meal" class="spinner"> </mat-spinner>
 <mat-card class="card">
   <img
-    [src]="mealImageUrl"
+    [src]="meal?.imageUrl + '/preview'"
     alt="{{ meal?.name }}"
     class="image"
     onerror="this.src = 'assets/images/recipes.png'"

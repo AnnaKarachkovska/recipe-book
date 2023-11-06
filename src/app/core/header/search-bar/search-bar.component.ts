@@ -3,7 +3,8 @@ import { FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 import { debounceTime, map, Observable, startWith } from "rxjs";
 
-import { MealDbService } from "../../shared/services/meal-db.service";
+import { MealDbService } from "../../../shared/services/meal-db.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-search-bar',
@@ -15,8 +16,12 @@ export class SearchBarComponent {
   filteredOptions: Observable<{ name: string, id: string }[]>;
   meals: { name: string, id: string }[] = [];
 
-  constructor(private mealsDbService: MealDbService,
-    private router: Router) { };
+  constructor(
+    private mealsDbService: MealDbService,
+    private router: Router,
+    private snackBar: MatSnackBar,
+  ) {
+  }
 
   ngOnInit() {
     this.filteredOptions = this.searchControl.valueChanges.pipe(
@@ -41,8 +46,11 @@ export class SearchBarComponent {
 
     if (value.length !== 0) {
       this.mealsDbService.getMealsByFirstLetter(value.slice(0, 1))
-        .subscribe(meals => {
-          this.meals = meals;
+        .subscribe({
+          next: meals => this.meals = meals,
+          error: () => {
+            this.snackBar.open('Oops, something bad happend. Please, try again later.', 'OK', { panelClass: 'error' });
+          }
         });
     }
 

@@ -30,10 +30,12 @@ export class ShoppingEditComponent implements OnChanges, OnInit {
   @ViewChild('form') formRef: { resetForm: () => void; };
   ingredientForm = getIngredientControl();
 
-  constructor(private shoppingListService: ShoppingListService,
+  constructor(
+    private shoppingListService: ShoppingListService,
     private mealDbService: MealDbService,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog) {
+    private dialog: MatDialog
+  ) {
     this.filteredResult = this.ingredientForm.controls['name'].valueChanges.pipe(
       startWith(null),
       map((ingredient: string | null) => (
@@ -46,8 +48,11 @@ export class ShoppingEditComponent implements OnChanges, OnInit {
   }
 
   ngOnInit() {
-    this.mealDbService.getIngredients().subscribe(ingredients => {
-      this.allIngredients = ingredients;
+    this.mealDbService.getIngredients().subscribe({
+      next: ingredients => this.allIngredients = ingredients,
+      error: () => {
+        this.snackBar.open('Oops, something bad happend. Please, try again later.', 'OK', { panelClass: 'error' });
+      }
     });
   }
 
@@ -76,7 +81,9 @@ export class ShoppingEditComponent implements OnChanges, OnInit {
     }
 
     const ingredient = this.allIngredients
-      .find(ingredient => ingredient.name === this.ingredientForm.value['name']);
+      .find(ingredient => 
+        ingredient.name.toLowerCase() === this.ingredientForm.value['name']?.toLowerCase()
+      );
 
     if (ingredient !== undefined) {
       if (this.editedIngredient !== undefined) {

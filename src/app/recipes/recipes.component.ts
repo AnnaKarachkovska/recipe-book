@@ -23,21 +23,25 @@ import { MealDbService } from "app/shared/services/meal-db.service";
 })
 export class RecipesComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
+  announcer = inject(LiveAnnouncer);
+
   tagControl = new FormControl('');
   filteredResult: Observable<string[]>;
   tags: Filter[] = [];
   allTags: Filter[] = [];
   params: {category?: string, area?: string};
   meals: Meal[] = [];
+  areaType = FilterType.Area;
+  categoryType = FilterType.Category;
 
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
 
-  announcer = inject(LiveAnnouncer);
-
-  constructor(private mealDbService: MealDbService,
-    private _snackBar: MatSnackBar,
+  constructor(
+    private mealDbService: MealDbService,
+    private snackBar: MatSnackBar,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+  ) {
     this.filteredResult = this.tagControl.valueChanges.pipe(
       startWith(null),
       map((tag: string | null) => (
@@ -50,62 +54,58 @@ export class RecipesComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
+  ngOnInit() {    
     this.route.queryParams.subscribe(params => {
       this.params = params;
       this.tags = [];
 
-      Object.entries(params).map(element => {
-        if (element[0] === 'area') {
-          this.tags.push({value: element[1], type: FilterType.Area});
-          this.getMeals(this.tags);
-        } else {
-          this.tags.push({value: element[1], type: FilterType.Category});
-          this.getMeals(this.tags);
-        }
-      })
-
       if (Object.entries(params).length === 0) {
-        this.tags = [];
-        this.getMeals(this.tags);
+        this.mealDbService.getAllMeals().subscribe({
+          next: (meals) => this.meals = meals,
+          error: () => {
+            this.snackBar.open('Oops, something bad happend. Please, try again later.', 'OK', { panelClass: 'error' });
+          }
+        })
+      } else {
+        Object.entries(params).map(element => {
+          if (element[0] === 'area') {
+            this.tags.push({value: element[1], type: FilterType.Area});
+          } else {
+            this.tags.push({value: element[1], type: FilterType.Category});
+          }
+          this.getMeals(this.tags);
+        })
       }
     })
 
     forkJoin({
       categories: this.mealDbService.getCategories(),
-      areas: this.mealDbService.getAreas()})
-    .subscribe(({ categories, areas }) => {
-      this.allTags.push(
-        ...categories.map(category => (
-        {
-          value: category,
-          type: FilterType.Category
-        } as Filter)),
-        ...areas.map(area => (
+      areas: this.mealDbService.getAreas(),
+    })
+    .subscribe({
+      next: ({ categories, areas }) => {
+        this.allTags.push(
+          ...categories.map(category => (
           {
-            value: area,
-            type: FilterType.Area
-          } as Filter))
-      );
-    });
-
-    this.mealDbService.getAllMeals().subscribe({
-      next: (meals) => {
-        if (this.tags.length === 0) {
-          this.meals = meals;
-        }
-      },
-      error: (error) => {
-        this._snackBar.open(
-          `Sorry, there is an error: ${error}. Try again later.`, 'OK',
-          { panelClass: 'error' }
+            value: category,
+            type: FilterType.Category
+          } as Filter)),
+          ...areas.map(area => (
+            {
+              value: area,
+              type: FilterType.Area
+            } as Filter))
         );
-      }})
+      },
+      error: () => {
+        this.snackBar.open('Oops, something bad happend. Please, try again later.', 'OK', { panelClass: 'error' });
+      }
+    });
   }
 
   add(event: MatChipInputEvent) {
     this.addTag((event.value || '').trim());
-    event.chipInput!.clear();
+    this.tagInput.nativeElement.value = '';
   }
 
   selected(event: MatAutocompleteSelectedEvent) {
@@ -122,11 +122,13 @@ export class RecipesComponent implements OnInit {
     if (tag !== undefined) {
       this.router.navigate(
         ['/meals'],
-        {queryParams: tag.type === FilterType.Area ? {area: tag.value} : {category: tag.value},
-        queryParamsHandling: 'merge'},
+        {
+          queryParams: tag.type === FilterType.Area ? {area: tag.value} : {category: tag.value},
+          queryParamsHandling: 'merge'
+        },
       )
     } else {
-      this._snackBar.open(
+      this.snackBar.open(
         `There is no area or category with the name "${value}". Please choose the option from the list.`, 'OK',
       );
     }
@@ -173,12 +175,10 @@ export class RecipesComponent implements OnInit {
           this.meals = meals[0];
         }
       },
-      error: (error) => {
-        this._snackBar.open(
-          `Sorry, there is an error: ${error}. Try again later.`, 'OK',
-          { panelClass: 'error' }
-        );
-      }})
+      error: () => {
+        this.snackBar.open('Oops, something bad happend. Please, try again later.', 'OK', { panelClass: 'error' });
+      }
+    })
   }
 
   private _filter(value: string): string[] {
