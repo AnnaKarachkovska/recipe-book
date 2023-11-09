@@ -17,13 +17,13 @@ import { FooterComponent } from "./core/footer/footer.component";
 import { HeaderComponent } from "./core/header/header.component";
 import { SearchBarComponent } from "./core/header/search-bar/search-bar.component";
 import { IngredientsModule } from "./ingredients/ingredients.module";
-import { LandingPageModule } from "./core/landing-page/landing-page.module";
 import { RecipesModule } from "./recipes/recipes.module";
 import {
   YesNoDialogComponent,
 } from "./shared/components/yes-no-dialog/yes-no-dialog.component";
 import { SharedModule } from "./shared/shared.module";
 import { ShoppingListModule } from "./shopping-list/shopping-list.module";
+import { LandingPageComponent } from "./core/landing-page/landing-page.component";
 
 export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
   showDelay: 500,
@@ -48,10 +48,10 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
     SharedModule,
     RecipesModule,
     ShoppingListModule,
+    LandingPageComponent,
     AreasComponent,
     CategoriesComponent,
     IngredientsModule,
-    LandingPageModule,
   ],
   providers: [{provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: myCustomTooltipDefaults}],
   bootstrap: [AppComponent]

@@ -7,11 +7,18 @@ import { CountryNames } from "app/shared/models/country-names";
 import { Meal } from "app/shared/models/meal.model";
 import { MealDbService } from "app/shared/services/meal-db.service";
 import { environment } from "environments/environment";
+import { SharedModule } from "app/shared/shared.module";
+import { RouterModule } from "@angular/router";
 
 @Component({
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
-  styleUrls: ['./landing-page.component.scss']
+  styleUrls: ['./landing-page.component.scss'],
+  standalone: true,
+  imports: [
+    SharedModule,
+    RouterModule,
+  ]
 })
 export class LandingPageComponent implements OnInit {
   

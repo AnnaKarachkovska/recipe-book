@@ -10,8 +10,8 @@ import {
     RouterModule.forRoot([
       { 
         path: '',  
-        loadChildren: () => import("./core/landing-page/landing-page.module")
-          .then(module => module.LandingPageModule), 
+        loadComponent: () => import("./core/landing-page/landing-page.component")
+          .then(module => module.LandingPageComponent), 
         pathMatch: 'full' 
       },
       { 

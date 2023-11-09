@@ -27,11 +27,11 @@
     </form>
     <mat-chip-listbox class="mat-mdc-chip-set-stacked">
       <div *ngFor="let tag of tags" class="chip-box">
-        <p *ngIf="tag.type === areaType">Area:</p>
-        <p *ngIf="tag.type === categoryType">Category:</p>
+        <p *ngIf="tag.type === FilterType.Area">Area:</p>
+        <p *ngIf="tag.type === FilterType.Category">Category:</p>
         <mat-chip-option
           (removed)="remove(tag)"
-          [ngClass]="{ 'category-chip': tag.type === categoryType }"
+          [ngClass]="{ 'category-chip': tag.type === FilterType.Category }"
           class="chip-option"
         >
           {{ tag.value }}

@@ -40,14 +40,6 @@ export class RecipeDetailComponent implements OnInit {
       })
   }
 
-  // onEditRecipe() {
-  //   this.dialog.open(RecipeEditComponent, {
-  //     data: {
-  //       id: this.id,
-  //     }
-  //   });
-  // }
-
   onAddToShoppingList() {
     if (this.meal?.ingredients) {      
       this.shoppingListService.addIngredients(this.meal.ingredients);
@@ -56,17 +48,4 @@ export class RecipeDetailComponent implements OnInit {
       );
     }
   }
-
-  // onDeleteRecipe() {
-  //   const dialogRef = this.dialog.open(
-  //     DialogWindowComponent,
-  //     { data: { name: this.recipe.name } }
-  //   );
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     if (result) {
-  //       this.recipeService.deleteRecipe(this.id);
-  //       this.router.navigate(['/recipes']);
-  //     }
-  //   });
-  // }
 }

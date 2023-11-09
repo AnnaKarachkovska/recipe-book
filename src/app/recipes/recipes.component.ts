@@ -31,8 +31,8 @@ export class RecipesComponent implements OnInit {
   allTags: Filter[] = [];
   params: {category?: string, area?: string};
   meals: Meal[] = [];
-  areaType = FilterType.Area;
-  categoryType = FilterType.Category;
+
+  public FilterType = FilterType;
 
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
 
