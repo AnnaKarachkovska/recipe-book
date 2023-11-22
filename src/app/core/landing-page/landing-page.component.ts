@@ -9,6 +9,7 @@ import { MealDbService } from "app/shared/services/meal-db.service";
 import { environment } from "environments/environment";
 import { SharedModule } from "app/shared/shared.module";
 import { RouterModule } from "@angular/router";
+import { MediaMatcher } from "@angular/cdk/layout";
 
 @Component({
   selector: 'app-landing-page',
@@ -21,17 +22,18 @@ import { RouterModule } from "@angular/router";
   ]
 })
 export class LandingPageComponent implements OnInit {
+  randomMeal: Meal | null;
+  categories: string[];
+  country: string = "Unknown";
+  mediaChange: boolean = false;
   
   constructor(
     private mealDbService: MealDbService,
     private http: HttpClient,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private mediaMather: MediaMatcher,
   ) { 
   }
-
-  randomMeal: Meal | null;
-  categories: string[];
-  country: string = "Unknown";
 
   ngOnInit() {
     forkJoin({
@@ -62,5 +64,14 @@ export class LandingPageComponent implements OnInit {
           this.snackBar.open('Oops, something bad happend. Please, try again later.', 'OK', { panelClass: 'error' });
         }
       })
+
+      this.listenToWindowSizeChange();
+  };
+
+  private listenToWindowSizeChange() {
+    let mediaQuery = this.mediaMather.matchMedia("(max-width: 767px)");
+    mediaQuery.addEventListener("change", mediaQueryEvent =>  this.mediaChange = mediaQueryEvent.matches);
+
+    this.mediaChange = mediaQuery.matches;
   };
 }

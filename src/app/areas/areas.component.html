@@ -1,7 +1,7 @@
 <mat-grid-list 
-  cols="5" 
-  rowHeight="3:1" 
-  gutterSize="10px" 
+  cols="{{mediaChange ? '2' : '5'}}" 
+  rowHeight="{{mediaChange ? '4:1' : '3:1'}}" 
+  gutterSize="5px"
   class="areas-grid-list"
 >
   <a

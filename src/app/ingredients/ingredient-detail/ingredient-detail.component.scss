@@ -1,6 +1,10 @@
 :host {
   .card {
     padding: 16px;
+
+    @media screen and (max-width: 575px) {
+      margin-top: 30px;
+    }
   }
 
   .spinner {
@@ -15,7 +19,7 @@
   }
 
   .card-description {
-    max-height: 240px;
+    max-height: 350px;
     overflow: auto;
   }
 }

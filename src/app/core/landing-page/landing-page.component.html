@@ -1,6 +1,6 @@
 <section>
   <h2 class="section-title">Our recomendations</h2>
-  <mat-grid-list cols="3" rowHeight="2:1" gutterSize="8px">
+  <mat-grid-list cols="{{mediaChange ? '1' : '3'}}" rowHeight="{{mediaChange ? '3:1' : '2:1'}}" gutterSize="8px"> 
     <a routerLink="/meals/{{ randomMeal?.id }}">
       <mat-grid-tile
         class="recomendations-grid-item text"
@@ -31,9 +31,9 @@
     </a>
   </mat-grid-list>
 </section>
-<section class="mt-5">
+<section class="mt-5 pb-5">
   <h2 class="section-title">Categories</h2>
-  <mat-grid-list cols="5" rowHeight="3:1" gutterSize="5px">
+  <mat-grid-list cols="{{mediaChange ? '2' : '5'}}" rowHeight="3:1" gutterSize="5px">
     <a
       *ngFor="let category of categories"
       routerLink="/meals"

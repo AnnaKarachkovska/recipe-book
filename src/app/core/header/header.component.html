@@ -1,28 +1,29 @@
-<header>
-  <mat-toolbar color="primary" class="header px-0">
-      <div class="nav-link-container container">
-        <div>
-          <a routerLink="/" class="mr-4">
-            <img
-              src="assets/images/recipes.png"
-              width="50"
-              alt="Website logo"
-            />
-          </a>
+<mat-toolbar color="primary" class="header px-0">
+  <div class="nav-link-container container">
+    <button
+      *ngIf="showSidebar"
+      mat-icon-button
+      (click)="sidebar?.toggle()"
+    >
+      <mat-icon class="mb-1">menu</mat-icon>
+    </button>
+    <div *ngIf="!showSidebar">
+      <a routerLink="/" class="mr-4">
+        <img src="assets/images/recipes.png" width="50" alt="Website logo" />
+      </a>
 
-          <a routerLink="/meals" class="link mr-4">Meals</a>
+      <a routerLink="/meals" class="link mr-4">Meals</a>
 
-          <a routerLink="/areas" class="link mr-4">Areas</a>
+      <a routerLink="/areas" class="link mr-4">Areas</a>
 
-          <a routerLink="/categories" class="link mr-4">Categories</a>
+      <a routerLink="/categories" class="link mr-4">Categories</a>
 
-          <a routerLink="/ingredients" class="link mr-4">Ingredients</a>
+      <a routerLink="/ingredients" class="link mr-4">Ingredients</a>
 
-          <a routerLink="/shopping-list" class="link">Shopping list</a>
-        </div>
-        <div class="search-bar">
-          <app-search-bar></app-search-bar>
-        </div>
-      </div>
-  </mat-toolbar>
-</header>
+      <a routerLink="/shopping-list" class="link">Shopping list</a>
+    </div>
+    <div class="search-bar">
+      <app-search-bar></app-search-bar>
+    </div>
+  </div>
+</mat-toolbar>

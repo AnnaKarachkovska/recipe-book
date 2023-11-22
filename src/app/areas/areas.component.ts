@@ -1,3 +1,4 @@
+import { MediaMatcher } from "@angular/cdk/layout";
 import { Component, OnInit } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { RouterModule } from "@angular/router";
@@ -17,13 +18,15 @@ import { SharedModule } from "app/shared/shared.module";
   ]
 })
 export class AreasComponent implements OnInit{
+  mediaChange: boolean = false;
+  areas: {country: string, code: string}[] = [];
+
   constructor (
     private mealDbService: MealDbService,
     private snackBar: MatSnackBar,
+    private mediaMather: MediaMatcher,
   ) {
   }
-
-  areas: {country: string, code: string}[] = [];
 
   ngOnInit() {
     this.mealDbService.getAreas().subscribe({
@@ -44,5 +47,14 @@ export class AreasComponent implements OnInit{
         this.snackBar.open('Oops, something bad happend. Please, try again later.', 'OK', { panelClass: 'error' });
       }
     })
+
+    this.listenToWindowSizeChange();
   }
+
+  private listenToWindowSizeChange() {
+    let mediaQuery = this.mediaMather.matchMedia("(max-width: 767px)");
+    mediaQuery.addEventListener("change", mediaQueryEvent =>  this.mediaChange = mediaQueryEvent.matches);
+
+    this.mediaChange = mediaQuery.matches;
+  };
 }
