@@ -9,6 +9,7 @@ import { YesNoDialogComponent } from "app/shared/components";
 
 import { Ingredient } from "../shared/models/ingredient.model";
 import { ShoppingListService } from "../shared/services/shopping-list.service";
+import { MediaMatcher } from "@angular/cdk/layout";
 
 @Component({
   selector: 'app-shopping-list',
@@ -20,6 +21,8 @@ export class ShoppingListComponent implements AfterViewInit {
   displayedColumns: string[] = ['select', 'position', 'name', 'amount', 'edit'];
   selection = new SelectionModel<Ingredient>(true, []);
 
+  mediaChange: boolean = false;
+
   public editedItem?: Ingredient;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -27,7 +30,8 @@ export class ShoppingListComponent implements AfterViewInit {
 
   constructor(
     private shoppingListService: ShoppingListService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private mediaMather: MediaMatcher,
   ) {
     this.dataSource = new MatTableDataSource(this.shoppingListService.getIngredients());
     
@@ -37,6 +41,8 @@ export class ShoppingListComponent implements AfterViewInit {
         this.dataSource.data = ingredients;
         this.editedItem = undefined;
       });
+
+    this.listenToWindowSizeChange();
   }
 
   ngAfterViewInit() {
@@ -98,4 +104,11 @@ export class ShoppingListComponent implements AfterViewInit {
       }
     });
   }
+
+  private listenToWindowSizeChange() {
+    let mediaQuery = this.mediaMather.matchMedia("(max-width: 473px)");
+    mediaQuery.addEventListener("change", mediaQueryEvent =>  this.mediaChange = mediaQueryEvent.matches);
+
+    this.mediaChange = mediaQuery.matches;
+  };
 }
