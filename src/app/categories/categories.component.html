@@ -7,13 +7,14 @@
   <a
     *ngFor="let category of categories"
     routerLink="../meals"
-    [queryParams]="{ category: category }"
+    [queryParams]="{ category: category.en}"
   >
     <mat-grid-tile
       class="grid-item"
-      style="background-image: url('https://www.themealdb.com/images/category/{{ category }}.png')"
+      style="background-image: url('https://www.themealdb.com/images/category/{{ category.en }}.png')"
     >
-      <h3>{{ category }}</h3>
+      <!-- <h3>{{ category[activeLanguage] }}</h3> -->
+      <h3>{{ activeLanguage === 'uk' ? category.uk : category.en }}</h3>
     </mat-grid-tile>
   </a>
 </mat-grid-list>

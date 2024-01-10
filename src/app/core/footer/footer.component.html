@@ -1,23 +1,23 @@
 <footer class="footer mt-3">
-  <mat-list class="list container">
+  <mat-list class="list container" *transloco="let t; read: 'footer'">
     <mat-list-item class="list-item">
       <a href="#" class="link">
-        Terms of service
+        {{ t('service') }}
       </a>
     </mat-list-item>
     <mat-list-item class="list-item">
       <a href="#" class="link">
-        Privacy policy
+        {{ t('policy') }}
       </a>
     </mat-list-item>
     <mat-list-item class="list-item">
       <button class="link link-btn" (click)="openFeedbackForm()">
-        Got Feedback?
+        {{ t('feedback') }}
       </button>
     </mat-list-item>
     <mat-list-item class="list-item">
       <a href="#" class="link">
-        Copyrights &copy;
+        {{ t('copyrights') }} &copy;
       </a> 
     </mat-list-item>
   </mat-list>

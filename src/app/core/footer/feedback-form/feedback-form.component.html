@@ -1,8 +1,12 @@
-<form [formGroup]="feedbackForm" (ngSubmit)="submit()">
-  <h2 class="form-title">Leave your feedback</h2>
+<form
+  [formGroup]="feedbackForm"
+  (ngSubmit)="submit()"
+  *transloco="let t; read: 'footer.form'"
+>
+  <h2 class="form-title">{{ t('title') }}</h2>
   <mat-dialog-content class="form-container">
     <mat-form-field class="form-field">
-      <mat-label>Email</mat-label>
+      <mat-label>{{ t('email') }}</mat-label>
       <input matInput type="text" formControlName="email" />
       <mat-error
         *ngIf="
@@ -10,7 +14,7 @@
           feedbackForm.controls.email.errors?.required
         "
       >
-        Email is required.
+        {{ t('emailRequired') }}
       </mat-error>
       <mat-error
         *ngIf="
@@ -18,12 +22,12 @@
           feedbackForm.controls.email.errors?.email
         "
       >
-        Please enter a valid email.
+        {{ t('emailInvalid') }}
       </mat-error>
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Comment</mat-label>
+      <mat-label>{{ t('comment') }}</mat-label>
       <textarea
         matInput
         type="text"
@@ -36,7 +40,7 @@
           feedbackForm.controls.comment.errors?.required
         "
       >
-        Comment is required.
+        {{ t('commentRequired') }}
       </mat-error>
     </mat-form-field>
   </mat-dialog-content>
@@ -47,7 +51,7 @@
       matTooltip="Discard changes"
       type="button"
     >
-      Cancel
+      {{ t('cancel') }}
     </button>
     <button
       mat-raised-button
@@ -57,7 +61,7 @@
       color="primary"
       [disabled]="!feedbackForm.valid"
     >
-      Send
+      {{ t('sent') }}
     </button>
   </mat-dialog-actions>
 </form>

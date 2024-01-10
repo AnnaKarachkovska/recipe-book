@@ -1,10 +1,10 @@
-<p mat-dialog-content>
-  Are you sure you want to {{data.action}} {{data.name}}?
+<p mat-dialog-content *transloco="let t">
+  {{ t('yesNoDialog.question', { action: data.action, name: data.name }) }}
 </p>
-<mat-dialog-actions align="end">
+<mat-dialog-actions align="end" *transloco="let t">
   <button mat-button
           [mat-dialog-close]="no"
-          cdkFocusInitial>No</button>
+          cdkFocusInitial>{{ t('yesNoDialog.no') }}</button>
   <button mat-button
-          [mat-dialog-close]="yes">Yes</button>
+          [mat-dialog-close]="yes">{{ t('yesNoDialog.yes') }}</button>
 </mat-dialog-actions>

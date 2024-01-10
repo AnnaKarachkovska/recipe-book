@@ -10,6 +10,7 @@ import { YesNoDialogComponent } from "app/shared/components";
 import { Ingredient } from "../shared/models/ingredient.model";
 import { ShoppingListService } from "../shared/services/shopping-list.service";
 import { MediaMatcher } from "@angular/cdk/layout";
+import { translate } from "@ngneat/transloco";
 
 @Component({
   selector: 'app-shopping-list',
@@ -28,13 +29,27 @@ export class ShoppingListComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  localizedRangeLabel = (page: number, pageSize: number, length: number) => {
+    if (length == 0 || pageSize == 0) { return `0 ${translate('shopList.paginator.of')} ${length}`; }
+
+    length = Math.max(length, 0);
+
+    const startIndex = page * pageSize;
+
+    const endIndex = startIndex < length ?
+      Math.min(startIndex + pageSize, length) :
+      startIndex + pageSize;
+
+    return `${startIndex + 1} - ${endIndex} ${translate('shopList.paginator.of')} ${length}`;
+  }
+
   constructor(
     private shoppingListService: ShoppingListService,
     private dialog: MatDialog,
     private mediaMather: MediaMatcher,
   ) {
     this.dataSource = new MatTableDataSource(this.shoppingListService.getIngredients());
-    
+
     this.shoppingListService.ingredientsChanged
       .pipe(takeUntilDestroyed())
       .subscribe(ingredients => {
@@ -48,6 +63,13 @@ export class ShoppingListComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    if (this.paginator !== undefined) {
+      this.paginator._intl.itemsPerPageLabel = translate('shopList.paginator.perPage');
+      this.paginator._intl.nextPageLabel = translate('shopList.paginator.next');
+      this.paginator._intl.previousPageLabel = translate('shopList.paginator.previous');
+      this.paginator._intl.getRangeLabel = this.localizedRangeLabel;
+    }
   }
 
   isAllSelected() {
@@ -79,7 +101,7 @@ export class ShoppingListComponent implements AfterViewInit {
   deleteItem(id: string, name: string) {
     const dialogRef = this.dialog.open(
       YesNoDialogComponent,
-      { data: { action: 'delete', name: name } }
+      { data: { action: translate('yesNoDialog.delete'), name: name } }
     );
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -92,7 +114,7 @@ export class ShoppingListComponent implements AfterViewInit {
   deleteAll() {
     const dialogRef = this.dialog.open(
       YesNoDialogComponent,
-      { data: { action: 'delete', name: 'these ingredients' } }
+      { data: { action: translate('yesNoDialog.delete'), name: translate('yesNoDialog.theseIngredients') } }
     );
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -107,7 +129,7 @@ export class ShoppingListComponent implements AfterViewInit {
 
   private listenToWindowSizeChange() {
     let mediaQuery = this.mediaMather.matchMedia("(max-width: 473px)");
-    mediaQuery.addEventListener("change", mediaQueryEvent =>  this.mediaChange = mediaQueryEvent.matches);
+    mediaQuery.addEventListener("change", mediaQueryEvent => this.mediaChange = mediaQueryEvent.matches);
 
     this.mediaChange = mediaQuery.matches;
   };

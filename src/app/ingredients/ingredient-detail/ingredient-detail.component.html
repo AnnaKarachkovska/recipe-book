@@ -1,16 +1,24 @@
-<mat-card class="card"
-          [@insertRemove]="ingredient ? 'open' : 'closed'">
-  <mat-spinner *ngIf="!ingredient"
-               class="spinner">
-  </mat-spinner>
-  <img src="{{ingredient?.imageUrl}}"
-       alt={{ingredient?.name}}
-       width="150"
-       class="image" />
-  <mat-card-header>
-    <mat-card-title>{{ingredient?.name}}</mat-card-title>
-    <mat-card-subtitle class="card-description">
-      {{ingredient?.description || "No description"}}
-    </mat-card-subtitle>
+<mat-card class="card" [@insertRemove]="ingredient ? 'open' : 'closed'">
+  <mat-spinner *ngIf="!ingredient" class="spinner"> </mat-spinner>
+  <img
+    src="{{ ingredient?.imageUrl }}"
+    alt="{{ ingredient?.name }}"
+    width="150"
+    class="image"
+  />
+  <mat-card-header class="card-header">
+    <mat-card-title>{{ ingredient?.name }}</mat-card-title>
+    <button
+      mat-icon-button
+      class="ml-3"
+      (click)="onAddToShoppingList()"
+      color="primary"
+      matTooltip="Add ingredient to the shopping list"
+    >
+      <mat-icon>add_shopping_cart</mat-icon>
+    </button>
   </mat-card-header>
+  <mat-card-content class="card-description">
+    {{ ingredient?.description || "No description" }}
+  </mat-card-content>
 </mat-card>

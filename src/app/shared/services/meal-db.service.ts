@@ -5,6 +5,7 @@ import { forkJoin, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 
 import { Filter, FilterType, Ingredient, Meal } from "../models";
+import { TranslocoService } from "@ngneat/transloco";
 
 export type MealFromAPI = {
   idMeal: string,
@@ -26,7 +27,8 @@ export type IngredientFromAPI = {
 })
 export class MealDbService {
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private translocoService: TranslocoService,
   ) { 
   }
 
@@ -113,6 +115,10 @@ export class MealDbService {
         map(({ meals }) => {
           let mealNames: Meal[] = [];
           meals.map(meal => {
+            this.translate(meal.strMeal).subscribe(ukName => {
+              localStorage.setItem('meal.' + meal.strMeal, JSON.stringify({en: meal.strMeal, uk: ukName}))
+            })
+            
             mealNames.push({
               id: meal.idMeal,
               name: meal.strMeal,
@@ -122,7 +128,7 @@ export class MealDbService {
               instructions: meal.strInstructions,
               ingredients: [{ ingredient: '', amount: '' }]
             })
-          })
+          })          
           return mealNames;
         }))
   }
@@ -147,11 +153,25 @@ export class MealDbService {
       .pipe(
         catchError(this.handleError),
         map(({ meals }) => {
-          const categoriesArray: string[] = [];
-          for (let i = 0; i < meals?.length; i++) {
-            categoriesArray.push(meals[i].strCategory);
+          const store = localStorage.getItem('categories');
+
+          if (store !== null) {
+            return JSON.parse(store) as {en: string, uk: string}[];
+          } else {
+            const categoriesArray: {en: string, uk: string}[] = [];
+
+            for (let i = 0; i < meals?.length; i++) {
+              this.translate(meals[i].strCategory).subscribe(ukCategory => {
+
+                categoriesArray.push({en: meals[i].strCategory, uk: ukCategory});
+
+                if (categoriesArray.length ===  meals?.length) {
+                  localStorage.setItem('categories', JSON.stringify(categoriesArray));
+                }
+              })   
+            }
+            return categoriesArray;
           }
-          return categoriesArray;
         }))
   }
 
@@ -161,11 +181,23 @@ export class MealDbService {
       .pipe(
         catchError(this.handleError),
         map(({ meals }) => {
-          const areasArray: string[] = [];
-          for (let i = 0; i < meals?.length; i++) {
-            areasArray.push(meals[i].strArea);
+          const store = localStorage.getItem('areas');
+
+          if (store !== null) {
+            return JSON.parse(store) as {en: string, uk: string}[];
+          } else {
+            const areasArray: {en: string, uk: string}[] = [];
+            for (let i = 0; i < meals?.length; i++) {
+              this.translate(meals[i].strArea).subscribe(area => {
+                areasArray.push({en: meals[i].strArea, uk: area});
+
+                if (areasArray.length ===  meals?.length) {
+                  localStorage.setItem('areas', JSON.stringify(areasArray));
+                }
+              })
+            }
+            return areasArray;
           }
-          return areasArray;
         }))
   }
 
@@ -300,6 +332,25 @@ export class MealDbService {
     }
 
     return forkJoin(mealsRequests);
+  }
+
+  translate(word: string) {
+    const sourceLang = 'en';
+    const targetLang = this.translocoService.getActiveLang();
+
+    const url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl="
+      + sourceLang
+      + "&tl="
+      + targetLang
+      + "&dt=t&q="
+      + encodeURI(word);
+
+    return this.http.get<[[[[]]]]>(url).pipe(
+      map(data => {
+        const word = data[0][0][0].toString();
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      })
+    )
   }
 
   private handleError(error: HttpErrorResponse) {

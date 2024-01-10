@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { translate } from "@ngneat/transloco";
 
 import { Ingredient } from "app/shared/models/ingredient.model";
 import { MealDbService } from "app/shared/services/meal-db.service";
@@ -31,7 +32,7 @@ export class BestIngredientsComponent implements OnInit {
         }
       },
       error: () => {
-        this.snackBar.open('Oops, something bad happend. Please, try again later.', 'OK', { panelClass: 'error' });
+        this.snackBar.open(translate('errors.commonError'), 'OK', { panelClass: 'error' });
       }
     })
   }

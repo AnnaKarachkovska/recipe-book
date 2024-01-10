@@ -5,6 +5,7 @@ import { debounceTime, map, Observable, startWith } from "rxjs";
 
 import { MealDbService } from "../../../shared/services/meal-db.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { translate } from "@ngneat/transloco";
 
 @Component({
   selector: 'app-search-bar',
@@ -15,6 +16,8 @@ export class SearchBarComponent {
   searchControl = new FormControl('');
   filteredOptions: Observable<{ name: string, id: string }[]>;
   meals: { name: string, id: string }[] = [];
+
+  placeholder = translate('header.searchBar.placeholder');
 
   constructor(
     private mealsDbService: MealDbService,
@@ -49,7 +52,7 @@ export class SearchBarComponent {
         .subscribe({
           next: meals => this.meals = meals,
           error: () => {
-            this.snackBar.open('Oops, something bad happend. Please, try again later.', 'OK', { panelClass: 'error' });
+            this.snackBar.open(translate('errors.commonError'), 'OK', { panelClass: 'error' });
           }
         });
     }

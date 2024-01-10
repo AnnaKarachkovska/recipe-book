@@ -1,6 +1,7 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { Component, OnInit, ViewChild} from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
+import { TranslocoService, getBrowserLang } from '@ngneat/transloco';
 
 @Component({
   selector: 'app-root',
@@ -15,11 +16,14 @@ export class AppComponent implements OnInit{
 
   constructor(
     private mediaMather: MediaMatcher,
+    private translocoService: TranslocoService,
   ) {
   }
 
   public ngOnInit() {
     this.listenToWindowSizeChange();
+
+    this.translocoService.setActiveLang(getBrowserLang() || 'en');
   }
 
   private listenToWindowSizeChange() {

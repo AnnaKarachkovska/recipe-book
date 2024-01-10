@@ -18,8 +18,15 @@
     margin-right: auto;
   }
 
+  .card-header {
+    padding-top: 0px;
+    align-items: center;
+    background-color: transparent;
+    border: 0;
+  }
+
   .card-description {
-    max-height: 350px;
+    max-height: 300px;
     overflow: auto;
   }
 }

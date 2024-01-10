@@ -11,8 +11,8 @@
 
 <app-shopping-edit [editedIngredient]="editedItem"></app-shopping-edit>
 <hr />
-<div>
-  <mat-table matSort [dataSource]="dataSource" class="table">
+<div *transloco="let t; read: 'shopList'">
+  <mat-table mat-table matSort [dataSource]="dataSource" class="table">
     <ng-container matColumnDef="select">
       <mat-header-cell *matHeaderCellDef>
         <mat-checkbox
@@ -24,7 +24,7 @@
         </mat-checkbox>
       </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <span *ngIf="mediaChange">Select:&nbsp;</span>
+        <span *ngIf="mediaChange">{{ t('select') }}:&nbsp;</span>
         <mat-checkbox
           (click)="$event.stopPropagation()"
           (change)="$event ? selection.toggle(element) : null"
@@ -36,29 +36,29 @@
     </ng-container>
 
     <ng-container matColumnDef="position">
-      <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>{{ t('position') }}</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <span *ngIf="mediaChange">No.&nbsp;</span>
+        <span *ngIf="mediaChange">{{ t('position') }}&nbsp;</span>
         {{ dataSource.data.indexOf(element) + 1 }}
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
-        Ingredient
+        {{ t('ingredient') }}
       </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <span *ngIf="mediaChange">Ingredient name:&nbsp;</span>
+        <span *ngIf="mediaChange">{{ t('ingredient') }}:&nbsp;</span>
         {{ element.name }}
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="amount">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
-        Amount
+        {{ t('amount') }}
       </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <span *ngIf="mediaChange">Amount:&nbsp;</span>
+        <span *ngIf="mediaChange">{{ t('amount') }}:&nbsp;</span>
         {{ element.amount }}
       </mat-cell>
     </ng-container>
@@ -66,7 +66,7 @@
     <ng-container matColumnDef="edit">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <span *ngIf="mediaChange">Actions:&nbsp;</span>
+        <span *ngIf="mediaChange">{{ t('actions') }}:&nbsp;</span>
         <button mat-button [matMenuTriggerFor]="menu" matTooltip="More actions">
           <mat-icon style="margin: 0">more_horiz</mat-icon>
         </button>
@@ -77,7 +77,7 @@
             matTooltip="Edit ingredient"
             (click)="editItem(element.id)"
           >
-            <mat-icon color="primary">edit</mat-icon> Edit
+            <mat-icon color="primary">edit</mat-icon> {{ t('edit') }}
           </button>
           <button
             mat-menu-item
@@ -85,7 +85,7 @@
             matTooltip="Delete ingredient"
             (click)="deleteItem(element.id, element.name)"
           >
-            <mat-icon color="warn">delete</mat-icon> Delete
+            <mat-icon color="warn">delete</mat-icon> {{ t('delete') }}
           </button>
         </mat-menu>
       </mat-cell>
@@ -100,9 +100,9 @@
 
     <tr *matNoDataRow>
       <td colspan="5" style="border: 0">
-        There are no ingredients in the list yet.
+        {{ t('noData') }}
       </td>
     </tr>
   </mat-table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
+  <mat-paginator [length]="dataSource.data.length" [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
 </div>

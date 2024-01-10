@@ -7,6 +7,7 @@ import { switchMap } from "rxjs";
 import { Meal } from "app/shared/models/meal.model";
 import { MealDbService } from "app/shared/services/meal-db.service";
 import { ShoppingListService } from "app/shared/services/shopping-list.service";
+import { translate } from "@ngneat/transloco";
 
 @Component({
   selector: 'app-recipe-detail',
@@ -35,7 +36,7 @@ export class RecipeDetailComponent implements OnInit {
           this.meal = meal;
         },
         error: () => {
-          this.snackBar.open('Oops, something bad happend. Please, try again later.', 'OK', { panelClass: 'error' });
+          this.snackBar.open(translate('errors.commonError'), 'OK', { panelClass: 'error' });
         }
       })
   }
@@ -44,7 +45,7 @@ export class RecipeDetailComponent implements OnInit {
     if (this.meal?.ingredients) {      
       this.shoppingListService.addIngredients(this.meal.ingredients);
       this.snackBar.open(
-        'Ingrediens have been added to the shopping list.', 'OK',
+        translate('notifications.addManyToShoppingList'), 'OK',
       );
     }
   }

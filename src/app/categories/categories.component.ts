@@ -1,7 +1,9 @@
 import { MediaMatcher } from "@angular/cdk/layout";
 import { Component, OnInit } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { RouterModule } from "@angular/router";
+import { TranslocoService, translate } from "@ngneat/transloco";
 
 import { MealDbService } from "app/shared/services/meal-db.service";
 import { SharedModule } from "app/shared/shared.module";
@@ -16,15 +18,22 @@ import { SharedModule } from "app/shared/shared.module";
     RouterModule,
   ]
 })
-export class CategoriesComponent implements OnInit{
+export class CategoriesComponent implements OnInit {
   mediaChange: boolean = false;
-  categories: string[];
+  categories: { en: string, uk: string }[] = [];
+  activeLanguage: string;
 
   constructor(
     private mealDbService: MealDbService,
     private snackBar: MatSnackBar,
     private mediaMather: MediaMatcher,
+    private translocoService: TranslocoService,
   ) {
+    this.translocoService.langChanges$.pipe(
+      takeUntilDestroyed()
+    ).subscribe(lang => {
+      this.activeLanguage = lang;
+    })
   }
 
   ngOnInit() {
@@ -33,7 +42,7 @@ export class CategoriesComponent implements OnInit{
         this.categories = categories;
       },
       error: () => {
-        this.snackBar.open('Oops, something bad happend. Please, try again later.', 'OK', { panelClass: 'error' });
+        this.snackBar.open(translate('errors.commonError'), 'OK', { panelClass: 'error' });
       }
     })
 
@@ -42,7 +51,7 @@ export class CategoriesComponent implements OnInit{
 
   private listenToWindowSizeChange() {
     let mediaQuery = this.mediaMather.matchMedia("(max-width: 767px)");
-    mediaQuery.addEventListener("change", mediaQueryEvent =>  this.mediaChange = mediaQueryEvent.matches);
+    mediaQuery.addEventListener("change", mediaQueryEvent => this.mediaChange = mediaQueryEvent.matches);
 
     this.mediaChange = mediaQuery.matches;
   };

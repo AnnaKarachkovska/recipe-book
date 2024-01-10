@@ -1,5 +1,5 @@
 import { HttpClientModule } from "@angular/common/http";
-import { NgModule } from "@angular/core";
+import { APP_INITIALIZER, NgModule } from "@angular/core";
 import {
   MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions,
 } from "@angular/material/tooltip";
@@ -24,6 +24,8 @@ import {
 import { SharedModule } from "./shared/shared.module";
 import { ShoppingListModule } from "./shopping-list/shopping-list.module";
 import { LandingPageComponent } from "./core/landing-page/landing-page.component";
+import { TranslocoService } from "@ngneat/transloco";
+import { forkJoin } from "rxjs";
 
 export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
   showDelay: 500,
@@ -53,7 +55,16 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
     CategoriesComponent,
     IngredientsModule,
   ],
-  providers: [{provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: myCustomTooltipDefaults}],
+  providers: [
+    {provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: myCustomTooltipDefaults},
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (service: TranslocoService) =>
+        () => forkJoin(service.getAvailableLangs().map(lang => service.load(typeof lang === "string" ? lang : lang.id))),
+      deps: [TranslocoService],
+      multi: true
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

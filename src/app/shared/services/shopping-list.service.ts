@@ -6,6 +6,8 @@ import { Subject } from "rxjs";
 import { MealDbService } from "app/shared/services/meal-db.service";
 
 import { Ingredient } from "../models/ingredient.model";
+import { translate } from "@ngneat/transloco";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +22,17 @@ export class ShoppingListService {
     private snackBar: MatSnackBar,
     private mealDbService: MealDbService,
   ) {
+    const store = localStorage.getItem('shoppingList');
+
+    if (store !== null) {
+      this.ingredients = JSON.parse(store);
+    }
+
+    this.ingredientsChanged
+      .pipe(takeUntilDestroyed())
+      .subscribe(ingredients => {
+        localStorage.setItem('shoppingList', JSON.stringify(ingredients));
+      })
   }
 
   getIngredients() {
@@ -71,7 +84,7 @@ export class ShoppingListService {
           })
         },
         error: () => {
-          this.snackBar.open('Oops, something bad happend. Please, try again later.', 'OK', { panelClass: 'error' });
+          this.snackBar.open(translate('errors.commonError'), 'OK', { panelClass: 'error' });
         }
       })
   }

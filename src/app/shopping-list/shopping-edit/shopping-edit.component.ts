@@ -12,6 +12,7 @@ import { MealDbService } from "app/shared/services/meal-db.service";
 import { ShoppingListService } from "../../shared/services/shopping-list.service";
 import { MatDialog } from "@angular/material/dialog";
 import { YesNoDialogComponent } from "app/shared/components";
+import { translate } from "@ngneat/transloco";
 
 @Component({
   selector: 'app-shopping-edit',
@@ -51,7 +52,7 @@ export class ShoppingEditComponent implements OnChanges, OnInit {
     this.mealDbService.getIngredients().subscribe({
       next: ingredients => this.allIngredients = ingredients,
       error: () => {
-        this.snackBar.open('Oops, something bad happend. Please, try again later.', 'OK', { panelClass: 'error' });
+        this.snackBar.open(translate('errors.commonError'), 'OK', { panelClass: 'error' });
       }
     });
   }
@@ -110,7 +111,7 @@ export class ShoppingEditComponent implements OnChanges, OnInit {
     if (this.editedIngredient !== undefined) {
       const dialogRef = this.dialog.open(
         YesNoDialogComponent,
-        { data: { action: 'delete', name: this.editedIngredient.name} }
+        { data: { action: translate('yesNoDialog.delete'), name: this.editedIngredient.name} }
       );
       dialogRef.afterClosed().subscribe(result => {
         if (result && this.editedIngredient !== undefined) {

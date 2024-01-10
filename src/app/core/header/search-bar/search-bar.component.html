@@ -1,9 +1,10 @@
 <form>
-  <div class="input-container">
+  <div class="input-container" *transloco="let t; read: 'header'">
     <mat-icon>search</mat-icon>
     <input
       type="text"
-      placeholder="Meal name..."
+      [attr.placeholder]="t('searchBar.placeholder')"
+      placeholder="{{placeholder}}"
       matInput
       [formControl]="searchControl"
       [matAutocomplete]="auto"

@@ -5,4 +5,5 @@ export enum FilterType {
 export type Filter = {
   value: string;
   type: FilterType;
+  label: string;
 };

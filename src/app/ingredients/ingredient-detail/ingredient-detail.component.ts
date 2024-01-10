@@ -8,6 +8,8 @@ import { switchMap } from "rxjs";
 
 import { Ingredient } from "app/shared/models/ingredient.model";
 import { MealDbService } from "app/shared/services/meal-db.service";
+import { translate } from "@ngneat/transloco";
+import { ShoppingListService } from "app/shared/services";
 
 @Component({
   selector: 'app-ingredient-detail',
@@ -33,7 +35,8 @@ export class IngredientDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private mealDbService: MealDbService,
     private changeDetector: ChangeDetectorRef,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private shoppingListService: ShoppingListService,
   ) { 
   }
 
@@ -48,8 +51,18 @@ export class IngredientDetailComponent implements OnInit {
           this.changeDetector.markForCheck();
         },
         error: () => {
-          this.snackBar.open('Oops, something bad happend. Please, try again later.', 'OK', { panelClass: 'error' });
+          this.snackBar.open(translate('errors.commonError'), 'OK', { panelClass: 'error' });
         }
       });
+  }
+
+
+  onAddToShoppingList() {   
+    if (this.ingredient !== undefined) {
+      this.shoppingListService.addIngredient({...this.ingredient, amount: 1});
+      this.snackBar.open(
+        translate('notifications.addOneToShoppingList'), 'OK',
+      );
+    }
   }
 }

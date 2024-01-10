@@ -1,12 +1,12 @@
-<section>
-  <h2 class="section-title">Our recomendations</h2>
+<section *transloco="let t; read: 'landingPage'">
+  <h2 class="section-title">{{ t('recomendations') }}</h2>
   <mat-grid-list cols="{{mediaChange ? '1' : '3'}}" rowHeight="{{mediaChange ? '3:1' : '2:1'}}" gutterSize="8px"> 
     <a routerLink="/meals/{{ randomMeal?.id }}">
       <mat-grid-tile
         class="recomendations-grid-item text"
         style="background-image: url('{{ randomMeal?.imageUrl }}/preview')"
       >
-        <h3>Random Meal</h3>
+        <h3>{{ t('randomMeal') }}</h3>
       </mat-grid-tile>
     </a>
     <a routerLink="/ingredients/best">
@@ -16,7 +16,7 @@
           background-image: url('https://www.themealdb.com/images/ingredients/Chicken.png');
         "
       >
-        <h3>Best ingredients</h3>
+        <h3>{{ t('bestIngredients') }}</h3>
       </mat-grid-tile>
     </a>
     <a routerLink="/meals" [queryParams]="{ area: country }" >
@@ -26,24 +26,26 @@
           background-image: url('https://www.themealdb.com/images/media/meals/urzj1d1587670726.jpg/preview');
         "
       >
-        <h3>Popular in your area</h3>
+        <h3>{{ t('popular') }}</h3>
       </mat-grid-tile>
     </a>
   </mat-grid-list>
 </section>
-<section class="mt-5 pb-5">
-  <h2 class="section-title">Categories</h2>
+<section class="mt-3" *transloco="let t; read: 'landingPage'">
+  <h2 class="section-title">{{ t('categories') }}</h2>
+  <mat-spinner *ngIf="!categories"></mat-spinner>
   <mat-grid-list cols="{{mediaChange ? '2' : '5'}}" rowHeight="3:1" gutterSize="5px">
     <a
       *ngFor="let category of categories"
       routerLink="/meals"
-      [queryParams]="{ category: category }"
+      [queryParams]="{ category: category.en }"
     >
       <mat-grid-tile
         class="category-grid-item text"
-        style="background-image: url('https://www.themealdb.com/images/category/{{ category }}.png')"
+        style="background-image: url('https://www.themealdb.com/images/category/{{ category.en }}.png')"
       >
-        <h3>{{ category }}</h3>
+        <!-- <h3>{{ category[activeLanguage] }}</h3> -->
+        <h3>{{ activeLanguage === 'uk' ? category.uk : category.en }}</h3>
       </mat-grid-tile>
     </a>
   </mat-grid-list>

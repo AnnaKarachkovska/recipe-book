@@ -1,10 +1,10 @@
-<div class="row m-0 justify-content-between">
+<div class="row m-0 justify-content-between" *transloco="let t, read: 'meals'">
   <aside class="aside-input">
     <form>
       <mat-form-field style="width: 100%;">
         <mat-chip-grid #chipGrid style="display: none"> </mat-chip-grid>
+        <mat-label>{{ t('input') }}</mat-label>
         <input
-          placeholder="Area or category..."
           #tagInput
           [formControl]="tagControl"
           [matChipInputFor]="chipGrid"
@@ -27,14 +27,14 @@
     </form>
     <mat-chip-listbox class="mat-mdc-chip-set-stacked">
       <div *ngFor="let tag of tags" class="chip-box">
-        <p *ngIf="tag.type === FilterType.Area">Area:</p>
-        <p *ngIf="tag.type === FilterType.Category">Category:</p>
+        <p *ngIf="tag.type === FilterType.Area">{{ t('area') }}:</p>
+        <p *ngIf="tag.type === FilterType.Category">{{ t('category') }}:</p>
         <mat-chip-option
           (removed)="remove(tag)"
           [ngClass]="{ 'category-chip': tag.type === FilterType.Category }"
           class="chip-option"
         >
-          {{ tag.value }}
+          {{ tag.label }}
           <button matChipRemove>
             <mat-icon>cancel</mat-icon>
           </button>

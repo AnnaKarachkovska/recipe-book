@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit} from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { forkJoin, map } from "rxjs";
 
@@ -10,6 +10,8 @@ import { environment } from "environments/environment";
 import { SharedModule } from "app/shared/shared.module";
 import { RouterModule } from "@angular/router";
 import { MediaMatcher } from "@angular/cdk/layout";
+import { TranslocoService, translate } from "@ngneat/transloco";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-landing-page',
@@ -23,16 +25,23 @@ import { MediaMatcher } from "@angular/cdk/layout";
 })
 export class LandingPageComponent implements OnInit {
   randomMeal: Meal | null;
-  categories: string[];
+  categories: { en: string, uk: string }[] = [];
   country: string = "Unknown";
   mediaChange: boolean = false;
-  
+  activeLanguage: string;
+
   constructor(
     private mealDbService: MealDbService,
     private http: HttpClient,
     private snackBar: MatSnackBar,
     private mediaMather: MediaMatcher,
-  ) { 
+    private translocoService: TranslocoService,
+  ) {
+    this.translocoService.langChanges$.pipe(
+      takeUntilDestroyed()
+    ).subscribe(lang => {
+      this.activeLanguage = lang;
+    })
   }
 
   ngOnInit() {
@@ -49,28 +58,30 @@ export class LandingPageComponent implements OnInit {
       .subscribe({
         next: ({ randomMeal, categories, areas, country }) => {
           this.randomMeal = randomMeal;
+
           this.categories = categories;
 
           const countryName = Object.keys(CountryNames)
             .find(countryName => countryName === country) || '';
 
-          if (areas.includes(CountryNames[countryName])) {
+            const enAreas = areas.map(area => area.en);
+          if (enAreas.includes(CountryNames[countryName])) {
             this.country = CountryNames[countryName];
           } else {
             this.country = "Unknown";
           }
         },
         error: () => {
-          this.snackBar.open('Oops, something bad happend. Please, try again later.', 'OK', { panelClass: 'error' });
+          this.snackBar.open(translate('errors.commonError'), 'OK', { panelClass: 'error' });
         }
       })
 
-      this.listenToWindowSizeChange();
+    this.listenToWindowSizeChange();
   };
 
   private listenToWindowSizeChange() {
     let mediaQuery = this.mediaMather.matchMedia("(max-width: 767px)");
-    mediaQuery.addEventListener("change", mediaQueryEvent =>  this.mediaChange = mediaQueryEvent.matches);
+    mediaQuery.addEventListener("change", mediaQueryEvent => this.mediaChange = mediaQueryEvent.matches);
 
     this.mediaChange = mediaQuery.matches;
   };

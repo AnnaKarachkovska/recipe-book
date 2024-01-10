@@ -1,0 +1,83 @@
+{
+  "header": {
+    "meals": "Страви",
+    "areas": "Регіони",
+    "categories": "Категорії",
+    "ingredients": "Інгредієнти",
+    "shopList": "Список покупок",
+    "enLanguage": "Англійська",
+    "uaLanguage": "Українська",
+    "searchBar": {
+      "placeholder": "Назва страви..."
+    }
+  },
+  "landingPage": {
+    "recomendations": "Наші рекомендації",
+    "bestIngredients": "Найкращі інгредієнти",
+    "popular": "Популярно у Вашому регіоні",
+    "categories": "Категорії",
+    "randomMeal": "Випадкова страва"
+  },
+  "footer": {
+    "service": "Умови використання",
+    "policy": "Політика приватності",
+    "feedback": "Залишити відгук",
+    "copyrights": "Права захищено",
+    "form": {
+      "title": "Залиште свій відгук",
+      "email": "Електронна адреса",
+      "emailRequired": "Це поле обовʼязкове.",
+      "emailInvalid": "Будь ласка, перевірте правильність адреси.",
+      "comment": "Коментар",
+      "commentRequired": "Це поле обовʼязкове.",
+      "cancel": "Скасувати",
+      "sent": "Надіслати"
+    }
+  },
+  "meals": {
+    "input": "Регіон чи категорія",
+    "noTagWithName": "Регіону чи категорії з назвою {{value}} немає. Будь ласка, оберіть опцію зі списку.",
+    "area": "Регіон",
+    "category": "Категорія"
+  },
+  "ingredients": {
+    "input": "Назва інгредієнта"
+  },
+  "shopList": {
+    "select": "Обрати",
+    "position": "№",
+    "ingredient": "Інгредієнт",
+    "amount": "Кількість",
+    "actions": "Дії",
+    "edit": "Редагувати",
+    "delete": "Видалити",
+    "noData": "У списку ще немає інгредієнтів.",
+    "form": {
+      "name": "Інгредієнт",
+      "nameRequired": "Це поле обовʼязкове.",
+      "amount": "Кількість",
+      "amountRequired": "Це поле обовʼязкове.",
+      "amountInvalid": "Кількість повинна бути більше нуля."
+    },
+    "paginator": {
+      "of": "з",
+      "perPage": "Інгредієнтів на сторінку",
+      "next": "Наступна сторінка",
+      "previous": "Попередня сторінка"
+    }
+  },
+  "yesNoDialog": {
+    "question": "Ви впевнені, що хочете {{action}} {{name}}?",
+    "yes": "Так",
+    "no": "Ні",
+    "delete": "видалити",
+    "theseIngredients": "ці інгридієнти"
+  },
+  "errors": {
+    "commonError": "Упс! Щось пішло не так. Будь ласка, спробуйте пізніше."
+  },
+  "notifications": {
+    "addManyToShoppingList": "Інгредієнти було додано до списку покупок.",
+    "addOneToShoppingList": "Інгредієнт було додано до списку покупок."
+  }
+}
