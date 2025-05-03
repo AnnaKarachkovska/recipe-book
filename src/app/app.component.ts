@@ -2,11 +2,13 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { Component, OnInit, ViewChild} from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { TranslocoService, getBrowserLang } from '@ngneat/transloco';
+import { HeaderComponent } from './core/header/header.component';
+import { AppModule } from './app.module';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit{
   @ViewChild(MatSidenav, { static: true })

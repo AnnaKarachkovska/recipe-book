@@ -6,7 +6,8 @@
     "start": "ng serve --open",
     "build": "ng build --configuration production",
     "analyze": "ng build --configuration production --stats-json && webpack-bundle-analyzer dist/recipe-book/stats.json",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "test": "ng test"
   },
   "private": true,
   "dependencies": {
