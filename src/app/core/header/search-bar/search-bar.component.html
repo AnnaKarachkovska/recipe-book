@@ -1,26 +1,27 @@
 <form>
-  <div class="input-container" *transloco="let t; read: 'header'">
+  <div class="input-container"
+       *transloco="let translate; read: 'header'">
+
     <mat-icon>search</mat-icon>
-    <input
-      type="text"
-      [attr.placeholder]="t('searchBar.placeholder')"
-      placeholder="{{placeholder}}"
-      matInput
-      [formControl]="searchControl"
-      [matAutocomplete]="auto"
-      class="form-input"
-    />
+
+    <input matInput
+           [formControl]="searchControl"
+           [type]="'text'"
+           [attr.placeholder]="translate('searchBar.placeholder')"
+           [placeholder]="placeholder"
+           [matAutocomplete]="auto"
+           class="form-input"/>
   </div>
-  <mat-autocomplete 
-    autoActiveFirstOption 
-    #auto="matAutocomplete" 
-    (optionSelected)='submit($event.option.value)'
-  >
-    <mat-option
-      *ngFor="let option of filteredOptions | async"
-      [value]="option.name"
-    >
+
+  <mat-autocomplete autoActiveFirstOption
+                    #auto="matAutocomplete"
+                    (optionSelected)="selectMeal($event.option.value)">
+
+    <mat-option *ngFor="let option of filteredOptions | async"
+                [value]="option.id">
       {{ option.name }}
     </mat-option>
+
   </mat-autocomplete>
+
 </form>

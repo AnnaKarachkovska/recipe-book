@@ -1,40 +1,52 @@
-<mat-toolbar color="primary" class="header px-0">
-  <div class="nav-link-container container" *transloco="let t; read: 'header'">
-    <button *ngIf="showSidebar" mat-icon-button (click)="sidebar?.toggle()">
+<mat-toolbar color="primary"
+             class="header px-0">
+
+  <div class="nav-link-container container"
+       *transloco="let translate; read: 'header'">
+
+    <button *ngIf="showSidebar"
+            mat-icon-button
+            (click)="sidebar?.toggle()">
       <mat-icon class="mb-1">menu</mat-icon>
     </button>
+
     <div *ngIf="!showSidebar">
-      <a routerLink="/" class="mr-4">
+
+      <a [routerLink]="'/'" class="mr-4">
         <img src="assets/images/recipes.png" width="50" alt="Website logo" />
       </a>
 
-      <a routerLink="/meals" class="link mr-4">{{ t("meals") }}</a>
+      <a [routerLink]="'/meals'" class="link mr-4">{{ translate("meals") }}</a>
 
-      <a routerLink="/areas" class="link mr-4">{{ t("areas") }}</a>
+      <a [routerLink]="'/areas'" class="link mr-4">{{ translate("areas") }}</a>
 
-      <a routerLink="/categories" class="link mr-4">{{ t("categories") }}</a>
+      <a [routerLink]="'/categories'" class="link mr-4">{{ translate("categories") }}</a>
 
-      <a routerLink="/ingredients" class="link mr-4">{{ t("ingredients") }}</a>
+      <a [routerLink]="'/ingredients'" class="link mr-4">{{ translate("ingredients") }}</a>
 
-      <a routerLink="/shopping-list" class="link">{{ t("shopList") }}</a>
+      <a [routerLink]="'/shopping-list'" class="link">{{ translate("shopList") }}</a>
     </div>
-    <div *transloco="let t; read: 'header'" class="btn-container">
-      <button [matMenuTriggerFor]="menu" class="link link-btn">
+
+    <div class="btn-container">
+      <button [matMenuTriggerFor]="menu"
+              class="link link-btn">
         <mat-icon>g_translate</mat-icon>
       </button>
+
       <mat-menu #menu="matMenu">
-        <button 
-          mat-menu-item
-          type="button"
-          *ngFor="let lang of availableLanguages"
-          (click)="changeLanguage(lang.id)"
-        >
+        <button mat-menu-item
+                [type]="'button'"
+                *ngFor="let lang of availableLanguages"
+                (click)="changeLanguage(lang.id)">
           {{lang.label}}
         </button>
       </mat-menu>
+
     </div>
+
     <div class="search-bar">
       <app-search-bar></app-search-bar>
     </div>
+
   </div>
 </mat-toolbar>

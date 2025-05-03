@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, OnInit} from "@angular/core";
+import { Component, DestroyRef, inject, OnInit} from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { forkJoin, map } from "rxjs";
 
@@ -14,66 +14,56 @@ import { TranslocoService, translate } from "@ngneat/transloco";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
-  selector: 'app-landing-page',
-  templateUrl: './landing-page.component.html',
-  styleUrls: ['./landing-page.component.scss'],
+  selector: "app-landing-page",
+  templateUrl: "./landing-page.component.html",
+  styleUrls: ["./landing-page.component.scss"],
   standalone: true,
-  imports: [
-    SharedModule,
-    RouterModule,
-  ]
+  imports: [ SharedModule, RouterModule ],
 })
 export class LandingPageComponent implements OnInit {
-  randomMeal: Meal | null;
-  categories: { en: string, uk: string }[] = [];
-  country: string = "Unknown";
-  mediaChange: boolean = false;
-  activeLanguage: string;
+  private http = inject(HttpClient);
+  private snackBar = inject(MatSnackBar);
+  private destroyRef = inject(DestroyRef);
+  private mediaMather = inject(MediaMatcher);
+  private translocoService = inject(TranslocoService);
 
-  constructor(
-    private mealDbService: MealDbService,
-    private http: HttpClient,
-    private snackBar: MatSnackBar,
-    private mediaMather: MediaMatcher,
-    private translocoService: TranslocoService,
-  ) {
-    this.translocoService.langChanges$.pipe(
-      takeUntilDestroyed()
-    ).subscribe(lang => {
-      this.activeLanguage = lang;
-    })
-  }
+  private mealDbService = inject(MealDbService);
+
+  public randomMeal: Meal | null;
+  public categories: { en: string, uk: string }[] = [];
+  public country: string = "Unknown";
+  public mediaChange: boolean = false;
+  public activeLanguage: string = "en";
 
   ngOnInit() {
+    this.translocoService.langChanges$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(lang => this.activeLanguage = lang);
+
     forkJoin({
       randomMeal: this.mealDbService.getRandomMeal(),
       categories: this.mealDbService.getCategories(),
       areas: this.mealDbService.getAreas(),
       country: this.http.get<{ country: string }>(
-        "https://ipinfo.io/json",
+        environment.ipInfoUrl,
         { params: { token: environment.ipInfoAccessToken } }
       )
         .pipe(map(info => info.country))
     })
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: ({ randomMeal, categories, areas, country }) => {
           this.randomMeal = randomMeal;
 
           this.categories = categories;
 
-          const countryName = Object.keys(CountryNames)
-            .find(countryName => countryName === country) || '';
+          const enArea = areas
+            .map(area => area.en)
+            .find(area => area === CountryNames[country.toUpperCase()]);
 
-            const enAreas = areas.map(area => area.en);
-          if (enAreas.includes(CountryNames[countryName])) {
-            this.country = CountryNames[countryName];
-          } else {
-            this.country = "Unknown";
-          }
+          this.country = enArea ?? "Unknown";
         },
-        error: () => {
-          this.snackBar.open(translate('errors.commonError'), 'OK', { panelClass: 'error' });
-        }
+        error: () => this.snackBar.open(translate("errors.commonError"), "OK", { panelClass: "error" }),
       })
 
     this.listenToWindowSizeChange();

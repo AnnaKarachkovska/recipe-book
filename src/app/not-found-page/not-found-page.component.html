@@ -1,4 +1,8 @@
-<div class="error-container">
-  <h1>404 Error</h1>
-  <h2>Page Not Found</h2>
+<div class="error-container"
+     *transloco="let translate; read: 'notFoundPage'">
+
+  <h1>{{ translate("title") }}</h1>
+
+  <h2>{{ translate("subtitle") }}</h2>
+
 </div>

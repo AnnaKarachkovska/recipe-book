@@ -1,45 +1,39 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
-import { LangDefinition, TranslocoService } from '@ngneat/transloco';
-import { Subscription, take } from 'rxjs';
+import { Component, DestroyRef, inject, Input, OnInit } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { MatSidenav } from "@angular/material/sidenav";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { LangDefinition, translate, TranslocoService } from "@ngneat/transloco";
+import { take } from "rxjs";
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  selector: "app-header",
+  templateUrl: "./header.component.html",
+  styleUrls: ["./header.component.scss"],
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit {
   @Input()
   public sidebar?: MatSidenav;
 
   @Input()
   public showSidebar: boolean;
 
-  availableLanguages: {label: string, id: string}[];
+  private snackBar = inject(MatSnackBar);
+  private destroyRef = inject(DestroyRef);
+  private translocoService = inject(TranslocoService);
 
-  private subscription: Subscription | null;
-
-  constructor(
-    private translocoService: TranslocoService,
-  ) {
-  }
+  public availableLanguages: LangDefinition[];
 
   ngOnInit() {
     this.availableLanguages = this.translocoService.getAvailableLangs() as LangDefinition[];
   }
 
   changeLanguage(language: string) {
-    this.subscription?.unsubscribe();
-    this.subscription = this.translocoService
+    this.translocoService
       .load(language)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.translocoService.setActiveLang(language);
+      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => this.translocoService.setActiveLang(language),
+        error: () => this.snackBar.open(translate("errors.commonError"), "OK", { panelClass: "error" }),
       });
-  }
-
-  ngOnDestroy() {
-    this.subscription?.unsubscribe();
-    this.subscription = null;
   }
 }

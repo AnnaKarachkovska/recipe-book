@@ -31,7 +31,10 @@
       "comment": "Comment",
       "commentRequired": "Comment is required.",
       "cancel": "Cancel",
-      "sent": "Send"
+      "cancelTooltip": "Discard changes",
+      "sent": "Send",
+      "sentTooltip": "Send feedback",
+      "sentSuccess": "Your feedback has been sent successfully."
     }
   },
   "meals": {
@@ -41,7 +44,8 @@
     "category": "Категорія"
   },
   "ingredients": {
-    "input": "Ingredient name"
+    "input": "Ingredient name",
+    "addToShoppingListTooltip": "Add ingredient to the shopping list"
   },
   "shopList": {
     "select": "Select",
@@ -78,6 +82,11 @@
   },
   "notifications": {
     "addManyToShoppingList": "Ingredients have been added to the shopping list.",
-    "addOneToShoppingList": "Ingredient have been added to the shopping list."
+    "addOneToShoppingList": "Ingredient has been added to the shopping list.",
+    "addDuplicateToShoppingList": "Ingredient is already in the shopping list."
+  },
+  "notFoundPage": {
+    "title": "404 Error",
+    "subtitle": "Page Not Found"
   }
 }

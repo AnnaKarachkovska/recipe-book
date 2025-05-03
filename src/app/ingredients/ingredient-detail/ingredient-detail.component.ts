@@ -1,7 +1,7 @@
 import {
   animate, state, style, transition, trigger,
 } from "@angular/animations";
-import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, inject, OnInit } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, Params } from "@angular/router";
 import { switchMap } from "rxjs";
@@ -12,38 +12,36 @@ import { translate } from "@ngneat/transloco";
 import { ShoppingListService } from "app/shared/services";
 
 @Component({
-  selector: 'app-ingredient-detail',
-  templateUrl: './ingredient-detail.component.html',
-  styleUrls: ['./ingredient-detail.component.scss'],
+  selector: "app-ingredient-detail",
+  templateUrl: "./ingredient-detail.component.html",
+  styleUrls: ["./ingredient-detail.component.scss"],
   animations: [
-    trigger('insertRemove', [
-      state('open', style({})),
-      state('closed', style({
+    trigger("insertRemove", [
+      state("open", style({})),
+      state("closed", style({
         left: "500px",
         opacity: 0,
       })),
-      transition('closed => open', [
-        animate('0.5s')
+      transition("closed => open", [
+        animate("0.5s")
       ]),
     ]),
   ],
 })
 export class IngredientDetailComponent implements OnInit {
-  ingredient: Ingredient | undefined;
+  private route = inject(ActivatedRoute);
+  private changeDetector = inject(ChangeDetectorRef);
+  private snackBar = inject(MatSnackBar);
 
-  constructor(
-    private route: ActivatedRoute,
-    private mealDbService: MealDbService,
-    private changeDetector: ChangeDetectorRef,
-    private snackBar: MatSnackBar,
-    private shoppingListService: ShoppingListService,
-  ) { 
-  }
+  private mealDbService = inject(MealDbService);
+  private shoppingListService = inject(ShoppingListService);
+
+  public ingredient: Ingredient | undefined;
 
   ngOnInit() {
     this.route.params
       .pipe(
-        switchMap((params: Params) => this.mealDbService.getIngredientById(params['id'])),
+        switchMap((params: Params) => this.mealDbService.getIngredientById(params["id"])),
       )
       .subscribe({
         next: ingredient => {
@@ -51,18 +49,29 @@ export class IngredientDetailComponent implements OnInit {
           this.changeDetector.markForCheck();
         },
         error: () => {
-          this.snackBar.open(translate('errors.commonError'), 'OK', { panelClass: 'error' });
+          this.snackBar.open(translate("errors.commonError"), "OK", { panelClass: "error" });
         }
       });
   }
 
+  public addToShoppingList() {
+    if (!this.ingredient) return;
 
-  onAddToShoppingList() {   
-    if (this.ingredient !== undefined) {
-      this.shoppingListService.addIngredient({...this.ingredient, amount: 1});
+    const duplicatedIngredient = this.shoppingListService.getIngredients()
+      .find(ingredient => ingredient.id === this.ingredient?.id);
+
+    if (duplicatedIngredient) {
       this.snackBar.open(
-        translate('notifications.addOneToShoppingList'), 'OK',
+        translate("notifications.addDuplicateToShoppingList"), "OK",
       );
+      return;
     }
+
+    this.shoppingListService.addIngredient({...this.ingredient, amount: 1});
+
+    this.snackBar.open(
+      translate("notifications.addOneToShoppingList"), "OK",
+      { panelClass: "success" },
+    );
   }
 }

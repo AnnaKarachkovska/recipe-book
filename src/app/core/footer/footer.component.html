@@ -1,24 +1,30 @@
 <footer class="footer mt-3">
-  <mat-list class="list container" *transloco="let t; read: 'footer'">
+  <mat-list class="list container"
+            *transloco="let translate; read: 'footer'">
+
     <mat-list-item class="list-item">
       <a href="#" class="link">
-        {{ t('service') }}
+        {{ translate('service') }}
       </a>
     </mat-list-item>
+
     <mat-list-item class="list-item">
       <a href="#" class="link">
-        {{ t('policy') }}
+        {{ translate('policy') }}
       </a>
     </mat-list-item>
+
     <mat-list-item class="list-item">
-      <button class="link link-btn" (click)="openFeedbackForm()">
-        {{ t('feedback') }}
+      <button class="link link-btn"
+              (click)="openFeedbackForm()">
+        {{ translate('feedback') }}
       </button>
     </mat-list-item>
+
     <mat-list-item class="list-item">
       <a href="#" class="link">
-        {{ t('copyrights') }} &copy;
-      </a> 
+        {{ translate('copyrights') }} &copy;
+      </a>
     </mat-list-item>
   </mat-list>
 </footer>

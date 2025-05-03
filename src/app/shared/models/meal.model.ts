@@ -25,3 +25,5 @@ export class Meal {
     this.ingredients = config.ingredients;
   }
 }
+
+export type MealSearch = Pick<Meal, "id" | "name">;

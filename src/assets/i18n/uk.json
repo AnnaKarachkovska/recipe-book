@@ -31,7 +31,10 @@
       "comment": "Коментар",
       "commentRequired": "Це поле обовʼязкове.",
       "cancel": "Скасувати",
-      "sent": "Надіслати"
+      "cancelTooltip": "Відхилити зміни",
+      "sent": "Надіслати",
+      "sentTooltip": "Надіслати відгук",
+      "sentSuccess": "Ваш відгук успішно надіслано."
     }
   },
   "meals": {
@@ -41,7 +44,8 @@
     "category": "Категорія"
   },
   "ingredients": {
-    "input": "Назва інгредієнта"
+    "input": "Назва інгредієнта",
+    "addToShoppingListTooltip": "Додати інгредієнт до списку покупок"
   },
   "shopList": {
     "select": "Обрати",
@@ -78,6 +82,11 @@
   },
   "notifications": {
     "addManyToShoppingList": "Інгредієнти було додано до списку покупок.",
-    "addOneToShoppingList": "Інгредієнт було додано до списку покупок."
+    "addOneToShoppingList": "Інгредієнт було додано до списку покупок.",
+    "addDuplicateToShoppingList": "Даний інгредієнт вже наявний у списку покупок."
+  },
+  "notFoundPage": {
+    "title": "404 Помилка",
+    "subtitle": "Сторінку не знайдено"
   }
 }

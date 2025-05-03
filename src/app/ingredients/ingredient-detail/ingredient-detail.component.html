@@ -1,23 +1,28 @@
-<mat-card class="card" [@insertRemove]="ingredient ? 'open' : 'closed'">
+<mat-card class="card"
+          [@insertRemove]="ingredient ? 'open' : 'closed'"
+          *transloco="let translate; read: 'ingredients'">
+
   <mat-spinner *ngIf="!ingredient" class="spinner"> </mat-spinner>
-  <img
-    src="{{ ingredient?.imageUrl }}"
-    alt="{{ ingredient?.name }}"
-    width="150"
-    class="image"
-  />
+
+  <img [src]="ingredient?.imageUrl"
+       [alt]="ingredient?.name"
+       [width]="150"
+       class="image"/>
+
   <mat-card-header class="card-header">
+
     <mat-card-title>{{ ingredient?.name }}</mat-card-title>
-    <button
-      mat-icon-button
-      class="ml-3"
-      (click)="onAddToShoppingList()"
-      color="primary"
-      matTooltip="Add ingredient to the shopping list"
-    >
+
+    <button mat-icon-button
+            class="ml-3"
+            (click)="addToShoppingList()"
+            color="primary"
+            [matTooltip]="translate('addToShoppingListTooltip')">
       <mat-icon>add_shopping_cart</mat-icon>
     </button>
+
   </mat-card-header>
+
   <mat-card-content class="card-description">
     {{ ingredient?.description || "No description" }}
   </mat-card-content>

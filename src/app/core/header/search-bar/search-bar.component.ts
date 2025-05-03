@@ -1,63 +1,55 @@
-import { Component } from "@angular/core";
+import { Component, DestroyRef, inject } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
-import { debounceTime, map, Observable, startWith } from "rxjs";
+import { catchError, debounceTime, filter, map, Observable, of, startWith, switchMap } from "rxjs";
 
 import { MealDbService } from "../../../shared/services/meal-db.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { translate } from "@ngneat/transloco";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { MealSearch } from "app/shared/models";
 
 @Component({
-  selector: 'app-search-bar',
-  templateUrl: './search-bar.component.html',
-  styleUrls: ['./search-bar.component.scss']
+  selector: "app-search-bar",
+  templateUrl: "./search-bar.component.html",
+  styleUrls: ["./search-bar.component.scss"],
 })
 export class SearchBarComponent {
-  searchControl = new FormControl('');
-  filteredOptions: Observable<{ name: string, id: string }[]>;
-  meals: { name: string, id: string }[] = [];
+  private router = inject(Router);
+  private snackBar = inject(MatSnackBar);
+  private destroyRef = inject(DestroyRef);
 
-  placeholder = translate('header.searchBar.placeholder');
+  private mealsDbService = inject(MealDbService);
 
-  constructor(
-    private mealsDbService: MealDbService,
-    private router: Router,
-    private snackBar: MatSnackBar,
-  ) {
-  }
+  public searchControl = new FormControl("");
+  public filteredOptions: Observable<MealSearch[]>;
+  public meals: MealSearch[] = [];
+
+  public placeholder = translate("header.searchBar.placeholder");
 
   ngOnInit() {
-    this.filteredOptions = this.searchControl.valueChanges.pipe(
-      startWith(''),
-      debounceTime(300),
-      map(value => this._filter(value || '')),
-    )
+    this.filteredOptions = this.searchControl.valueChanges
+      .pipe(
+        startWith(""),
+        debounceTime(300),
+        switchMap(value => {
+          const searchValue = (value ?? "").toLowerCase();
+          return this.mealsDbService.getMealsByFirstLetter(searchValue.slice(0, 1))
+            .pipe(
+              map(meals => meals.filter(meal => meal.name?.toLowerCase().includes(searchValue))),
+              takeUntilDestroyed(this.destroyRef),
+            );
+        }),
+        catchError(() => {
+          this.snackBar.open(translate("errors.commonError"), "OK", { panelClass: "error" });
+          return of([]);
+        }),
+      );
   }
 
-  submit(value: string) {
-    for (let meal of this.meals) {
-      if (meal.name === value) {
-        this.router.navigate([`/meals/${meal.id}`])
-        this.searchControl.setValue('');
-        this.meals = [];
-      }
-    }
-  }
-
-  private _filter(value: string): { name: string, id: string }[] {
-    const filterValue = value.toLowerCase();
-
-    if (value.length !== 0) {
-      this.mealsDbService.getMealsByFirstLetter(value.slice(0, 1))
-        .subscribe({
-          next: meals => this.meals = meals,
-          error: () => {
-            this.snackBar.open(translate('errors.commonError'), 'OK', { panelClass: 'error' });
-          }
-        });
-    }
-
-    return this.meals
-      .filter(meal => meal.name.toLowerCase().includes(filterValue));
+  public selectMeal(mealId: string) {
+    this.router.navigate([`/meals/${mealId}`]);
+    this.searchControl.setValue("");
+    this.meals = [];
   }
 }

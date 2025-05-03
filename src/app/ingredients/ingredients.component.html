@@ -1,34 +1,41 @@
-<div class="row" *transloco="let t; read: 'ingredients'">
-  <section class="section" [ngClass]="{'col-sm-6': outlet.isActivated}">
+<div class="row"
+     *transloco="let translate; read: 'ingredients'">
+
+  <section [ngClass]="isIngredientInfoVisible ? 'col-sm-6' : 'col-sm-12'">
+
     <form>
       <mat-form-field class="form-field">
-        <mat-label>{{ t('input') }}</mat-label>
-        <input
-          matInput
-          [formControl]="ingredientControl"
-        />
+
+        <mat-label>{{ translate('input') }}</mat-label>
+
+        <input matInput
+               [formControl]="ingredientControl"/>
       </mat-form-field>
     </form>
-    <cdk-virtual-scroll-viewport itemSize="50" class="scroll-viewport">
+
+    <cdk-virtual-scroll-viewport [itemSize]="50"
+                                 class="scroll-viewport">
       <mat-list>
-        <mat-list-item
-          *cdkVirtualFor="let ingredient of filteredResult | async"
-          class="mb-3 list-item"
-        >
-          <a [routerLink]="ingredient.id" class="link">
-            <img
-              width="50"
-              class="mr-3"
-              src="{{ ingredient.imageUrlSmall }}"
-              alt="{{ ingredient.name }}"
-            />
+
+        <mat-list-item *cdkVirtualFor="let ingredient of filteredIngredients | async"
+                       class="mb-3 list-item">
+
+          <a [routerLink]="ingredient.id"
+             class="link">
+
+            <img [width]="50"
+                 class="mr-3"
+                 [src]="ingredient.imageUrlSmall"
+                 [alt]="ingredient.name"/>
+
             {{ ingredient.name }}
           </a>
         </mat-list-item>
       </mat-list>
     </cdk-virtual-scroll-viewport>
   </section>
+
   <section class="col-sm-6">
-    <router-outlet #outlet="outlet"></router-outlet>
+    <router-outlet #ingredientInfo="outlet"></router-outlet>
   </section>
 </div>
