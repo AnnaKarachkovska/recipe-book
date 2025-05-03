@@ -4,26 +4,41 @@ import { RouterModule } from "@angular/router";
 import {
   NotFoundPageComponent,
 } from "./not-found-page/not-found-page.component";
-import {
-  RecipeDetailComponent,
-} from "./recipes/recipe-detail/recipe-detail.component";
-import {
-  RecipeStartComponent,
-} from "./recipes/recipe-start/recipe-start.component";
-import { RecipesComponent } from "./recipes/recipes.component";
-import { ShoppingListComponent } from "./shopping-list/shopping-list.component";
 
 @NgModule({
   imports: [
     RouterModule.forRoot([
-      { path: '', redirectTo: '/recipes', pathMatch: 'full' },
-      {
-        path: 'recipes', component: RecipesComponent, children: [
-          { path: '', component: RecipeStartComponent },
-          { path: ':id', component: RecipeDetailComponent },
-        ]
+      { 
+        path: '',  
+        loadComponent: () => import("./core/landing-page/landing-page.component")
+          .then(module => module.LandingPageComponent), 
+        pathMatch: 'full' 
       },
-      { path: 'shopping-list', component: ShoppingListComponent },
+      { 
+        path: 'meals', 
+        loadChildren: () => import("./recipes/recipes.module")
+          .then(module => module.RecipesModule)
+      },
+      { 
+        path: 'shopping-list', 
+        loadChildren: () => import("./shopping-list/shopping-list.module")
+          .then(module => module.ShoppingListModule) 
+      },
+      { 
+        path: 'areas', 
+        loadComponent: () => import("./areas/areas.component")
+          .then(module => module.AreasComponent)
+      },
+      { 
+        path: 'categories', 
+        loadComponent: () => import("./categories/categories.component")
+          .then(module => module.CategoriesComponent)
+      },
+      { 
+        path: 'ingredients', 
+        loadChildren: () => import("./ingredients/ingredients.module")
+          .then(module => module.IngredientsModule)
+      },
       { path: '**', pathMatch: 'full', component: NotFoundPageComponent },
     ])
   ],

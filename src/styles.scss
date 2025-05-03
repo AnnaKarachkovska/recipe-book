@@ -1,13 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
-
-html,
-body {
+html {
   height: 100%;
 }
 
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  height: 100%;
 }
 
 .mat-sort-header-container {
@@ -16,9 +14,23 @@ body {
 }
 
 .mat-mdc-snack-bar-container {
-  &.snackbar {
+  &.error {
     --mdc-snackbar-container-color: #f44335;
+    // --mat-mdc-snack-bar-button-color: #fff;
+    // --mdc-snackbar-supporting-text-color: #fff;
   }
+  &.success {
+    --mdc-snackbar-container-color: #52c543;
+  }
+
+  & .mdc-button__label {
+    color: #fff;
+  }
+}
+
+.best-ingredient-grid-tile .mat-grid-tile-content,
+.areas-grid-list .mat-grid-tile-content {
+  justify-content: start;
 }
 
 .table>tbody>tr.active>td {

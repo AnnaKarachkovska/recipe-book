@@ -1,8 +1,48 @@
-<div class="row m-0 justify-content-between">
-  <div class="col-sm-auto px-0">
-    <app-recipe-list></app-recipe-list>
-  </div>
-  <div class="col-sm-6 px-0">
-    <router-outlet></router-outlet>
+<div class="row m-0 justify-content-between" *transloco="let t, read: 'meals'">
+  <aside class="aside-input">
+    <form>
+      <mat-form-field style="width: 100%;">
+        <mat-chip-grid #chipGrid style="display: none"> </mat-chip-grid>
+        <mat-label>{{ t('input') }}</mat-label>
+        <input
+          #tagInput
+          [formControl]="tagControl"
+          [matChipInputFor]="chipGrid"
+          [matAutocomplete]="auto"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="add($event)"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="selected($event)"
+        >
+          <mat-option 
+            *ngFor="let tag of filteredResult | async" 
+            [value]="tag"
+          >
+            {{ tag }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+    <mat-chip-listbox class="mat-mdc-chip-set-stacked">
+      <div *ngFor="let tag of tags" class="chip-box">
+        <p *ngIf="tag.type === FilterType.Area">{{ t('area') }}:</p>
+        <p *ngIf="tag.type === FilterType.Category">{{ t('category') }}:</p>
+        <mat-chip-option
+          (removed)="remove(tag)"
+          [ngClass]="{ 'category-chip': tag.type === FilterType.Category }"
+          class="chip-option"
+        >
+          {{ tag.label }}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-option>
+      </div>
+    </mat-chip-listbox>
+  </aside>
+  <div class="col-sm-8 px-0">
+    <app-recipe-list [meals]="meals"></app-recipe-list>
   </div>
 </div>

@@ -1,0 +1,83 @@
+{
+  "header": {
+    "meals": "Meals",
+    "areas": "Areas",
+    "categories": "Categories",
+    "ingredients": "Ingredients",
+    "shopList": "Shopping list",
+    "enLanguage": "English",
+    "uaLanguage": "Ukrainian",
+    "searchBar": {
+      "placeholder": "Meal name..."
+    }
+  },
+  "landingPage": {
+    "recomendations": "Our recomendations",
+    "bestIngredients": "Best ingredients",
+    "popular": "Popular in your area",
+    "categories": "Categories",
+    "randomMeal": "Random Meal"
+  },
+  "footer": {
+    "service": "Terms of service",
+    "policy": "Privacy policy",
+    "feedback": "Got feedback?",
+    "copyrights": "Copyrights",
+    "form": {
+      "title": "Leave your feedback",
+      "email": "Email",
+      "emailRequired": "Email is required.",
+      "emailInvalid": "Please enter a valid email.",
+      "comment": "Comment",
+      "commentRequired": "Comment is required.",
+      "cancel": "Cancel",
+      "sent": "Send"
+    }
+  },
+  "meals": {
+    "input": "Area or category",
+    "noTagWithName": "There is no area or category with the name {{value}}. Please choose the option from the list.",
+    "area": "Регіон",
+    "category": "Категорія"
+  },
+  "ingredients": {
+    "input": "Ingredient name"
+  },
+  "shopList": {
+    "select": "Select",
+    "position": "No.",
+    "ingredient": "Ingredient",
+    "amount": "Amount",
+    "actions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "noData": "There are no ingredients in the list yet.",
+    "form": {
+      "name": "Name",
+      "nameRequired": "Name is required.",
+      "amount": "Amount",
+      "amountRequired": "Amount is required.",
+      "amountInvalid": "Amount must be greater than zero."
+    },
+    "paginator": {
+      "of": "of",
+      "perPage": "Ingredients per page",
+      "next": "Next page",
+      "previous": "Previous page"
+    }
+  },
+  "yesNoDialog": {
+    "question": "Are you sure you want to {{action}} {{name}}?",
+    "yes": "Yes",
+    "no": "No",
+    "delete": "delete",
+    "theseIngredients": "these ingredients"
+  },
+  "errors": {
+    "commonError": "Oops, something bad happend. Please, try again later."
+  },
+  "notifications": {
+    "addManyToShoppingList": "Ingredients have been added to the shopping list.",
+    "addOneToShoppingList": "Ingredient have been added to the shopping list."
+  }
+}

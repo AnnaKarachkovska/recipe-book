@@ -1,0 +1,24 @@
+:host {
+  .form-title {
+    text-align: center;
+    padding-top: 30px;
+  }
+
+  .form-container {
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (min-width: 768px) {
+      width: 400px;
+    }
+  }
+
+  .form-field {
+    margin-bottom: 10px;
+  }
+
+  .dialog-actions {
+    padding-bottom: 20px; 
+    padding-right: 24px;
+  } 
+}

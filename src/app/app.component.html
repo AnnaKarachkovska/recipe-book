@@ -1,5 +1,26 @@
-<app-header></app-header>
+<app-header [sidebar]="sidebar"
+            [showSidebar]="showSidebar"></app-header>
 
-<div class="container page">
-  <router-outlet></router-outlet>
-</div>
+<mat-sidenav-container style="display: block; height: 100%;"> 
+  <mat-sidenav>
+    <div class="nav-list" (click)="sidebar.close()">
+      <a routerLink="/" class="link">Home</a>
+
+      <a routerLink="/meals" class="link">Meals</a>
+
+      <a routerLink="/areas" class="link">Areas</a>
+
+      <a routerLink="/categories" class="link">Categories</a>
+
+      <a routerLink="/ingredients" class="link">Ingredients</a>
+
+      <a routerLink="/shopping-list" class="link">Shopping list</a>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content style="display: flex; flex-direction: column; justify-content: space-between;">
+    <main class="container page">
+      <router-outlet></router-outlet>
+    </main>
+    <app-footer style="display: block;"></app-footer>
+  </mat-sidenav-content>
+</mat-sidenav-container>

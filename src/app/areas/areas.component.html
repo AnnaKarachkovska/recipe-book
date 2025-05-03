@@ -1,0 +1,19 @@
+<mat-grid-list 
+  cols="{{mediaChange ? '2' : '5'}}" 
+  rowHeight="{{mediaChange ? '4:1' : '3:1'}}" 
+  gutterSize="5px"
+  class="areas-grid-list"
+>
+  <a
+    *ngFor="let area of areas"
+    routerLink="../meals"
+    [queryParams]="{ area: area.en}"
+    class="link"
+  >
+    <mat-grid-tile>
+      <img src="https://flagsapi.com/{{ area.code }}/shiny/64.png" alt="{{area.en}}" width="30"/>
+      <!-- <h3 class="mb-0 ml-1">{{ area[activeLanguage] }}</h3> -->
+      <h3 class="mb-0 ml-1">{{ activeLanguage === 'uk' ? area.uk : area.en }}</h3>
+    </mat-grid-tile>
+  </a>
+</mat-grid-list>

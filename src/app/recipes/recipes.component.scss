@@ -1,0 +1,21 @@
+:host {
+  .aside-input {
+    @media screen and (max-width: 767px) {
+      width: 100%;
+    }
+  }
+
+  .chip-box {
+    width: 70%; 
+    margin-bottom: 20px;
+    padding-left: 10px;
+  }
+
+  .category-chip {
+    background-color: #bdcce7;
+  }
+
+  .chip-option {
+    max-width: 200px;
+  }
+}

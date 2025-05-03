@@ -1,27 +1,31 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { RecipesComponent } from './recipes/recipes.component';
-import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component';
-import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
-import { RecipeItemComponent } from './recipes/recipe-list/recipe-item/recipe-item.component';
-import { ShoppingListComponent } from './shopping-list/shopping-list.component';
-import { ShoppingEditComponent } from './shopping-list/shopping-edit/shopping-edit.component';
-import { DropdownDirective } from './shared/dropdown.directive';
-import { AppRoutingModule } from './app-routing.module';
-import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
-import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AngularMaterialModule } from './angular-material.module';
-
+import { HttpClientModule } from "@angular/common/http";
+import { APP_INITIALIZER, NgModule } from "@angular/core";
 import {
-  MAT_TOOLTIP_DEFAULT_OPTIONS,
-  MatTooltipDefaultOptions
-} from '@angular/material/tooltip';
-import { DialogWindowComponent } from './shared/dialog-window/dialog-window.component';
+  MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions,
+} from "@angular/material/tooltip";
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+
+import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
+import { AreasComponent } from "./areas/areas.component";
+import { CategoriesComponent } from "./categories/categories.component";
+import {
+  FeedbackFormComponent,
+} from "./core/footer/feedback-form/feedback-form.component";
+import { FooterComponent } from "./core/footer/footer.component";
+import { HeaderComponent } from "./core/header/header.component";
+import { SearchBarComponent } from "./core/header/search-bar/search-bar.component";
+import { IngredientsModule } from "./ingredients/ingredients.module";
+import { RecipesModule } from "./recipes/recipes.module";
+import {
+  YesNoDialogComponent,
+} from "./shared/components/yes-no-dialog/yes-no-dialog.component";
+import { SharedModule } from "./shared/shared.module";
+import { ShoppingListModule } from "./shopping-list/shopping-list.module";
+import { LandingPageComponent } from "./core/landing-page/landing-page.component";
+import { TranslocoService } from "@ngneat/transloco";
+import { forkJoin } from "rxjs";
 
 export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
   showDelay: 500,
@@ -33,26 +37,34 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
   declarations: [
     AppComponent,
     HeaderComponent,
-    RecipesComponent,
-    RecipeListComponent,
-    RecipeDetailComponent,
-    RecipeItemComponent,
-    ShoppingListComponent,
-    ShoppingEditComponent,
-    DropdownDirective,
-    RecipeStartComponent,
-    RecipeEditComponent,
-    DialogWindowComponent
+    YesNoDialogComponent,
+    SearchBarComponent,
+    FooterComponent,
+    FeedbackFormComponent,
   ],
   imports: [
     BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
     AppRoutingModule,
-    AngularMaterialModule,
-    BrowserAnimationsModule
+    SharedModule,
+    RecipesModule,
+    ShoppingListModule,
+    LandingPageComponent,
+    AreasComponent,
+    CategoriesComponent,
+    IngredientsModule,
   ],
-  providers: [{provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: myCustomTooltipDefaults}],
+  providers: [
+    {provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: myCustomTooltipDefaults},
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (service: TranslocoService) =>
+        () => forkJoin(service.getAvailableLangs().map(lang => service.load(typeof lang === "string" ? lang : lang.id))),
+      deps: [TranslocoService],
+      multi: true
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

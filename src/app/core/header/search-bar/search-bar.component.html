@@ -1,0 +1,26 @@
+<form>
+  <div class="input-container" *transloco="let t; read: 'header'">
+    <mat-icon>search</mat-icon>
+    <input
+      type="text"
+      [attr.placeholder]="t('searchBar.placeholder')"
+      placeholder="{{placeholder}}"
+      matInput
+      [formControl]="searchControl"
+      [matAutocomplete]="auto"
+      class="form-input"
+    />
+  </div>
+  <mat-autocomplete 
+    autoActiveFirstOption 
+    #auto="matAutocomplete" 
+    (optionSelected)='submit($event.option.value)'
+  >
+    <mat-option
+      *ngFor="let option of filteredOptions | async"
+      [value]="option.name"
+    >
+      {{ option.name }}
+    </mat-option>
+  </mat-autocomplete>
+</form>

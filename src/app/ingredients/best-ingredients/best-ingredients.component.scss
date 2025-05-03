@@ -1,0 +1,30 @@
+:host {
+  .row {
+    justify-content: center;
+  }
+
+  .section {
+    width: 80%;
+  }
+
+  .grid-list {
+    height: 450px;
+  }
+
+  .big-grid-list {
+    height: 800px;
+  }
+
+  .grid-tile-title {
+    display: inline;
+    text-align: center;
+  }
+
+  .link {
+    color: #000;
+  }
+  
+  .ingredient-image {
+    object-fit: contain;
+  }
+}

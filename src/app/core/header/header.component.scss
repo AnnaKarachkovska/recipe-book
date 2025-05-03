@@ -1,0 +1,36 @@
+:host {
+  .header {
+    position: fixed;
+    top: 0;
+    z-index: 3;
+  }
+
+  .nav-link-container {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center
+  }
+
+  .link {
+    color: #ffffff;
+    font-size: large;
+  }
+
+  .btn-container {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .link-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    background-color: transparent;
+  }
+
+  .search-bar {
+    display: inline;
+  }
+}
