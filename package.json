@@ -9,7 +9,6 @@
     "lint": "ng lint",
     "test": "ng test --no-watch --no-progress --code-coverage --browsers=ChromeHeadless"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "^16.1.5",
     "@angular/cdk": "^16.1.5",
