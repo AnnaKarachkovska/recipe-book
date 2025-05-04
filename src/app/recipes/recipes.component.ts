@@ -18,34 +18,36 @@ import { MealDbService } from "app/shared/services/meal-db.service";
 import { TranslocoService, translate } from "@ngneat/transloco";
 
 @Component({
-  selector: 'app-recipes',
-  templateUrl: './recipes.component.html',
-  styleUrls: ['./recipes.component.scss']
+  selector: "app-recipes",
+  templateUrl: "./recipes.component.html",
+  styleUrls: ["./recipes.component.scss"],
 })
 export class RecipesComponent implements OnInit, OnDestroy {
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-  announcer = inject(LiveAnnouncer);
+  @ViewChild("tagInput") tagInput: ElementRef<HTMLInputElement>;
 
-  tagControl = new FormControl('');
-  filteredResult: Observable<string[]>;
-  tags: Filter[] = [];
-  allTags: Filter[] = [];
-  params: { category?: string, area?: string };
-  meals: Meal[] = [];
+  private announcer = inject(LiveAnnouncer);
+  private snackBar = inject(MatSnackBar);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private translocoService = inject(TranslocoService);
 
-  activeLanguage: string;
+  private mealDbService = inject(MealDbService);
+
+  private allTags: Filter[] = [];
+  private params: { category?: string, area?: string };
+  private activeLanguage: string;
+
+  public separatorKeysCodes: number[] = [ENTER, COMMA];
+  public tagControl = new FormControl("");
+  public filteredResult: Observable<string[]>;
+  public tags: Filter[] = [];
+  public meals: Meal[] = [];
 
   public FilterType = FilterType;
 
-  @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
+  ngOnInit() {
+    this.activeLanguage = this.translocoService.getActiveLang();
 
-  constructor(
-    private mealDbService: MealDbService,
-    private snackBar: MatSnackBar,
-    private router: Router,
-    private route: ActivatedRoute,
-    private translocoService: TranslocoService,
-  ) {
     this.filteredResult = this.tagControl.valueChanges.pipe(
       startWith(null),
       map((tag: string | null) => (
@@ -56,10 +58,6 @@ export class RecipesComponent implements OnInit, OnDestroy {
             .map(tag => tag.label)
       )),
     );
-  }
-
-  ngOnInit() {
-    this.activeLanguage = this.translocoService.getActiveLang();
 
     this.route.queryParams.subscribe(params => {
       this.params = params;
@@ -71,7 +69,7 @@ export class RecipesComponent implements OnInit, OnDestroy {
             this.meals = meals;
           },
           error: () => {
-            this.snackBar.open(translate('errors.commonError'), 'OK', { panelClass: 'error' });
+            this.snackBar.open(translate("errors.commonError"), "OK", { panelClass: "error" });
           }
         })
       } else {
@@ -94,18 +92,18 @@ export class RecipesComponent implements OnInit, OnDestroy {
               {
                 value: category.en,
                 type: FilterType.Category,
-                label: this.activeLanguage === 'uk' ? category.uk : category.en,
+                label: this.activeLanguage === "uk" ? category.uk : category.en,
               } as Filter)),
             ...areas.map(area => (
               {
                 value: area.en,
                 type: FilterType.Area,
-                label: this.activeLanguage === 'uk' ? area.uk : area.en,
+                label: this.activeLanguage === "uk" ? area.uk : area.en,
               } as Filter))
           );
         },
         error: () => {
-          this.snackBar.open(translate('errors.commonError'), 'OK', { panelClass: 'error' });
+          this.snackBar.open(translate("errors.commonError"), "OK", { panelClass: "error" });
         }
       });
   }
@@ -113,11 +111,11 @@ export class RecipesComponent implements OnInit, OnDestroy {
   translateTag(param: string[]) {
     this.mealDbService.translate(param[1]).subscribe(label => {
       const tagRepeatIndex = this.tags.findIndex(el => el.value === param[1]);
-      
+
       if (tagRepeatIndex === -1) {
         this.tags.push({
           value: param[1],
-          type: param[0] === 'area' ? FilterType.Area : FilterType.Category,
+          type: param[0] === "area" ? FilterType.Area : FilterType.Category,
           label: label,
         });
       } else {
@@ -129,32 +127,32 @@ export class RecipesComponent implements OnInit, OnDestroy {
   }
 
   add(event: MatChipInputEvent) {
-    this.addTag((event.value || '').trim());
-    this.tagInput.nativeElement.value = '';
+    this.addTag((event.value || "").trim());
+    this.tagInput.nativeElement.value = "";
   }
 
   selected(event: MatAutocompleteSelectedEvent) {
     this.addTag(event.option.viewValue);
-    this.tagInput.nativeElement.value = '';
+    this.tagInput.nativeElement.value = "";
   }
 
   addTag(value: string) {
-    if (value === '') {
+    if (value === "") {
       return;
     }
 
     const tag = this.allTags.find(tag => tag.label.toLowerCase() === value.toLowerCase())
     if (tag !== undefined) {
       this.router.navigate(
-        ['/meals'],
+        ["/meals"],
         {
           queryParams: tag.type === FilterType.Area ? { area: tag.value } : { category: tag.value },
-          queryParamsHandling: 'merge'
+          queryParamsHandling: "merge"
         },
       )
     } else {
       this.snackBar.open(
-        translate('meals.noTagWithName', {value: value}), 'OK',
+        translate("meals.noTagWithName", {value: value}), "OK",
       );
     }
 
@@ -175,7 +173,7 @@ export class RecipesComponent implements OnInit, OnDestroy {
     }
 
     this.router.navigate(
-      ['meals'],
+      ["meals"],
       { queryParams: newParams }
     )
 
@@ -195,13 +193,13 @@ export class RecipesComponent implements OnInit, OnDestroy {
     this.mealDbService.getMealsForSearch(tags).subscribe({
       next: (meals) => {
         if (meals.length > 1) {
-          this.meals = intersectionBy(meals[0], meals[1], 'id');
+          this.meals = intersectionBy(meals[0], meals[1], "id");
         } else {
           this.meals = meals[0];
         }
       },
       error: () => {
-        this.snackBar.open(translate('errors.commonError'), 'OK', { panelClass: 'error' });
+        this.snackBar.open(translate("errors.commonError"), "OK", { panelClass: "error" });
       }
     })
   }
