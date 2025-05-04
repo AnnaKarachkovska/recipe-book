@@ -1,36 +1,45 @@
-<mat-spinner *ngIf="!meal" class="spinner"> </mat-spinner>
-<mat-card class="card">
-  <img
-    [src]="meal?.imageUrl + '/preview'"
-    alt="{{ meal?.name }}"
-    class="image"
-    onerror="this.src = 'assets/images/recipes.png'"
-  />
+<mat-spinner *ngIf="!meal" class="spinner"></mat-spinner>
+
+<mat-card class="card"
+          *transloco="let translate; read: 'meals'">
+
+  <img *ngIf="meal"
+       [src]="meal.imageUrl + '/preview'"
+       [alt]="meal.name"
+       class="image"
+       onerror="this.src = 'assets/images/recipes.png'"/>
+
   <mat-card-header class="card-header">
+
     <mat-card-title>{{ meal?.name }}</mat-card-title>
-    <button
-      mat-icon-button
-      class="ml-3"
-      (click)="onAddToShoppingList()"
-      color="primary"
-      matTooltip="Add ingredients to the shopping list"
-    >
+
+    <button mat-icon-button
+            class="ml-3"
+            (click)="addToShoppingList()"
+            color="primary"
+            [matTooltip]="translate('addToShoppingListTooltip')">
       <mat-icon>add_shopping_cart</mat-icon>
     </button>
+
   </mat-card-header>
+
   <mat-card-content>
+
     <mat-list class="py-3">
-      <mat-list-item
-        class="list-item px-0"
-        *ngFor="let ingredient of meal?.ingredients"
-      >
-        <span matListItemLine
-          >{{ ingredient.ingredient }} - {{ ingredient.amount }}</span
-        >
+
+      <mat-list-item *ngFor="let ingredient of meal?.ingredients"
+                     class="list-item px-0">
+
+        <span matListItemLine>
+          {{ ingredient.ingredient }} - {{ ingredient.amount }}
+        </span>
+
       </mat-list-item>
     </mat-list>
-    <p>Instructions</p>
-    <p></p>
+
+    <h4 class="font-weight-bolder mt-3">Instructions</h4>
+
     <p>{{ meal?.instructions }}</p>
+
   </mat-card-content>
 </mat-card>

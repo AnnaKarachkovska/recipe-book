@@ -41,7 +41,8 @@
     "input": "Area or category",
     "noTagWithName": "There is no area or category with the name {{value}}. Please choose the option from the list.",
     "area": "Регіон",
-    "category": "Категорія"
+    "category": "Категорія",
+    "addToShoppingListTooltip": "Add ingredients to the shopping list"
   },
   "ingredients": {
     "input": "Ingredient name",

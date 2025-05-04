@@ -1,15 +1,19 @@
 <mat-card class="card"
           (click)="toRecipe()">
+
   <mat-card-header class="header">
+
     <div class="mr-5">
       <mat-card-title class="title">{{ mealName }}</mat-card-title>
     </div>
-    <img *ngIf="meal?.imageUrl"
+
+    <img *ngIf="meal"
          mat-card-image
-         width="50"
-         src="{{ meal.imageUrl }}/preview"
-         alt="{{ meal.name }}"
+         [width]="50"
+         [src]="meal.imageUrl + '/preview'"
+         [alt]="meal.name"
          class="card-img"
          onerror="this.src = 'assets/images/recipes.png'">
+
   </mat-card-header>
 </mat-card>

@@ -37,8 +37,8 @@ export class ShoppingEditComponent implements OnChanges, OnInit {
     private snackBar: MatSnackBar,
     private dialog: MatDialog
   ) {
-    this.filteredResult = this.ingredientForm.controls['name'].valueChanges.pipe(
-      startWith(null),
+    this.filteredResult = this.ingredientForm.controls.name.valueChanges.pipe(
+      startWith(""),
       map((ingredient: string | null) => (
         ingredient ?
           this._filter(ingredient) :
@@ -82,7 +82,7 @@ export class ShoppingEditComponent implements OnChanges, OnInit {
     }
 
     const ingredient = this.allIngredients
-      .find(ingredient => 
+      .find(ingredient =>
         ingredient.name.toLowerCase() === this.ingredientForm.value['name']?.toLowerCase()
       );
 

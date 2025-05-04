@@ -1,7 +1,7 @@
 import { LiveAnnouncer } from "@angular/cdk/a11y";
 import { COMMA, ENTER } from "@angular/cdk/keycodes";
 import {
-  Component, ElementRef, inject, OnDestroy, OnInit,
+  Component, DestroyRef, ElementRef, inject, OnInit,
   ViewChild,
 } from "@angular/core";
 import { FormControl } from "@angular/forms";
@@ -9,24 +9,26 @@ import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { MatChipInputEvent } from "@angular/material/chips";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, Router } from "@angular/router";
-import { intersectionBy } from "lodash-es";
-import { forkJoin, map, Observable, startWith, Subscription } from "rxjs";
+import { first, intersectionBy } from "lodash-es";
+import { forkJoin, map, Observable, of, startWith, Subscription } from "rxjs";
 
 import { Filter, FilterType } from "app/shared/models/data-types";
 import { Meal } from "app/shared/models/meal.model";
 import { MealDbService } from "app/shared/services/meal-db.service";
 import { TranslocoService, translate } from "@ngneat/transloco";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: "app-recipes",
   templateUrl: "./recipes.component.html",
   styleUrls: ["./recipes.component.scss"],
 })
-export class RecipesComponent implements OnInit, OnDestroy {
+export class RecipesComponent implements OnInit {
   @ViewChild("tagInput") tagInput: ElementRef<HTMLInputElement>;
 
   private announcer = inject(LiveAnnouncer);
   private snackBar = inject(MatSnackBar);
+  private destroyRef = inject(DestroyRef);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private translocoService = inject(TranslocoService);
@@ -39,7 +41,7 @@ export class RecipesComponent implements OnInit, OnDestroy {
 
   public separatorKeysCodes: number[] = [ENTER, COMMA];
   public tagControl = new FormControl("");
-  public filteredResult: Observable<string[]>;
+  public filteredTags: Observable<string[]>;
   public tags: Filter[] = [];
   public meals: Meal[] = [];
 
@@ -48,13 +50,12 @@ export class RecipesComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.activeLanguage = this.translocoService.getActiveLang();
 
-    this.filteredResult = this.tagControl.valueChanges.pipe(
-      startWith(null),
-      map((tag: string | null) => (
-        tag ?
-          this._filter(tag) :
-          this.allTags
-            .filter(tag => tag.type !== this.tags[0]?.type)
+    this.filteredTags = this.tagControl.valueChanges.pipe(
+      startWith(""),
+      map(value => (value
+        ? this.filter(value)
+        : this.allTags
+            .filter(tag => tag.type !== first(this.tags)?.type)
             .map(tag => tag.label)
       )),
     );
@@ -85,6 +86,7 @@ export class RecipesComponent implements OnInit, OnDestroy {
       categories: this.mealDbService.getCategories(),
       areas: this.mealDbService.getAreas(),
     })
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: ({ categories, areas }) => {
           this.allTags.push(
@@ -108,60 +110,17 @@ export class RecipesComponent implements OnInit, OnDestroy {
       });
   }
 
-  translateTag(param: string[]) {
-    this.mealDbService.translate(param[1]).subscribe(label => {
-      const tagRepeatIndex = this.tags.findIndex(el => el.value === param[1]);
-
-      if (tagRepeatIndex === -1) {
-        this.tags.push({
-          value: param[1],
-          type: param[0] === "area" ? FilterType.Area : FilterType.Category,
-          label: label,
-        });
-      } else {
-        this.tags[tagRepeatIndex].label = label;
-      }
-
-      this.getMeals(this.tags);
-    })
-  }
-
-  add(event: MatChipInputEvent) {
+  public add(event: MatChipInputEvent) {
     this.addTag((event.value || "").trim());
     this.tagInput.nativeElement.value = "";
   }
 
-  selected(event: MatAutocompleteSelectedEvent) {
+  public selected(event: MatAutocompleteSelectedEvent) {
     this.addTag(event.option.viewValue);
     this.tagInput.nativeElement.value = "";
   }
 
-  addTag(value: string) {
-    if (value === "") {
-      return;
-    }
-
-    const tag = this.allTags.find(tag => tag.label.toLowerCase() === value.toLowerCase())
-    if (tag !== undefined) {
-      this.router.navigate(
-        ["/meals"],
-        {
-          queryParams: tag.type === FilterType.Area ? { area: tag.value } : { category: tag.value },
-          queryParamsHandling: "merge"
-        },
-      )
-    } else {
-      this.snackBar.open(
-        translate("meals.noTagWithName", {value: value}), "OK",
-      );
-    }
-
-    if (this.tags.length === 1) {
-      this.tagControl.disable();
-    }
-  }
-
-  remove(tag: Filter) {
+  public remove(tag: Filter) {
     const index = this.tags.indexOf(tag);
 
     let newParams = Object.assign({}, this.params);
@@ -185,7 +144,7 @@ export class RecipesComponent implements OnInit, OnDestroy {
     }
   }
 
-  getMeals(tags: Filter[]) {
+  private getMeals(tags: Filter[]) {
     if (tags.length === 0) {
       this.meals = [];
     }
@@ -204,19 +163,54 @@ export class RecipesComponent implements OnInit, OnDestroy {
     })
   }
 
-  private _filter(value: string): string[] {
+  private filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    const filterArray = [];
 
-    for (const tag of this.allTags
-      .filter(tag => tag.type !== this.tags[0]?.type)
-      .filter(tag => tag.label.toLowerCase().includes(filterValue))) {
-      filterArray.push(tag.label);
-    }
-
-    return filterArray;
+    return this.allTags
+      .filter(tag => tag.type !== first(this.tags)?.type && tag.label.toLowerCase().includes(filterValue))
+      .map(tag => tag.label);
   }
 
-  ngOnDestroy() {
+  private translateTag(param: string[]) {
+    this.mealDbService.translate(param[1]).subscribe(label => {
+      const tagRepeatIndex = this.tags.findIndex(el => el.value === param[1]);
+
+      if (tagRepeatIndex === -1) {
+        this.tags.push({
+          value: param[1],
+          type: param[0] === "area" ? FilterType.Area : FilterType.Category,
+          label: label,
+        });
+      } else {
+        this.tags[tagRepeatIndex].label = label;
+      }
+
+      this.getMeals(this.tags);
+    })
+  }
+
+  private addTag(value: string) {
+    if (value === "") {
+      return;
+    }
+
+    const tag = this.allTags.find(tag => tag.label.toLowerCase() === value.toLowerCase())
+    if (tag !== undefined) {
+      this.router.navigate(
+        ["/meals"],
+        {
+          queryParams: tag.type === FilterType.Area ? { area: tag.value } : { category: tag.value },
+          queryParamsHandling: "merge"
+        },
+      )
+    } else {
+      this.snackBar.open(
+        translate("meals.noTagWithName", {value: value}), "OK",
+      );
+    }
+
+    if (this.tags.length === 1) {
+      this.tagControl.disable();
+    }
   }
 }

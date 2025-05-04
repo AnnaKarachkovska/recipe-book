@@ -8,8 +8,9 @@
 
     <a [routerLink]="'/meals/' + randomMeal?.id">
 
-      <mat-grid-tile class="recomendations-grid-item text"
-                     style="background-image: url('{{ randomMeal?.imageUrl }}/preview')">
+      <mat-grid-tile *ngIf="randomMeal"
+                     class="recomendations-grid-item text"
+                     style="background-image: url('{{ randomMeal.imageUrl }}/preview')">
 
         <h3>{{ translate('randomMeal') }}</h3>
 
@@ -59,7 +60,7 @@
         style="background-image: url('https://www.themealdb.com/images/category/{{ category.en }}.png')">
 
         <h3>{{ activeLanguage === 'uk' ? category.uk : category.en }}</h3>
-        
+
       </mat-grid-tile>
     </a>
   </mat-grid-list>
